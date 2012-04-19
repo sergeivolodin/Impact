@@ -37,7 +37,7 @@ f_result sin_cos(number_t x, number_t y)
     //res.z = (pow(x, 2) + pow(y, 2)) / 100;
     res.z = 3 * sin(x) + cos(y);
     //res.z = 0;
-    res.color = vect(fabs(sin(x)*sin(x)) * 0.5, fabs(cos(y)) * 0.3, fabs(sin(res.z)) * 0.3);
+    res.color = vect(fabs(sin(x) * sin(x)) * 0.5, fabs(cos(y)) * 0.3, fabs(sin(res.z)) * 0.3);
     return(res);
 }
 
