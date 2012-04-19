@@ -2,12 +2,18 @@
 #include "vect.h"
 #include <math.h>
 #include <iostream>
+#include <vector>
 #include <stdlib.h>
 #include <GL/glut.h>
 
+using std::cerr;
+using std::endl;
+
+using std::vector;
+
 Impact::Impact()
 {
-    startTimer(1);
+    startTimer(0.1);
     set_defaults();
     setWindowTitle("Impact");
 }
@@ -31,9 +37,12 @@ void Impact::set_defaults()
     draw_type = DRAW_LINES;
     derivative_eps = 1e-2;
 
-    impact_max_iterations = 15;
+    impact_max_iterations = 10;
+    dt_for_views = 4;
     gravity = vect(0, 0, 0);
     point_color = COLOR_PREDEFINED;
+    use_gravity_points = true;
+    use_gravity_n2 = true;
 
 
     velocity = 0;
@@ -46,6 +55,27 @@ void Impact::set_defaults()
     precise_impact = true;
     use_gravity = true;
     ftl();
+}
+
+void Impact::print_points()
+{
+    vector<point>::iterator it;
+    unsigned int i;
+    cerr << "#### POINTS DUMP BEGIN ###" << endl;
+    for(it = mypoints.begin(), i = 0; it != mypoints.end(); it++, i++)
+    {
+        cerr << "pt #" << i << endl;
+        print_point(*it);
+        cerr << endl;
+    }
+    cerr << "#### POINTS DUMP END ###" << endl << endl;
+}
+
+void Impact::print_point(point &pt)
+{
+    cerr << "position: " << pt.position.print() << endl;
+    cerr << "velocity [" << pt.velocity.abs() << "]: " << pt.velocity.print() << endl;
+    cerr << "acceleration [" << pt.acceleration.abs() << "]: " << pt.acceleration.print() << endl;
 }
 
 void Impact::keyPressEvent(QKeyEvent* a)
@@ -85,7 +115,7 @@ void Impact::keyPressEvent(QKeyEvent* a)
         if(draw_point_type == DRAW_OTHER) draw_point_type = DRAW_POINTS;
         else draw_point_type = DRAW_OTHER;
     }
-    else if(a->key() == Qt::Key_P) precise_impact ^= 1;
+    //else if(a->key() == Qt::Key_P) precise_impact ^= 1;
     else if(a->key() == Qt::Key_G) use_gravity ^= 1;
     else if(a->key() == Qt::Key_B)
     {
@@ -108,16 +138,7 @@ void Impact::keyPressEvent(QKeyEvent* a)
     else if(a->key() == Qt::Key_Z) dt -= dt_step;
     else if(a->key() == Qt::Key_X) dt = 0;
     else if(a->key() == Qt::Key_C) dt += dt_step;
-    else if(a->key() == Qt::Key_P)
-    {
-        /*cerr << "position: ";
-        position;
-        cerr << endl << "angle: ";
-        << angle;
-        cerr << endl << "velocity: " << velocity << endl;
-        cerr << "functions q.: " << (myfunctions.size()) << endl;
-        cerr << "points q.: " << (mypoints.size()) << endl;*/
-    }
+    else if(a->key() == Qt::Key_P) print_points();
 }
 
 void Impact::points_defaults()
@@ -126,5 +147,3 @@ void Impact::points_defaults()
     for(i = 0; i < mypoints.size(); i++)
         mypoints[i] = mypoints_defaults[i];
 }
-
-

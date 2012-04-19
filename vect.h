@@ -38,8 +38,10 @@ struct point
 {
     vect position;
     vect velocity;
-    vect color;
+    vect acceleration;
     number_vect_t mass;
+
+    vect color;
     vector<short int> states;
 };
 

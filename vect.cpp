@@ -1,9 +1,12 @@
 #include "vect.h"
 #include <math.h>
 #include <iostream>
+#include <sstream>
 
 using std::cout;
 using std::endl;
+
+using std::stringstream;
 
 const number_vect_t rad_deg = 180. / M_PI;
 
@@ -56,7 +59,9 @@ vect::vect(number_vect_t x1, number_vect_t y1, number_vect_t z1)
 
 string vect::print()
 {
-    string t_str = "";
+    stringstream t_stream;
+    t_stream << "x=" << x << " y=" << y << " z=" << z;
+    string t_str = t_stream.str();
     return(t_str);
 }
 
@@ -112,4 +117,3 @@ number_vect_t vect::operator*(vect t)
 {
     return(x * t.x + y * t.y + z * t.z);
 }
-

@@ -14,13 +14,16 @@ void Impact::physics(number_t dtime)
     static unsigned int t_count;
 
     for(it = mypoints.begin(); it != mypoints.end(); it++)
+        physics_set_acceleration(*it);
+
+    for(it = mypoints.begin(); it != mypoints.end(); it++)
     {
         if(precise_impact)
         {
             old_position = (*it).position;
             old_velocity = (*it).velocity;
         }
-        physics_simple((*it), dtime);
+        physics_move((*it), dtime);
 
 
         if(fabs((*it).position.x) <= M && fabs((*it).position.z) < M)
@@ -43,7 +46,7 @@ void Impact::physics(number_t dtime)
                             t_count++;
                             (*it).position = old_position;
                             (*it).velocity = old_velocity;
-                            physics_simple(*it, time_m);
+                            physics_move(*it, time_m);
 
                             if((difference((*it).position, myfunctions[i2]) == old_state) ^ (dtime < 0))
                             {
@@ -55,7 +58,7 @@ void Impact::physics(number_t dtime)
 
                         (*it).position = old_position;
                         (*it).velocity = old_velocity;
-                        physics_simple(*it, time_m);
+                        physics_move(*it, time_m);
 
                         //cerr << "count= " << t_count << endl;
                     }
@@ -66,8 +69,8 @@ void Impact::physics(number_t dtime)
 
                     if(precise_impact)
                     {
-                        if(dtime > 0 && dtime > time_m) physics_simple(*it, dtime - time_m);
-                        else if(dtime < 0 && dtime < time_m) physics_simple(*it, -fabs(dtime - time_m));
+                        if(dtime > 0 && dtime > time_m) physics_move(*it, dtime - time_m);
+                        else if(dtime < 0 && dtime < time_m) physics_move(*it, -fabs(dtime - time_m));
                     }
 
                     break;
@@ -78,27 +81,33 @@ void Impact::physics(number_t dtime)
     time += dtime;
 }
 
-void Impact::physics_simple(point& pt, number_t dtime)
+void Impact::physics_move(point& pt, number_t dtime)
 {
-    vect acc(0, 0, 0);
-    static vect t_position;
-    if(use_gravity) acc = gravity;
-
-    vector<point>::iterator it;
-    for(it = mygravitypoints.begin(); it != mygravitypoints.end(); it++)
-    {
-        t_position = (*it).position;
-        t_position -= pt.position;
-        if(t_position.abs_2() != 0)
-        {
-            acc += (t_position * ((*it).mass / pow(fabs(t_position.abs()), 3)));
-        }
-    }
-
-    //acc *= dtime / fabs(dtime);
-
-    pt.position += (pt.velocity * dtime) + (acc * (dtime * dtime / 2.));
-    pt.velocity += acc * dtime;
+    pt.position += (pt.velocity * dtime) + (pt.acceleration * (dtime * dtime / 2.));
+    pt.velocity += pt.acceleration * dtime;
 }
 
+void Impact::physics_set_acceleration(point& pt)
+{
+    pt.acceleration = vect(0, 0, 0);
+    if(use_gravity) pt.acceleration = gravity;
 
+    vector<point>::iterator it;
+    if(use_gravity_points)
+        for(it = mygravitypoints.begin(); it != mygravitypoints.end(); it++)
+            pt.acceleration += physics_gravity(pt, *it);
+
+    if(use_gravity_n2)
+        for(it = mypoints.begin(); it != mypoints.end(); it++)
+            pt.acceleration += physics_gravity(pt, *it);
+}
+
+vect Impact::physics_gravity(point& p1, point& p2)
+{
+    vect t_position = p2.position;
+    vect acc1(0, 0, 0);
+    t_position -= p1.position;
+    if(fabs(t_position.abs_2()) > 1)
+        acc1 = (t_position * (p2.mass / pow(fabs(t_position.abs()), 3)));
+    return(acc1);
+}

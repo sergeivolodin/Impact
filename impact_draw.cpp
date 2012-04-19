@@ -210,4 +210,3 @@ void Impact::paintGL()
     glRotatef(degrees(angle.y), 0, 1, 0);
     glTranslatef(position.x, position.y, position.z);
 }
-

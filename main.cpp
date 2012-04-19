@@ -14,7 +14,7 @@ number_t pow_(number_t a, number_t b)
     else return(-pow(-a, b));
 }
 
-f_result f2(number_t x, number_t y)
+f_result p(number_t x, number_t y)
 {
     f_result res;
     res.z = (x * x + y * y) / 50 + 5;
@@ -23,19 +23,21 @@ f_result f2(number_t x, number_t y)
     return(res);
 }
 
-f_result f3(number_t x, number_t y)
-{
-    f_result res;
-    res.z = 20;
-    res.color = vect(0.3, 0.3, 0.3);
-    return(res);
-}
-
-f_result f1(number_t x, number_t y)
+f_result plane(number_t x, number_t y)
 {
     f_result res;
     res.z = 0;
     res.color = vect(0.3, 0.3, 0.3);
+    return(res);
+}
+
+f_result sin_cos(number_t x, number_t y)
+{
+    f_result res;
+    //res.z = (pow(x, 2) + pow(y, 2)) / 100;
+    res.z = 3 * sin(x) + cos(y);
+    //res.z = 0;
+    res.color = vect(fabs(sin(x)*sin(x)) * 0.5, fabs(cos(y)) * 0.3, fabs(sin(res.z)) * 0.3);
     return(res);
 }
 
@@ -44,14 +46,24 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Impact w;
 
-    w.set_gravity(0, -0.1, 0);
-    w.set_dt(0.25);
+    w.set_gravity(vect(0, 0, 0));
+    w.set_dt(0.4);
+    w.set_dt_for_views(1);
+    w.set_use_gravity_n2(false);
+    //w.add_point(vect(0, 6, 5), vect(0, 0, 0), vect(1, 1, 1), 0.1);
+    //w.add_point(vect(0, 6, -5), vect(0, 0, 0), vect(1, 1, 1), 0.1);
 
-    w.add_function(f1);
-    w.add_function(f3);
-    w.add_points(f2, 15., 0.09, vect(0, -2, 0));
+    w.add_function(plane);
+
+    //w.add_gravity_point(vect(0, 10, 0), 10);
+    //w.add_gravity_point(vect(10, 10, 10), 10);
+    //w.add_gravity_point(vect(0, 10, 10), 10);
+    //w.add_gravity_point(vect(10, 10, 0), 10);
+    w.add_gravity_point(vect(0, 10, 0), 100);
+    //w.add_points(p, 30, 0.2, vect(0, 0, 0), 1);
+    w.add_point(vect(0, 10, 20), vect(1, 0, 0), vect(1, 1, 1), 1);
+
     w.ftl();
-
     w.show();
 
     return a.exec();

@@ -9,7 +9,7 @@ using std::cerr;
 using std::endl;
 using std::cout;
 
-void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity)
+void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass)
 {
     number_t x, z;
 
@@ -22,7 +22,7 @@ void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t s
         {
             t_res = f(x, z);
             new_position = vect(x, t_res.z, z);
-            add_point(new_position, velocity, t_res.color);
+            add_point(new_position, velocity, t_res.color, mass);
         }
     }
 }
@@ -39,13 +39,22 @@ void Impact::add_function(f_result(*f)(number_t, number_t))
     }
 }
 
-void Impact::add_point(vect position, vect velocity, vect color)
+void Impact::add_gravity_point(vect position, number_t mass)
+{
+    point t_point;
+    t_point.mass = mass;
+    t_point.position = position;
+    mygravitypoints.push_back(t_point);
+}
+
+void Impact::add_point(vect position, vect velocity, vect color, number_t mass)
 {
     point a;
     a.color = color;
     a.states.reserve(myfunctions.size());
     a.position = position;
     a.velocity = velocity;
+    a.mass = mass;
 
     vector<f_result (*)(number_t, number_t)>::iterator it;
     for(it = myfunctions.begin(); it != myfunctions.end(); it++)
@@ -57,40 +66,24 @@ void Impact::add_point(vect position, vect velocity, vect color)
     mypoints_defaults.push_back(a);
 }
 
-void Impact::add_point(number_t x, number_t y, number_t z)
+void Impact::set_gravity(vect x)
 {
-    vect color(1, 0, 0);
-    vect position(x, y, z);
-    vect velocity(0, 0, 0);
-
-    add_point(position, velocity, color);
-}
-
-void Impact::add_gravity_point(vect position, number_t mass)
-{
-    point t_point;
-    t_point.mass = mass;
-    t_point.position = position;
-    mygravitypoints.push_back(t_point);
-}
-
-void Impact::add_point(number_t x, number_t y, number_t z, number_t vx, number_t vy, number_t vz)
-{
-    vect color(1, 0, 0);
-    vect position(x, y, z);
-    vect velocity(vx, vy, vz);
-
-    add_point(position, velocity, color);
-}
-
-void Impact::set_gravity(number_t x, number_t y, number_t z)
-{
-    gravity = vect(x, y, z);
+    gravity = x;
 }
 
 void Impact::set_dt(number_t x)
 {
     dt = x;
+}
+
+void Impact::set_dt_for_views(unsigned int x)
+{
+    dt_for_views = x;
+}
+
+void Impact::set_use_gravity_n2(bool x)
+{
+    use_gravity_n2 = x;
 }
 
 number_t Impact::derivative_x(f_result(*f)(number_t, number_t), number_t x, number_t y)
@@ -129,7 +122,7 @@ int Impact::difference(vect coords, f_result(*f)(number_t, number_t))
     return(z);
 }*/
 
-void Impact::firework(vect position, number_t velocity, unsigned int N)
+void Impact::firework(vect position, number_t velocity, number_t mass, unsigned int N)
 {
     vect t_velocity, t_angle, t_color(1, 1, 1);
     number_t x, y, z;
@@ -143,7 +136,7 @@ void Impact::firework(vect position, number_t velocity, unsigned int N)
         t_color = vect(fabs(sin(x)), fabs(sin(y)), fabs(sin(z)));
         t_angle = vect(x, y, z);
         forward(velocity, &t_velocity, &t_angle);
-        add_point(position, t_velocity, t_color);
+        add_point(position, t_velocity, t_color, mass);
     }
 }
 
@@ -163,6 +156,12 @@ void Impact::timerEvent(QTimerEvent *)
         physics(dt);
     }
 
-    update();
+    static unsigned int views_count = 1;
+    if(views_count == dt_for_views)
+    {
+        update();
+        views_count = 1;
+    }
+    else views_count++;
 }
 
