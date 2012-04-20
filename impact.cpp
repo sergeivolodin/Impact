@@ -9,6 +9,11 @@ using std::cerr;
 using std::endl;
 using std::cout;
 
+Impact::Impact()
+{
+
+}
+
 void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass)
 {
     number_t x, z;
@@ -76,11 +81,6 @@ void Impact::set_dt(number_t x)
     dt = x;
 }
 
-void Impact::set_dt_for_views(unsigned int x)
-{
-    dt_for_views = x;
-}
-
 void Impact::set_use_gravity_n2(bool x)
 {
     use_gravity_n2 = x;
@@ -144,24 +144,5 @@ vect Impact::get_color(vect velocity)
 {
     vect res(fabs(sin(velocity.x * 2)), fabs(sin(velocity.y * 2)), fabs(sin(velocity.z * 2)));
     return(res);
-}
-
-void Impact::timerEvent(QTimerEvent *)
-{
-    forward(velocity, &position, &angle);
-
-    if(!pause || pause_manual)
-    {
-        if(pause_manual) pause_manual--;
-        physics(dt);
-    }
-
-    static unsigned int views_count = 1;
-    if(views_count == dt_for_views)
-    {
-        update();
-        views_count = 1;
-    }
-    else views_count++;
 }
 
