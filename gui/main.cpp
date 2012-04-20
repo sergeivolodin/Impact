@@ -17,7 +17,7 @@ number_t pow_(number_t a, number_t b)
 f_result p(number_t x, number_t y)
 {
     f_result res;
-    res.z = (x * x + y * y) / 5. + 1;
+    res.z = (x * x + y * y) / 10. + 1;
     res.color = vect(fabs(sin(x)*sin(x)), fabs(cos(y)), fabs(sin(res.z)));
 
     return(res);
@@ -88,12 +88,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Draw w;
 
-    w.set_gravity(vect(0, -0.1, 0));
-    w.set_dt(0.4);
+    w.set_gravity(vect(0, 0.0, 0));
+    w.set_dt(0.1);
     w.set_dt_for_views(1);
     w.set_use_gravity_n2(false);
-    //w.add_point(vect(0, 6, 5), vect(0, 0, 0), vect(1, 1, 1), 0.1);
-    //w.add_point(vect(0, 6, -5), vect(0, 0, 0), vect(1, 1, 1), 0.1);
 
     w.add_function(plane);
     w.add_function(plane_up);
@@ -102,22 +100,10 @@ int main(int argc, char *argv[])
     w.add_function(b3);
     w.add_function(b4);
 
-    //w.add_gravity_point(vect(0, 70, 0), 10);
-    //w.add_gravity_point(vect(0, -20, 0), 10);
+    w.add_gravity_point(vect(0, 70, 0), 10);
+    w.add_gravity_point(vect(0, -20, 0), 10);
 
-    //w.add_gravity_point(vect(0, 0, 50), 10);
-    //w.add_gravity_point(vect(50, 0, 0), 10);
-    //w.add_gravity_point(vect(-50, 0, 0), 10);
-    //w.add_gravity_point(vect(0, 0, -50), 10);
-
-    //w.add_gravity_point(vect(10, 10, 10), 10);
-    //w.add_gravity_point(vect(0, 10, 10), 10);
-    //w.add_gravity_point(vect(10, 10, 0), 10);
-    //w.add_gravity_point(vect(0, 10, 0), 100);
-
-    w.add_points(p, 10, 5, vect(0, 0, 0), 1);
-
-    //w.add_point(vect(0, 10, 20), vect(1, 0, 0), vect(1, 1, 1), 1);
+    w.add_points(p, 15, 0.5, vect(0, 0, 0), 1);
 
     w.ftl();
 

@@ -2,9 +2,11 @@
 #define IMPACT_H
 
 #include "vect.h"
+#include <string>
 #include <vector>
 
 using std::vector;
+using std::string;
 
 typedef long double number_t;
 
@@ -43,7 +45,14 @@ public:
     void set_gravity(vect x);
     void set_dt(number_t x);
     void set_use_gravity_n2(bool x);
-    void print_points();
+    string print_points();
+    string print_point(point& pt, bool print_acceleration);
+
+    number_t get_simulation_time();
+    void physics(number_t dtime);
+
+    point get_difference_default(unsigned long long int pt);
+    unsigned long long int get_points_N();
 protected:
     void points_defaults();
 
@@ -55,9 +64,6 @@ protected:
     void physics_set_acceleration(point& pt);
     void physics_move(point& pt, number_t dtime);
     vect physics_gravity(point& p1, point& p2);
-    void physics(number_t dtime);
-
-    void print_point(point& pt);
 
     vect get_color(vect velocity);
 };

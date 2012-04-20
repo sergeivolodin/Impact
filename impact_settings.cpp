@@ -4,31 +4,46 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
+#include <string>
+#include <sstream>
 #include <GL/glut.h>
 
-using std::cerr;
+using std::cout;
 using std::endl;
+
+using std::string;
+using std::stringstream;
 
 using std::vector;
 
-void Impact::print_points()
+string Impact::print_points()
 {
+    stringstream ss;
+
     vector<point>::iterator it;
     unsigned int i;
-    cerr << "#### POINTS DUMP BEGIN ###" << endl;
+    ss << "#### POINTS DUMP BEGIN ###" << endl;
     for(it = mypoints.begin(), i = 0; it != mypoints.end(); it++, i++)
     {
-        cerr << "pt #" << i << endl;
-        print_point(*it);
-        cerr << endl;
+        ss << "pt #" << i << endl;
+        ss << print_point(*it, true);
+        ss << endl;
     }
-    cerr << "#### POINTS DUMP END ###" << endl << endl;
+    ss << "#### POINTS DUMP END ###" << endl << endl;
+
+    string res = ss.str();
+    return(res);
 }
-void Impact::print_point(point &pt)
+
+string Impact::print_point(point &pt, bool print_acceleration)
 {
-    cerr << "position: " << pt.position.print() << endl;
-    cerr << "velocity [" << pt.velocity.abs() << "]: " << pt.velocity.print() << endl;
-    cerr << "acceleration [" << pt.acceleration.abs() << "]: " << pt.acceleration.print() << endl;
+    stringstream ss;
+    ss << "position: " << pt.position.print() << endl;
+    ss << "velocity [" << pt.velocity.abs() << "]: " << pt.velocity.print() << endl;
+    if(print_acceleration) ss << "acceleration [" << pt.acceleration.abs() << "]: " << pt.acceleration.print() << endl;
+
+    string res = ss.str();
+    return(res);
 }
 
 void Impact::points_defaults()

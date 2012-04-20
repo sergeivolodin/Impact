@@ -11,7 +11,18 @@ using std::cout;
 
 Impact::Impact()
 {
+    derivative_eps = 1e-2;
+    use_gravity_points = true;
+    use_gravity = true;
+    use_gravity_n2 = false;
+    time = 0;
+    M = 30;
+    dt = 0.1;
+}
 
+number_t Impact::get_simulation_time()
+{
+    return(time);
 }
 
 void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass)
@@ -58,6 +69,7 @@ void Impact::add_point(vect position, vect velocity, vect color, number_t mass)
     a.color = color;
     a.states.reserve(myfunctions.size());
     a.position = position;
+    a.acceleration = vect(0, 0, 0);
     a.velocity = velocity;
     a.mass = mass;
 
@@ -121,6 +133,23 @@ int Impact::difference(vect coords, f_result(*f)(number_t, number_t))
     number_t z = func(x0, y0) + normal.x * (x - x0) + normal.z * (y - y0);
     return(z);
 }*/
+
+point Impact::get_difference_default(unsigned long long int pt)
+{
+    if(mypoints.size() <= pt) return(point());
+    point res = mypoints_defaults[pt];
+
+    res.acceleration -= mypoints[pt].acceleration;
+    res.velocity -= mypoints[pt].velocity;
+    res.position -= mypoints[pt].position;
+
+    return(res);
+}
+
+unsigned long long Impact::get_points_N()
+{
+    return(mypoints.size());
+}
 
 void Impact::firework(vect position, number_t velocity, number_t mass, unsigned int N)
 {

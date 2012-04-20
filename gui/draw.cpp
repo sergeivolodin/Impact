@@ -218,13 +218,9 @@ void Draw::set_dt_for_views(unsigned int x)
 
 void Draw::timerEvent(QTimerEvent *)
 {
-    forward(velocity, &position, &angle);
+    //if(time >= 200 && dt > 0) dt = -dt;
 
-    if(!pause || pause_manual)
-    {
-        if(pause_manual) pause_manual--;
-        physics(dt);
-    }
+    forward(velocity, &position, &angle);
 
     static unsigned int views_count = 1;
     if(views_count == dt_for_views)
@@ -233,6 +229,13 @@ void Draw::timerEvent(QTimerEvent *)
         views_count = 1;
     }
     else views_count++;
+
+    //if(time < 0 ) return;
+    if(!pause || pause_manual)
+    {
+        if(pause_manual) pause_manual--;
+        physics(dt);
+    }
 }
 
 Draw::Draw()

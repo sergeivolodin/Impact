@@ -5,8 +5,12 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
+using std::cout;
+using std::endl;
+
 void Impact::physics(number_t dtime)
 {
+    //cout << print_points();
     vector<point>::iterator it;
     unsigned int i2;
     static vect old_position, old_velocity, n, new_velocity;
