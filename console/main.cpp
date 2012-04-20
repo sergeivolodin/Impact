@@ -105,7 +105,7 @@ number_t one()
 
     w.add_points(p, 15, 0.5, vect(0, 0, 0), 1);
 
-    number_t wait = 200;
+    number_t wait = 100;
 
     for(w.set_dt(dt); w.get_simulation_time() + dt < wait; w.physics(dt));
     w.physics(wait - w.get_simulation_time());
