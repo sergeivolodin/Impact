@@ -16,7 +16,7 @@ Impact::Impact()
     use_gravity = true;
     use_gravity_n2 = false;
     time = 0;
-    M = 30;
+    M = 60;
     dt = 0.1;
 }
 

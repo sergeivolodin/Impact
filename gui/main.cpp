@@ -8,78 +8,46 @@ using std::endl;
 using std::cout;
 using std::cerr;
 
-number_t pow_(number_t a, number_t b)
+float eps = 1E-2;
+
+number_t f1_a(number_t x, number_t y)
 {
-    if(a > 0) return(pow(a, b));
-    else return(-pow(-a, b));
+    //x = x / 10.;
+    number_t r = sqrt(x * x + y * y);
+    r = 1 / r;
+    //return(static_cast<number_t>( ~ static_cast<long long int>(x) | static_cast<long long int>(y)));
+    return(r);
+}
+
+f_result f1(number_t x, number_t y)
+{
+    f_result res;
+
+    res.z = f1_a(x, y);
+
+    res.color = vect(1, 1, 1);
+    float d_x = (res.z - f1_a(x + eps, y)) / eps, d_y = (res.z - f1_a(x, y + eps)) / eps;
+    res.color.z = sqrt(pow(d_x, 2) + pow(d_y, 2)) * 4;
+    res.color.y = fabs(d_x);
+    res.color.x = fabs(d_y);
+    /*res.color.x = (sin(res.z * 5) + 1.9) / 9;
+    res.color.y = (cos(res.z * 5) + 1.9) / 9;
+    res.color.z = (cos(res.z * 5) + 1) / 9;*/
+
+    return(res);
 }
 
 f_result p(number_t x, number_t y)
 {
     f_result res;
-    res.z = (x * x + y * y) / 10. + 1;
-    res.color = vect(fabs(sin(x)*sin(x)), fabs(cos(y)), fabs(sin(res.z)));
 
-    return(res);
-}
+    res.z = pow(x, 6) + pow(y, 6) + 10;
 
-float a = 100, b = 20, c = 0.1;
+    res.color = vect(1, 1, 1);
+    res.color.x = (sin(res.z / 5) + 1.7) / 2.7;
+    res.color.y = (cos(res.z / 5) + 1.5) / 2.5;
+    res.color.z = (cos(res.z / 5) + 1) / 2;
 
-f_result plane(number_t x, number_t y)
-{
-    f_result res;
-    res.z = 0;
-    res.color = vect(c, c, c);
-    return(res);
-}
-
-f_result plane_up(number_t x, number_t y)
-{
-    f_result res;
-    res.z = 50;
-    res.color = vect(c, c, c);
-    return(res);
-}
-
-f_result b1(number_t x, number_t y)
-{
-    f_result res;
-    res.z = a * (x + b);
-    res.color = vect(c, c, c);
-    return(res);
-}
-
-f_result b2(number_t x, number_t y)
-{
-    f_result res;
-    res.z = -a * (x - b);
-    res.color = vect(c, c, c);
-    return(res);
-}
-
-f_result b3(number_t x, number_t y)
-{
-    f_result res;
-    res.z = a * (y + b);
-    res.color = vect(c, c, c);
-    return(res);
-}
-
-f_result b4(number_t x, number_t y)
-{
-    f_result res;
-    res.z = -a * (y - b);
-    res.color = vect(c, c, c);
-    return(res);
-}
-
-f_result sin_cos(number_t x, number_t y)
-{
-    f_result res;
-    //res.z = (pow(x, 2) + pow(y, 2)) / 100;
-    res.z = 3 * sin(x) + cos(y);
-    //res.z = 0;
-    res.color = vect(fabs(sin(x) * sin(x)) * 0.5, fabs(cos(y)) * 0.3, fabs(sin(res.z)) * 0.3);
     return(res);
 }
 
@@ -88,22 +56,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Draw w;
 
-    w.set_gravity(vect(0, 0.0, 0));
+    w.set_gravity(vect(0, -0.1, 0));
     w.set_dt(0.1);
     w.set_dt_for_views(1);
     w.set_use_gravity_n2(false);
 
-    w.add_function(plane);
-    w.add_function(plane_up);
-    w.add_function(b1);
-    w.add_function(b2);
-    w.add_function(b3);
-    w.add_function(b4);
-
-    w.add_gravity_point(vect(0, 70, 0), 10);
-    w.add_gravity_point(vect(0, -20, 0), 10);
-
-    w.add_points(p, 15, 0.5, vect(0, 0, 0), 1);
+    w.add_function(f1);
+    w.add_points(p, 1, 0.01, vect(0, 0, 0), 1);
 
     w.ftl();
 

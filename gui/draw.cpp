@@ -66,7 +66,6 @@ void Draw::draw_points_gl()
     {
         //glPointSize(10.0f);
         glBegin(GL_POINTS);
-
         for(it = mypoints.begin(); it != mypoints.end(); it++)
         {
             if(point_color == COLOR_PREDEFINED)
@@ -260,7 +259,7 @@ void Draw::set_defaults()
     dt_step = 0.01;
     dt = dt_step;
     graph_step = 0.2;
-    M = 30;
+    M = 50;
     draw_type = DRAW_LINES;
     derivative_eps = 1e-2;
 
@@ -270,7 +269,6 @@ void Draw::set_defaults()
     point_color = COLOR_PREDEFINED;
     use_gravity_points = true;
     use_gravity_n2 = true;
-
 
     velocity = 0;
     pause = true;

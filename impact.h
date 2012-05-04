@@ -51,14 +51,15 @@ public:
     number_t get_simulation_time();
     void physics(number_t dtime);
 
+    number_t derivative_x(f_result(*f)(number_t, number_t), number_t x, number_t y);
+    number_t derivative_y(f_result(*f)(number_t, number_t), number_t x, number_t y);
+
     point get_difference_default(unsigned long long int pt);
     unsigned long long int get_points_N();
 protected:
     void points_defaults();
 
     int difference(vect coords, f_result(*f)(number_t, number_t));
-    number_t derivative_x(f_result(*f)(number_t, number_t), number_t x, number_t y);
-    number_t derivative_y(f_result(*f)(number_t, number_t), number_t x, number_t y);
     vect tangent(f_result(*f)(number_t, number_t), number_t x, number_t y);
 
     void physics_set_acceleration(point& pt);
