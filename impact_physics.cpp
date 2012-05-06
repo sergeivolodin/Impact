@@ -15,6 +15,7 @@ void Impact::physics(number_t dtime)
     unsigned int i2;
     static vect old_position, old_velocity, n, new_velocity;
     static number_vect_t time_l, time_m, time_r;
+    static number_t t1, t2;
     static unsigned int t_count;
 
     for(it = mypoints.begin(); it != mypoints.end(); it++)
@@ -39,45 +40,52 @@ void Impact::physics(number_t dtime)
 
                 if(new_state != old_state)
                 {
-                    if(precise_impact)
+                    t1 = myfunctions[i2](old_position.x, old_position.z).z;
+                    t2 = myfunctions[i2]((*it).position.x, (*it).position.z).z;
+
+                    if(t1 == t1 && t2 == t2)
                     {
-                        time_l = fmin(0, dtime);
-                        time_r = fmax(0, dtime);
-                        time_m = (time_l + time_r) / 2;
-                        t_count = 0;
-                        while((time_m - time_l > 0) && (time_r - time_m > 0) && (impact_max_iterations == 0 || t_count < impact_max_iterations))
+
+                        if(precise_impact)
                         {
-                            t_count++;
+                            time_l = fmin(0, dtime);
+                            time_r = fmax(0, dtime);
+                            time_m = (time_l + time_r) / 2;
+                            t_count = 0;
+                            while((time_m - time_l > 0) && (time_r - time_m > 0) && (impact_max_iterations == 0 || t_count < impact_max_iterations))
+                            {
+                                t_count++;
+                                (*it).position = old_position;
+                                (*it).velocity = old_velocity;
+                                physics_move(*it, time_m);
+
+                                if((difference((*it).position, myfunctions[i2]) == old_state) ^ (dtime < 0))
+                                {
+                                    time_l = time_m;
+                                }
+                                else time_r = time_m;
+                                time_m = (time_l + time_r) / 2;
+                            }
+
                             (*it).position = old_position;
                             (*it).velocity = old_velocity;
                             physics_move(*it, time_m);
 
-                            if((difference((*it).position, myfunctions[i2]) == old_state) ^ (dtime < 0))
-                            {
-                                time_l = time_m;
-                            }
-                            else time_r = time_m;
-                            time_m = (time_l + time_r) / 2;
+                            //cerr << "count= " << t_count << endl;
                         }
 
-                        (*it).position = old_position;
-                        (*it).velocity = old_velocity;
-                        physics_move(*it, time_m);
+                        n = tangent(myfunctions[i2], (*it).position.x, (*it).position.z);
+                        new_velocity = impact(n, (*it).velocity);
+                        (*it).velocity = new_velocity;
 
-                        //cerr << "count= " << t_count << endl;
+                        if(precise_impact)
+                        {
+                            if(dtime > 0 && dtime > time_m) physics_move(*it, dtime - time_m);
+                            else if(dtime < 0 && dtime < time_m) physics_move(*it, -fabs(dtime - time_m));
+                        }
+
+                        break;
                     }
-
-                    n = tangent(myfunctions[i2], (*it).position.x, (*it).position.z);
-                    new_velocity = impact(n, (*it).velocity);
-                    (*it).velocity = new_velocity;
-
-                    if(precise_impact)
-                    {
-                        if(dtime > 0 && dtime > time_m) physics_move(*it, dtime - time_m);
-                        else if(dtime < 0 && dtime < time_m) physics_move(*it, -fabs(dtime - time_m));
-                    }
-
-                    break;
                 }
             }
         }
