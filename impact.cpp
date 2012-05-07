@@ -120,6 +120,9 @@ vect Impact::tangent(f_result(*f)(number_t, number_t), number_t x, number_t y)
 int Impact::difference(vect coords, f_result(*f)(number_t, number_t))
 {
     number_t a = f(coords.x, coords.z).z;
+
+    if(a != a) return(DIFFERENCE_NAN);
+
     number_t b = coords.y;
     if(a > b) return(1);
     if(a < b) return(-1);

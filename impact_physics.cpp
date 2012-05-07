@@ -28,6 +28,7 @@ void Impact::physics(number_t dtime)
             old_position = (*it).position;
             old_velocity = (*it).velocity;
         }
+
         physics_move((*it), dtime);
 
 
@@ -38,7 +39,7 @@ void Impact::physics(number_t dtime)
                 int old_state = (*it).states[i2],
                     new_state = difference((*it).position, myfunctions[i2]);
 
-                if(new_state != old_state)
+                if(new_state != old_state && new_state != DIFFERENCE_NAN && old_state != DIFFERENCE_NAN)
                 {
                     t1 = myfunctions[i2](old_position.x, old_position.z).z;
                     t2 = myfunctions[i2]((*it).position.x, (*it).position.z).z;
@@ -84,9 +85,11 @@ void Impact::physics(number_t dtime)
                             else if(dtime < 0 && dtime < time_m) physics_move(*it, -fabs(dtime - time_m));
                         }
 
-                        break;
+                        //break;
                     }
                 }
+                else if(old_state == DIFFERENCE_NAN && new_state != DIFFERENCE_NAN) (*it).states[i2] = new_state;
+                else if(new_state == DIFFERENCE_NAN) (*it).states[i2] = DIFFERENCE_NAN;
             }
         }
     }

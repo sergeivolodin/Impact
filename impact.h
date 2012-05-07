@@ -33,6 +33,8 @@ private:
     vector<point> mypoints_defaults;
     vector<f_result (*)(number_t, number_t)> myfunctions;
 
+    static const int DIFFERENCE_NAN = 2;
+
 public:
     Impact();
 
