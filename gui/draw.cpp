@@ -279,6 +279,11 @@ void Draw::set_defaults()
     draw_point_type = DRAW_POINTS;
     precise_impact = true;
     use_gravity = true;
+
+    G = 1E10;
+    c = 10000;
+    use_gravitomagnetism = false;
+
     ftl();
 }
 

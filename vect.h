@@ -21,8 +21,14 @@ public:
     number_vect_t abs_2();
     number_vect_t abs();
     vect operator+(vect t);
+    vect operator-(vect t);
+    vect operator^=(vect t);
+    vect operator^(vect t);
+    vect operator/(number_vect_t t);
     vect operator*=(number_vect_t t);
     vect operator+=(vect t);
+    vect operator/=(vect t);
+    vect operator /=(number_vect_t t);
     vect operator-=(vect t);
     vect operator*(number_vect_t t);
     number_vect_t operator*(vect t);
@@ -39,6 +45,7 @@ struct point
     vect position;
     vect velocity;
     vect acceleration;
+    vect angular_momentum;
     number_vect_t mass;
 
     vect color;

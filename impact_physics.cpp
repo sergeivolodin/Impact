@@ -115,6 +115,9 @@ void Impact::physics_set_acceleration(point& pt)
     if(use_gravity_n2)
         for(it = mypoints.begin(); it != mypoints.end(); it++)
             pt.acceleration += physics_gravity(pt, *it);
+    if(use_gravitomagnetism)
+        for(it = mypoints.begin(); it != mypoints.end(); it++)
+            pt.acceleration += physics_gravitomagnetism(pt, *it);
 }
 
 vect Impact::physics_gravity(point& p1, point& p2)
@@ -123,6 +126,19 @@ vect Impact::physics_gravity(point& p1, point& p2)
     vect acc1(0, 0, 0);
     t_position -= p1.position;
     if(fabs(t_position.abs_2()) > 1)
-        acc1 = (t_position * (p2.mass / pow(fabs(t_position.abs()), 3)));
+        acc1 = (t_position * (p2.mass / pow(fabs(t_position.abs()), 3))) * G;
     return(acc1);
+}
+
+vect Impact::physics_gravitomagnetism(point &p1, point &p2)
+{
+    if(p2.angular_momentum.abs() == 0) return(vect(0, 0, 0));
+    vect r = p1.position - p2.position;
+    if(r.abs() == 0)
+        return(vect(0, 0, 0));
+    vect r_norm = r / r.abs();
+    vect Bg = (p2.angular_momentum - r_norm * (3 * (p2.angular_momentum * r_norm))) * G / (2 * c * pow(r.abs(), 3));
+    vect acc = (p1.velocity ^ Bg) * 2 / c;
+    cout << acc.abs() << endl;
+    return(acc);
 }

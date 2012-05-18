@@ -11,9 +11,12 @@ using std::cout;
 
 Impact::Impact()
 {
+    G = 1;
+    c = 10000;
     derivative_eps = 1e-2;
     use_gravity_points = true;
     use_gravity = true;
+    use_gravitomagnetism = false;
     use_gravity_n2 = false;
     time = 0;
     M = 60;
@@ -38,7 +41,7 @@ void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t s
         {
             t_res = f(x, z);
             new_position = vect(x, t_res.z, z);
-            add_point(new_position, velocity, t_res.color, mass);
+            add_point(new_position, velocity, t_res.color, mass, vect(0, 0, 0));
         }
     }
 }
@@ -63,7 +66,7 @@ void Impact::add_gravity_point(vect position, number_t mass)
     mygravitypoints.push_back(t_point);
 }
 
-void Impact::add_point(vect position, vect velocity, vect color, number_t mass)
+void Impact::add_point(vect position, vect velocity, vect color, number_t mass, vect angular_momentum)
 {
     point a;
     a.color = color;
@@ -72,6 +75,7 @@ void Impact::add_point(vect position, vect velocity, vect color, number_t mass)
     a.acceleration = vect(0, 0, 0);
     a.velocity = velocity;
     a.mass = mass;
+    a.angular_momentum = angular_momentum;
 
     vector<f_result (*)(number_t, number_t)>::iterator it;
     for(it = myfunctions.begin(); it != myfunctions.end(); it++)
@@ -96,6 +100,11 @@ void Impact::set_dt(number_t x)
 void Impact::set_use_gravity_n2(bool x)
 {
     use_gravity_n2 = x;
+}
+
+void Impact::set_use_gravitomagnetism(bool x)
+{
+    use_gravitomagnetism = x;
 }
 
 number_t Impact::derivative_x(f_result(*f)(number_t, number_t), number_t x, number_t y)
@@ -168,7 +177,7 @@ void Impact::firework(vect position, number_t velocity, number_t mass, unsigned 
         t_color = vect(fabs(sin(x)), fabs(sin(y)), fabs(sin(z)));
         t_angle = vect(x, y, z);
         forward(velocity, &t_velocity, &t_angle);
-        add_point(position, t_velocity, t_color, mass);
+        add_point(position, t_velocity, t_color, mass, vect(0, 0, 0));
     }
 }
 

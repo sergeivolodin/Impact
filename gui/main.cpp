@@ -101,16 +101,20 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Draw w;
 
-    w.set_gravity(vect(0, -0.1, 0));
-    w.set_dt(0.1);
+    w.set_gravity(vect(0, -0, 0));
+    w.set_dt(0.05);
     w.set_dt_for_views(1);
     w.set_use_gravity_n2(false);
+    w.set_use_gravitomagnetism(true);
 
-    w.add_function(f1);
-    w.add_function(f2);
-    //w.add_function(plane);
-    w.add_points(p, 15, 0.3, vect(3, -5, 10), 1);
-    //w.add_point(vect(0, 10, 0), vect(0, 0, 0), vect(1, 1, 1), 10);
+    //w.add_function(f1);
+    //w.add_function(f2);
+    w.add_function(plane);
+    //w.add_points(p, 15, 0.3, vect(3, -5, 10), 1);
+    //w.add_point(vect(0, 10, 0), vect(0, 0, 0), vect(1, 1, 1), 10, vect(0, 10, 0));
+    w.add_point(vect(0, 10, 0), vect(0.1, 0, 0), vect(0, 1, 0), 10, vect(0, 1111, 0));
+    w.add_point(vect(50, 10, 0), vect(-0.1, 0, 0), vect(1, 1, 0), 10, vect(0, 1111, 0));
+    //w.add_point(vect(-10, -10, 30), vect(1, 1, 1), vect(1, 1, 0), 10, vect(0, 0, 0));
 
     w.ftl();
 

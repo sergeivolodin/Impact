@@ -91,10 +91,55 @@ vect vect::operator+=(vect t)
     return(*this);
 }
 
+vect vect::operator /=(number_vect_t t)
+{
+    x /= t;
+    y /= t;
+    z /= t;
+    return(*this);
+}
+
+vect vect::operator /=(vect t)
+{
+    x /= t.x;
+    y /= t.y;
+    z /= t.z;
+    return(*this);
+}
+
 vect vect::operator+(vect t)
 {
     vect t_vect = (*this);
     t_vect += t;
+    return(t_vect);
+}
+
+vect vect::operator-(vect t)
+{
+    vect t_vect = (*this);
+    t_vect -= t;
+    return(t_vect);
+}
+
+vect vect::operator^=(vect t)
+{
+    vect n = (*this) ^ t;
+    x = n.x;
+    y = n.y;
+    z = n.z;
+    return(n);
+}
+
+vect vect::operator^(vect t)
+{
+    vect n(y * t.z - z * t.y, z * t.x - x * t.z, x * t.y - y * t.x);
+    return(n);
+}
+
+vect vect::operator /(number_vect_t t)
+{
+    vect t_vect = (*this);
+    t_vect /= t;
     return(t_vect);
 }
 
