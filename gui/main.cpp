@@ -104,17 +104,22 @@ int main(int argc, char *argv[])
     w.set_gravity(vect(0, -0, 0));
     w.set_dt(0.05);
     w.set_dt_for_views(1);
-    w.set_use_gravity_n2(false);
-    w.set_use_gravitomagnetism(true);
+    w.set_use_gravity_n2(true);
+    w.set_use_gravitomagnetism_force(true);
+    w.set_use_gravitomagnetism_force(true);
 
     //w.add_function(f1);
     //w.add_function(f2);
     w.add_function(plane);
     //w.add_points(p, 15, 0.3, vect(3, -5, 10), 1);
     //w.add_point(vect(0, 10, 0), vect(0, 0, 0), vect(1, 1, 1), 10, vect(0, 10, 0));
-    w.add_point(vect(0, 10, 0), vect(0.1, 0, 0), vect(0, 1, 0), 10, vect(0, 1111, 0));
-    w.add_point(vect(50, 10, 0), vect(-0.1, 0, 0), vect(1, 1, 0), 10, vect(0, 1111, 0));
-    //w.add_point(vect(-10, -10, 30), vect(1, 1, 1), vect(1, 1, 0), 10, vect(0, 0, 0));
+    //w.add_point(vect(0, 10, 0), vect(0.1, 0, 0), vect(0, 1, 0), 10, vect(1111, 1111, 0));
+    w.add_point(vect(50, 20, 0), vect(0, 0, 0), vect(1, 1, 0), -10, vect(10, 0, 0), 1E10);
+    w.add_point(vect(-50, 20, 10), vect(0, 0, 0), vect(1, 1, 0), 10, vect(0, 10, 0), 1E10);
+    //w.firework(vect(0, 10, 0), 0.1, 1, vect(0, 10, 0), 100);
+
+    //for(float t = 0; t < 2 * M_PI; t += M_PI / 10)
+        //w.add_point(vect(sin(t) * 100, 0, cos(t) * 100), vect(0.1, 0.3, 0.1), vect(1, 0, 1), 1, vect(t, 10, t), 1E8);
 
     w.ftl();
 

@@ -16,7 +16,9 @@ Impact::Impact()
     derivative_eps = 1e-2;
     use_gravity_points = true;
     use_gravity = true;
-    use_gravitomagnetism = false;
+    use_gravitomagnetism_force = false;
+    use_gravitomagnetism_torque = false;
+    track_path = false;
     use_gravity_n2 = false;
     time = 0;
     M = 60;
@@ -28,7 +30,7 @@ number_t Impact::get_simulation_time()
     return(time);
 }
 
-void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass)
+void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia)
 {
     number_t x, z;
 
@@ -41,7 +43,7 @@ void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t s
         {
             t_res = f(x, z);
             new_position = vect(x, t_res.z, z);
-            add_point(new_position, velocity, t_res.color, mass, vect(0, 0, 0));
+            add_point(new_position, velocity, t_res.color, mass, angular_velocity, moment_of_inertia);
         }
     }
 }
@@ -66,7 +68,7 @@ void Impact::add_gravity_point(vect position, number_t mass)
     mygravitypoints.push_back(t_point);
 }
 
-void Impact::add_point(vect position, vect velocity, vect color, number_t mass, vect angular_momentum)
+void Impact::add_point(vect position, vect velocity, vect color, number_t mass, vect angular_velocity, number_t moment_of_inertia)
 {
     point a;
     a.color = color;
@@ -75,7 +77,9 @@ void Impact::add_point(vect position, vect velocity, vect color, number_t mass, 
     a.acceleration = vect(0, 0, 0);
     a.velocity = velocity;
     a.mass = mass;
-    a.angular_momentum = angular_momentum;
+    a.angular_acceleration = vect(0, 0, 0);
+    a.angular_velocity = angular_velocity;
+    a.moment_of_inertia = moment_of_inertia;
 
     vector<f_result (*)(number_t, number_t)>::iterator it;
     for(it = myfunctions.begin(); it != myfunctions.end(); it++)
@@ -102,9 +106,14 @@ void Impact::set_use_gravity_n2(bool x)
     use_gravity_n2 = x;
 }
 
-void Impact::set_use_gravitomagnetism(bool x)
+void Impact::set_use_gravitomagnetism_force(bool x)
 {
-    use_gravitomagnetism = x;
+    use_gravitomagnetism_force = x;
+}
+
+void Impact::set_use_gravitomagnetism_torque(bool x)
+{
+    use_gravitomagnetism_torque = x;
 }
 
 number_t Impact::derivative_x(f_result(*f)(number_t, number_t), number_t x, number_t y)
@@ -163,7 +172,7 @@ unsigned long long Impact::get_points_N()
     return(mypoints.size());
 }
 
-void Impact::firework(vect position, number_t velocity, number_t mass, unsigned int N)
+void Impact::firework(vect position, number_t velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia, unsigned int N)
 {
     vect t_velocity, t_angle, t_color(1, 1, 1);
     number_t x, y, z;
@@ -177,7 +186,7 @@ void Impact::firework(vect position, number_t velocity, number_t mass, unsigned 
         t_color = vect(fabs(sin(x)), fabs(sin(y)), fabs(sin(z)));
         t_angle = vect(x, y, z);
         forward(velocity, &t_velocity, &t_angle);
-        add_point(position, t_velocity, t_color, mass, vect(0, 0, 0));
+        add_point(position, t_velocity, t_color, mass, angular_velocity, moment_of_inertia);
     }
 }
 

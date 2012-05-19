@@ -6,6 +6,7 @@
 #include <GL/glut.h>
 
 using std::cout;
+using std::pair;
 using std::endl;
 
 void Impact::physics(number_t dtime)
@@ -100,11 +101,27 @@ void Impact::physics_move(point& pt, number_t dtime)
 {
     pt.position += (pt.velocity * dtime) + (pt.acceleration * (dtime * dtime / 2.));
     pt.velocity += pt.acceleration * dtime;
+
+    pt.angular_velocity += pt.angular_acceleration * dtime;
+
+    if(track_path)
+    {
+        if(pt.path.size() >= 1)
+        {
+            vect t_vect = pt.path.back();
+            if(t_vect == pt.position) return;
+        }
+
+        pt.path.push_back(pt.position);
+    }
 }
 
 void Impact::physics_set_acceleration(point& pt)
 {
     pt.acceleration = vect(0, 0, 0);
+    pt.angular_acceleration = vect(0, 0, 0);
+
+    pair<vect, vect> t_pair1;
     if(use_gravity) pt.acceleration = gravity;
 
     vector<point>::iterator it;
@@ -115,9 +132,13 @@ void Impact::physics_set_acceleration(point& pt)
     if(use_gravity_n2)
         for(it = mypoints.begin(); it != mypoints.end(); it++)
             pt.acceleration += physics_gravity(pt, *it);
-    if(use_gravitomagnetism)
+    if(use_gravitomagnetism_force || use_gravitomagnetism_torque)
         for(it = mypoints.begin(); it != mypoints.end(); it++)
-            pt.acceleration += physics_gravitomagnetism(pt, *it);
+        {
+            t_pair1 = physics_gravitomagnetism(pt, *it);
+            pt.acceleration += t_pair1.first;
+            pt.angular_acceleration += t_pair1.second;
+        }
 }
 
 vect Impact::physics_gravity(point& p1, point& p2)
@@ -130,15 +151,21 @@ vect Impact::physics_gravity(point& p1, point& p2)
     return(acc1);
 }
 
-vect Impact::physics_gravitomagnetism(point &p1, point &p2)
+pair<vect, vect> Impact::physics_gravitomagnetism(point &p1, point &p2)
 {
-    if(p2.angular_momentum.abs() == 0) return(vect(0, 0, 0));
+    pair<vect, vect> res;
+    res.first = vect(0, 0, 0);
+    res.second = vect(0, 0, 0);
+    if(p2.angular_velocity.abs() == 0) return(res);
     vect r = p1.position - p2.position;
     if(r.abs() == 0)
-        return(vect(0, 0, 0));
+        return(res);
     vect r_norm = r / r.abs();
-    vect Bg = (p2.angular_momentum - r_norm * (3 * (p2.angular_momentum * r_norm))) * G / (2 * c * pow(r.abs(), 3));
-    vect acc = (p1.velocity ^ Bg) * 2 / c;
-    cout << acc.abs() << endl;
-    return(acc);
+    vect L = p2.angular_velocity * p2.moment_of_inertia;
+    vect Bg = (L - r_norm * (3 * (L * r_norm))) * G / (2 * pow(c, 2) * pow(r.abs(), 3));
+
+    if(use_gravitomagnetism_force) res.first = (p1.velocity ^ Bg);
+    if(use_gravitomagnetism_torque) res.second = (p1.angular_velocity ^ Bg) * 0.5;
+
+    return(res);
 }

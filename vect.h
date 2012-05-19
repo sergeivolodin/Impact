@@ -28,7 +28,8 @@ public:
     vect operator*=(number_vect_t t);
     vect operator+=(vect t);
     vect operator/=(vect t);
-    vect operator /=(number_vect_t t);
+    vect operator/=(number_vect_t t);
+    bool operator==(vect t);
     vect operator-=(vect t);
     vect operator*(number_vect_t t);
     number_vect_t operator*(vect t);
@@ -45,8 +46,11 @@ struct point
     vect position;
     vect velocity;
     vect acceleration;
-    vect angular_momentum;
+    vect angular_velocity;
+    vect angular_acceleration;
+    number_vect_t moment_of_inertia;
     number_vect_t mass;
+    vector<vect> path;
 
     vect color;
     vector<short int> states;

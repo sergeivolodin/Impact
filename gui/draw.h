@@ -23,7 +23,9 @@ private:
     bool pause;
     unsigned int pause_manual;
     number_t speed_view;
+    bool draw_angular_velocity;
     bool draw_velocity;
+    bool draw_path;
     bool draw_functions;
     bool draw_gravity_points;
     draw_point_type_ draw_point_type;

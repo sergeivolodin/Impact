@@ -99,6 +99,11 @@ vect vect::operator /=(number_vect_t t)
     return(*this);
 }
 
+bool vect::operator==(vect t)
+{
+    return(t.x == x && t.y == y && t.z == z);
+}
+
 vect vect::operator /=(vect t)
 {
     x /= t.x;

@@ -60,7 +60,20 @@ void Draw::graph_point(number_t x, number_t z, f_result(*f)(number_t, number_t))
 void Draw::draw_points_gl()
 {
     vector<point>::iterator it;
+    vector<vect>::iterator it1;
     static vect t_vect;
+
+    if(draw_path)
+    {
+        glBegin(GL_POINTS);
+        for(it = mypoints.begin(); it != mypoints.end(); it++)
+        {
+            glColor3f((*it).color.x, (*it).color.y, (*it).color.z);
+            for(it1 = (*it).path.begin(); it1 != (*it).path.end(); it1++)
+                glVertex3f((*it1).x, (*it1).y, (*it1).z);
+        }
+        glEnd();
+    }
 
     if(draw_point_type == DRAW_POINTS)
     {
@@ -113,6 +126,28 @@ void Draw::draw_points_gl()
                 t_vect -= mypoints[i].position;
                 if(t_vect.abs_2() <= magic_maxlen) triangles.push(mypoints[i]);
             }
+        }
+
+        glEnd();
+    }
+
+    if(draw_angular_velocity)
+    {
+        glBegin(GL_LINES);
+
+        for(it = mypoints.begin(); it != mypoints.end(); it++)
+        {
+            if(point_color == COLOR_PREDEFINED)
+                glColor3f((*it).color.x, (*it).color.y, (*it).color.z);
+            else if(point_color == COLOR_VELOCITY)
+            {
+                t_vect = get_color((*it).velocity);
+                glColor3f(t_vect.x, t_vect.y, t_vect.z);
+            }
+            glVertex3f((*it).position.x, (*it).position.y, (*it).position.z);
+            glVertex3f((*it).position.x + (*it).angular_velocity.x * dt * speed_view,
+                       (*it).position.y + (*it).angular_velocity.y * dt * speed_view,
+                       (*it).position.z + (*it).angular_velocity.z * dt * speed_view);
         }
 
         glEnd();
@@ -253,7 +288,7 @@ void Draw::home()
 void Draw::set_defaults()
 {
     home();
-    speed_view = 5;
+    speed_view = 15;
     step = 0.5;
     angle_step = M_PI / 50;
     dt_step = 0.01;
@@ -274,14 +309,18 @@ void Draw::set_defaults()
     pause = true;
     pause_manual = 0;
     draw_velocity = false;
+    draw_angular_velocity = false;
     draw_functions = true;
     draw_gravity_points = true;
     draw_point_type = DRAW_POINTS;
     precise_impact = true;
     use_gravity = true;
 
-    G = 1E10;
-    c = 10000;
+    draw_path = false;
+    track_path = false;
+
+    G = 1;
+    c = 1000;
     use_gravitomagnetism = false;
 
     ftl();
@@ -349,8 +388,11 @@ void Draw::keyPressEvent(QKeyEvent* a)
     else if(a->key() == Qt::Key_Tab) pause_manual++;
     else if(a->key() == Qt::Key_F) draw_functions ^= 1;
     else if(a->key() == Qt::Key_V) draw_velocity ^= 1;
+    else if(a->key() == Qt::Key_N) draw_angular_velocity ^= 1;
     else if(a->key() == Qt::Key_Z) dt -= dt_step;
     else if(a->key() == Qt::Key_X) dt = 0;
     else if(a->key() == Qt::Key_C) dt += dt_step;
     else if(a->key() == Qt::Key_P) print_points();
+    else if(a->key() == Qt::Key_9) track_path ^= 1;
+    else if(a->key() == Qt::Key_0) draw_path ^= 1;
 }
