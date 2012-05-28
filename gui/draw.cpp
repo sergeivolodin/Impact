@@ -68,7 +68,13 @@ void Draw::draw_points_gl()
         glBegin(GL_POINTS);
         for(it = mypoints.begin(); it != mypoints.end(); it++)
         {
-            glColor3f((*it).color.x, (*it).color.y, (*it).color.z);
+            if(point_color == COLOR_PREDEFINED)
+                glColor3f((*it).color.x, (*it).color.y, (*it).color.z);
+            else if(point_color == COLOR_VELOCITY)
+            {
+                t_vect = get_color((*it).velocity);
+                glColor3f(t_vect.x, t_vect.y, t_vect.z);
+            }
             for(it1 = (*it).path.begin(); it1 != (*it).path.end(); it1++)
                 glVertex3f((*it1).x, (*it1).y, (*it1).z);
         }
@@ -321,7 +327,8 @@ void Draw::set_defaults()
 
     G = 1;
     c = 1000;
-    use_gravitomagnetism = false;
+    use_gravitomagnetism_force = false;
+    use_gravitomagnetism_torque = false;
 
     ftl();
 }
