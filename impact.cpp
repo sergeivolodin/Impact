@@ -89,6 +89,11 @@ void Impact::set_gravity(vect x)
     gravity = x;
 }
 
+void Impact::set_track_path(bool x)
+{
+    track_path = x;
+}
+
 void Impact::set_dt(number_t x)
 {
     dt = x;
@@ -156,6 +161,9 @@ point Impact::get_difference_default(unsigned long long int pt)
     res.acceleration -= mypoints[pt].acceleration;
     res.velocity -= mypoints[pt].velocity;
     res.position -= mypoints[pt].position;
+
+    res.angular_acceleration -= mypoints[pt].angular_acceleration;
+    res.angular_velocity -= mypoints[pt].angular_velocity;
 
     return(res);
 }

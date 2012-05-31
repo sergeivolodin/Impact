@@ -36,6 +36,13 @@ string Impact::print_points()
     return(res);
 }
 
+string Impact::print_status()
+{
+    stringstream ss;
+    ss << "time = " << time << endl;
+    return(ss.str());
+}
+
 string Impact::print_point(point &pt, bool print_acceleration)
 {
     stringstream ss;

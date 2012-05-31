@@ -97,6 +97,8 @@ void Impact::physics(number_t dtime)
         }
     }
     time += dtime;
+
+    //cout << print_status();
 }
 
 void Impact::physics_move(point& pt, number_t dtime)
@@ -113,7 +115,7 @@ void Impact::physics_set_acceleration(point& pt)
     pt.angular_acceleration = vect(0, 0, 0);
 
     pair<vect, vect> t_pair1;
-    if(use_gravity) pt.acceleration = gravity;
+    if(use_gravity) pt.acceleration += gravity;
 
     vector<point>::iterator it;
     if(use_gravity_n2)

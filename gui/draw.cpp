@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
+using std::cout;
+using std::endl;
+
 using std::stack;
 
 GLint Draw::ftl_mode(draw_type_ d_type)
@@ -359,7 +362,8 @@ void Draw::keyPressEvent(QKeyEvent* a)
 
     //other
     else if(a->key() == Qt::Key_G) use_gravity ^= 1;
-    else if(a->key() == Qt::Key_P) print_points();
+    else if(a->key() == Qt::Key_P) cout << print_points();
+    else if(a->key() == Qt::Key_Q) cout << print_status();
     else if(a->key() == Qt::Key_9) track_path ^= 1;
 
 }

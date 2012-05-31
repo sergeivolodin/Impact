@@ -58,12 +58,14 @@ public:
     void firework(vect position, number_t velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia, unsigned int N);
 
     void set_gravity(vect x);
+    void set_track_path(bool x);
     void set_dt(number_t x);
     void set_use_gravity_n2(bool x);
     void set_use_gravitomagnetism_force(bool x);
     void set_use_gravitomagnetism_torque(bool x);
     string print_points();
     string print_point(point& pt, bool print_acceleration);
+    string print_status();
 
     number_t get_simulation_time();
     void physics(number_t dtime);
