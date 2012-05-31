@@ -50,7 +50,6 @@ struct point
     vect angular_acceleration;
     number_vect_t moment_of_inertia;
     number_vect_t mass;
-    vector<vect> path;
 
     vect color;
     vector<short int> states;

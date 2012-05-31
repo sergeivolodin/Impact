@@ -11,6 +11,8 @@ using std::endl;
 
 void Impact::physics(number_t dtime)
 {
+    if(track_path) save_points();
+
     //cout << print_points();
     vector<point>::iterator it;
     unsigned int i2;
@@ -103,17 +105,6 @@ void Impact::physics_move(point& pt, number_t dtime)
     pt.velocity += pt.acceleration * dtime;
 
     pt.angular_velocity += pt.angular_acceleration * dtime;
-
-    if(track_path)
-    {
-        if(pt.path.size() >= 1)
-        {
-            vect t_vect = pt.path.back();
-            if(t_vect == pt.position) return;
-        }
-
-        pt.path.push_back(pt.position);
-    }
 }
 
 void Impact::physics_set_acceleration(point& pt)
@@ -125,10 +116,6 @@ void Impact::physics_set_acceleration(point& pt)
     if(use_gravity) pt.acceleration = gravity;
 
     vector<point>::iterator it;
-    if(use_gravity_points)
-        for(it = mygravitypoints.begin(); it != mygravitypoints.end(); it++)
-            pt.acceleration += physics_gravity(pt, *it);
-
     if(use_gravity_n2)
         for(it = mypoints.begin(); it != mypoints.end(); it++)
             pt.acceleration += physics_gravity(pt, *it);

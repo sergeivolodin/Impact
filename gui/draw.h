@@ -10,7 +10,6 @@ using std::vector;
 
 typedef enum { DRAW_LINES, DRAW_QUADS } draw_type_;
 typedef enum { DRAW_POINTS, DRAW_OTHER } draw_point_type_;
-typedef enum { COLOR_PREDEFINED, COLOR_VELOCITY } point_color_;
 typedef long double number_t;
 
 class Draw : public Impact, public QGLWidget
@@ -27,10 +26,8 @@ private:
     bool draw_velocity;
     bool draw_path;
     bool draw_functions;
-    bool draw_gravity_points;
     draw_point_type_ draw_point_type;
     number_t dt_step;
-    point_color_ point_color;
     unsigned int dt_for_views;
 
     number_t step;
@@ -63,5 +60,4 @@ protected:
 
     GLint ftl_mode(draw_type_ d_type);
 };
-
 #endif // DRAW_H

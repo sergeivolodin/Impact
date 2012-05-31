@@ -3,42 +3,49 @@
 
 #include "vect.h"
 #include <string>
+#include <map>
 #include <vector>
 
 using std::vector;
+using std::map;
 using std::pair;
 using std::string;
 
 typedef long double number_t;
+typedef enum { COLOR_PREDEFINED, COLOR_VELOCITY } point_color_;
 
 class Impact
 {
 friend class Draw;
 private:
-    //physics
-    bool precise_impact;
+    //physics switches
     bool use_gravity;
-    bool use_gravity_points;
     bool use_gravity_n2;
-    bool track_path;
     bool use_gravitomagnetism_force;
     bool use_gravitomagnetism_torque;
     number_t derivative_eps;
     number_t time;
-    unsigned int impact_max_iterations;
 
-    //world
-    number_t dt;
-    number_t M; //max_coord
-    vect gravity;
-
+    //physics constants
     number_t G;
     number_t c;
+    vect gravity;
 
+    //simulation
+    number_t dt;
+    number_t M; //max_coord
+
+    //switches
+    bool track_path;
+    bool precise_impact;
+    point_color_ point_color;
+    unsigned int impact_max_iterations;
+
+    //storage
     vector<point> mypoints;
-    vector<point> mygravitypoints;
     vector<point> mypoints_defaults;
     vector<f_result (*)(number_t, number_t)> myfunctions;
+    map< point*, vector<point> > paths;
 
     static const int DIFFERENCE_NAN = 2;
 
@@ -47,7 +54,6 @@ public:
 
     void add_function(f_result(*f)(number_t, number_t));
     void add_point(vect position, vect velocity, vect color, number_t mass, vect angular_velocity, number_t moment_of_inertia);
-    void add_gravity_point(vect position, number_t mass);
     void add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia);
     void firework(vect position, number_t velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia, unsigned int N);
 
@@ -67,6 +73,9 @@ public:
 
     point get_difference_default(unsigned long long int pt);
     unsigned long long int get_points_N();
+
+    static vect get_color(vect velocity);
+
 protected:
     void points_defaults();
 
@@ -78,7 +87,8 @@ protected:
     vect physics_gravity(point& p1, point& p2);
     pair<vect, vect> physics_gravitomagnetism(point& p1, point& p2);
 
-    vect get_color(vect velocity);
+    vect get_point_color(point& t_point);
+    void save_points();
 };
 
 #endif // IMPACT_H

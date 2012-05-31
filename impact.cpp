@@ -2,6 +2,7 @@
 #include "vect.h"
 #include <math.h>
 #include <iostream>
+#include <map>
 #include <stdlib.h>
 #include <GL/glut.h>
 
@@ -9,16 +10,16 @@ using std::cerr;
 using std::endl;
 using std::cout;
 
+using std::map;
+
 Impact::Impact()
 {
     G = 1;
     c = 10000;
     derivative_eps = 1e-2;
-    use_gravity_points = true;
     use_gravity = true;
     use_gravitomagnetism_force = false;
     use_gravitomagnetism_torque = false;
-    track_path = false;
     use_gravity_n2 = false;
     time = 0;
     M = 60;
@@ -58,14 +59,6 @@ void Impact::add_function(f_result(*f)(number_t, number_t))
         (*it).states.resize((*it).states.size() + 1);
         (*it).states[(*it).states.size() - 1] = difference((*it).position, f);
     }
-}
-
-void Impact::add_gravity_point(vect position, number_t mass)
-{
-    point t_point;
-    t_point.mass = mass;
-    t_point.position = position;
-    mygravitypoints.push_back(t_point);
 }
 
 void Impact::add_point(vect position, vect velocity, vect color, number_t mass, vect angular_velocity, number_t moment_of_inertia)
@@ -196,3 +189,30 @@ vect Impact::get_color(vect velocity)
     return(res);
 }
 
+vect Impact::get_point_color(point& t_point)
+{
+    if(point_color == COLOR_PREDEFINED) return(t_point.color);
+    else return(get_color(t_point.velocity));
+}
+
+
+void Impact::save_points()
+{
+    static point t_point;
+    if(track_path)
+    {
+        vector<point>::iterator it;
+        for(it = mypoints.begin(); it != mypoints.end(); it++)
+        {
+            if(paths[ &(*it) ].size() >= 1)
+            {
+                t_point = paths[ &(*it) ].back();
+                if(t_point.position == (*it).position) continue;
+            }
+
+            t_point = (*it);
+            t_point.color = get_point_color(*it);
+            paths[ &(*it) ].push_back(t_point);
+        }
+    }
+}

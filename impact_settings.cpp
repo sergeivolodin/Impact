@@ -2,8 +2,8 @@
 #include "vect.h"
 #include <math.h>
 #include <iostream>
+#include <map>
 #include <vector>
-#include <stdlib.h>
 #include <string>
 #include <sstream>
 #include <GL/glut.h>
@@ -15,6 +15,7 @@ using std::string;
 using std::stringstream;
 
 using std::vector;
+using std::map;
 
 string Impact::print_points()
 {
@@ -48,6 +49,8 @@ string Impact::print_point(point &pt, bool print_acceleration)
 
 void Impact::points_defaults()
 {
+    paths.clear();
+
     unsigned int i;
     for(i = 0; i < mypoints.size(); i++)
         mypoints[i] = mypoints_defaults[i];

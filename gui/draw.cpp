@@ -59,24 +59,33 @@ void Draw::graph_point(number_t x, number_t z, f_result(*f)(number_t, number_t))
 
 void Draw::draw_points_gl()
 {
-    vector<point>::iterator it;
-    vector<vect>::iterator it1;
+    vector<point>::iterator it, it1;
     static vect t_vect;
+    static point t_point;
 
     if(draw_path)
     {
-        glBegin(GL_POINTS);
+        glBegin(GL_LINES);
+        vector<point> path;
         for(it = mypoints.begin(); it != mypoints.end(); it++)
         {
-            if(point_color == COLOR_PREDEFINED)
-                glColor3f((*it).color.x, (*it).color.y, (*it).color.z);
-            else if(point_color == COLOR_VELOCITY)
+            path = paths[ &(*it) ];
+            it1 = path.begin();
+            if(it1 != path.end())
             {
-                t_vect = get_color((*it).velocity);
-                glColor3f(t_vect.x, t_vect.y, t_vect.z);
+                t_point = *it1;
+                it1++;
+
+                for(; it1 != path.end(); it1++)
+                {
+                    glColor3f(t_point.color.x, t_point.color.y, t_point.color.z);
+                    glVertex3f(t_point.position.x, t_point.position.y, t_point.position.z);
+
+                    glColor3f((*it1).color.x, (*it1).color.y, (*it1).color.z);
+                    glVertex3f((*it1).position.x, (*it1).position.y, (*it1).position.z);
+                    t_point = *it1;
+                }
             }
-            for(it1 = (*it).path.begin(); it1 != (*it).path.end(); it1++)
-                glVertex3f((*it1).x, (*it1).y, (*it1).z);
         }
         glEnd();
     }
@@ -95,43 +104,6 @@ void Draw::draw_points_gl()
                 glColor3f(t_vect.x, t_vect.y, t_vect.z);
             }
             glVertex3f((*it).position.x, (*it).position.y, (*it).position.z);
-        }
-
-        glEnd();
-    }
-    else if(draw_point_type == DRAW_OTHER)
-    {
-        glBegin(GL_LINES);
-        stack<point> triangles;
-
-        point t_point;
-
-        const number_t magic_maxlen = pow(10, 2);
-        for(unsigned int i = 0; i < mypoints.size(); i++)
-        {
-            if(triangles.empty()) triangles.push(mypoints[i]);
-            else if(triangles.size() == 2)
-            {
-                while(!triangles.empty())
-                {
-                    t_point = triangles.top();
-                    triangles.pop();
-                    if(point_color == COLOR_PREDEFINED)
-                        glColor3f(t_point.color.x, t_point.color.y, t_point.color.z);
-                    else if(point_color == COLOR_VELOCITY)
-                    {
-                        t_vect = get_color(t_point.velocity);
-                        glColor3f(t_vect.x, t_vect.y, t_vect.z);
-                    }
-                    glVertex3f(t_point.position.x, t_point.position.y, t_point.position.z);
-                }
-            }
-            else
-            {
-                t_vect = triangles.top().position;
-                t_vect -= mypoints[i].position;
-                if(t_vect.abs_2() <= magic_maxlen) triangles.push(mypoints[i]);
-            }
         }
 
         glEnd();
@@ -179,19 +151,6 @@ void Draw::draw_points_gl()
         }
 
         glEnd();
-    }
-
-    if(draw_gravity_points)
-    {
-        glPointSize(10.0f);
-        glBegin(GL_POINTS);
-        glColor3f(1, 1, 1);
-        for(it = mygravitypoints.begin(); it != mygravitypoints.end(); it++)
-        {
-            glVertex3f((*it).position.x, (*it).position.y, (*it).position.z);
-        }
-        glEnd();
-        glPointSize(1.0f);
     }
 }
 
@@ -258,8 +217,6 @@ void Draw::set_dt_for_views(unsigned int x)
 
 void Draw::timerEvent(QTimerEvent *)
 {
-    //if(time >= 200 && dt > 0) dt = -dt;
-
     forward(velocity, &position, &angle);
 
     static unsigned int views_count = 1;
@@ -270,7 +227,6 @@ void Draw::timerEvent(QTimerEvent *)
     }
     else views_count++;
 
-    //if(time < 0 ) return;
     if(!pause || pause_manual)
     {
         if(pause_manual) pause_manual--;
@@ -308,7 +264,6 @@ void Draw::set_defaults()
     dt_for_views = 4;
     gravity = vect(0, 0, 0);
     point_color = COLOR_PREDEFINED;
-    use_gravity_points = true;
     use_gravity_n2 = true;
 
     velocity = 0;
@@ -317,7 +272,6 @@ void Draw::set_defaults()
     draw_velocity = false;
     draw_angular_velocity = false;
     draw_functions = true;
-    draw_gravity_points = true;
     draw_point_type = DRAW_POINTS;
     precise_impact = true;
     use_gravity = true;
@@ -340,8 +294,12 @@ void Draw::set_paused(bool x)
 
 void Draw::keyPressEvent(QKeyEvent* a)
 {
+    //movement
     if(a->key() == Qt::Key_Up) forward(step, &position, &angle);
     else if(a->key() == Qt::Key_Down) forward(-step, &position, &angle);
+    else if(a->key() == Qt::Key_Home) home();
+
+    //rotation
     else if(a->key() == Qt::Key_A)
     {
         angle.y -= angle_step;
@@ -360,28 +318,30 @@ void Draw::keyPressEvent(QKeyEvent* a)
     {
         if(angle.x <= M_PI/2) angle.x += angle_step;
     }
-    else if(a->key() == Qt::Key_Home) home();
+    else if(a->key() == Qt::Key_Shift) angle.x = 0;
+
+    //velocity
     else if(a->key() == Qt::Key_PageUp) velocity += step;
     else if(a->key() == Qt::Key_PageDown) velocity -= step;
     else if(a->key() == Qt::Key_End) velocity = 0;
-    else if(a->key() == Qt::Key_Shift) angle.x = 0;
+
+    //draw
     else if(a->key() == Qt::Key_T)
     {
         if(draw_type == DRAW_LINES) draw_type = DRAW_QUADS;
         else draw_type = DRAW_LINES;
     }
-    else if(a->key() == Qt::Key_Y)
-    {
-        if(draw_point_type == DRAW_OTHER) draw_point_type = DRAW_POINTS;
-        else draw_point_type = DRAW_OTHER;
-    }
-    //else if(a->key() == Qt::Key_P) precise_impact ^= 1;
-    else if(a->key() == Qt::Key_G) use_gravity ^= 1;
     else if(a->key() == Qt::Key_B)
     {
         if(point_color == COLOR_PREDEFINED) point_color = COLOR_VELOCITY;
         else point_color = COLOR_PREDEFINED;
     }
+    else if(a->key() == Qt::Key_F) draw_functions ^= 1;
+    else if(a->key() == Qt::Key_V) draw_velocity ^= 1;
+    else if(a->key() == Qt::Key_L) draw_angular_velocity ^= 1;
+    else if(a->key() == Qt::Key_0) draw_path ^= 1;
+
+    //states
     else if(a->key() == Qt::Key_Space)
     {
         points_defaults();
@@ -389,17 +349,17 @@ void Draw::keyPressEvent(QKeyEvent* a)
     }
     else if(a->key() == Qt::Key_Pause || a->key() == Qt::Key_F1)
     {
-        pause = !pause;
+        pause ^= 1;
         pause_manual = 0;
     }
     else if(a->key() == Qt::Key_Tab) pause_manual++;
-    else if(a->key() == Qt::Key_F) draw_functions ^= 1;
-    else if(a->key() == Qt::Key_V) draw_velocity ^= 1;
-    else if(a->key() == Qt::Key_N) draw_angular_velocity ^= 1;
     else if(a->key() == Qt::Key_Z) dt -= dt_step;
     else if(a->key() == Qt::Key_X) dt = 0;
     else if(a->key() == Qt::Key_C) dt += dt_step;
+
+    //other
+    else if(a->key() == Qt::Key_G) use_gravity ^= 1;
     else if(a->key() == Qt::Key_P) print_points();
     else if(a->key() == Qt::Key_9) track_path ^= 1;
-    else if(a->key() == Qt::Key_0) draw_path ^= 1;
+
 }
