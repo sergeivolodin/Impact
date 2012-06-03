@@ -282,8 +282,8 @@ void Draw::set_defaults()
     draw_path = false;
     track_path = false;
 
-    G = 1;
-    c = 1000;
+    G = 6.67384E-11;
+    c = 299792458;
     use_gravitomagnetism_force = false;
     use_gravitomagnetism_torque = false;
 

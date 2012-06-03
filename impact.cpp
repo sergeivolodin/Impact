@@ -14,8 +14,9 @@ using std::map;
 
 Impact::Impact()
 {
-    G = 1;
-    c = 10000;
+    G = 6.67384E-11;
+    c = 299792458;
+
     derivative_eps = 1e-2;
     use_gravity = true;
     use_gravitomagnetism_force = false;

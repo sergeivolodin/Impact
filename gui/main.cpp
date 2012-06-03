@@ -55,22 +55,18 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Draw w;
 
-    w.set_track_path(true);
+    w.add_function(f1);
 
-    number_t omega = 1E11, distance = 40, velocity = 3, dt = 0.01, mtime = 1000;
     w.set_gravity(vect(0, 0, 0));
-    w.set_use_gravity_n2(false);
-    w.set_use_gravitomagnetism_force(true);
-    w.set_use_gravitomagnetism_torque(true);
+    w.set_use_gravity_n2(true);
+    w.set_use_gravitomagnetism_force(false);
+    w.set_use_gravitomagnetism_torque(false);
 
-    w.add_point(vect(distance / 2, 10, 0), vect(-velocity, 0, 0), vect(1, 1, 1), 1, vect(0, omega, 0), 1);
-    w.add_point(vect(-distance / 2, 10, 0), vect(velocity, 0, 0), vect(1, 1, 1), 1, vect(0, omega, 0), 1);
-
-
-    for(w.set_dt(dt); w.get_simulation_time() < mtime - dt; w.physics(dt));
-    w.physics(mtime - w.get_simulation_time());
-    for(w.set_dt(-dt); w.get_simulation_time() > dt; w.physics(-dt));
-    w.physics(-w.get_simulation_time());
+    w.add_point(vect(0, 10, 0), vect(0, 0, 0), vect(1, 1, 1), 1E13, vect(0, 0, 0), 0);
+    w.add_point(vect(30, 5, 0), vect(0, 0, 4.6843837106667205), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
+    w.add_point(vect(50, 10, 0), vect(0, 0, 3.6534476867747814), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
+    w.add_point(vect(70, 20, 0), vect(0, 0, 3.0721710631258894), vect(1, 0, 1), 1E10, vect(0, 0, 0), 0);
+    w.add_point(vect(71, 20, 0), vect(0, 0, 3.0721710631258894 - 0.816935737986777), vect(1, 0, 1), 1, vect(0, 0, 0), 0);
 
     w.ftl();
     w.show();

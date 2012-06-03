@@ -39,7 +39,25 @@ string Impact::print_points()
 string Impact::print_status()
 {
     stringstream ss;
+    vect momentum(0, 0, 0), angular_momentum(0, 0, 0);
+    number_t mass = 0, kinetic_energy = 0, relative_kinetic_energy = 0;
+    vector<point>::iterator it;
     ss << "time = " << time << endl;
+
+    for(it = mypoints.begin(); it != mypoints.end(); it++)
+    {
+        momentum += (*it).velocity * (*it).mass;
+        angular_momentum += (*it).angular_velocity * (*it).moment_of_inertia;
+        mass += (*it).mass;
+        kinetic_energy += (*it).mass  * (*it).velocity.abs_2() / 2;
+        relative_kinetic_energy += (*it).mass * (1 / sqrt(1 - pow((*it).velocity.abs() / c, 2)) - 1);
+    }
+
+    ss << "momentum = " << momentum.print() << endl;
+    ss << "angular_momentum = " << angular_momentum.print() << endl;
+    ss << "rest_energy = " << mass * pow(c, 2) << endl;
+    ss << "kinetic_energy = " << kinetic_energy << endl;
+    ss << "relative_kinetic_energy = " << relative_kinetic_energy * pow(c, 2) << endl;
     return(ss.str());
 }
 
@@ -62,3 +80,4 @@ void Impact::points_defaults()
     for(i = 0; i < mypoints.size(); i++)
         mypoints[i] = mypoints_defaults[i];
 }
+
