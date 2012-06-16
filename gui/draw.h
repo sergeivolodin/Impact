@@ -38,14 +38,6 @@ private:
     GLuint objects[2];
     GLuint texture[2];
 
-public:
-    Draw();
-
-    void ftl();
-    void set_defaults();
-    void set_dt_for_views(unsigned int x);
-    void set_paused(bool x);
-protected:
     void keyPressEvent(QKeyEvent*);
     void initializeGL();
     void resizeGL(int w, int h);
@@ -59,5 +51,13 @@ protected:
     void draw_functions_gl();
 
     GLint ftl_mode(draw_type_ d_type);
+
+public:
+    Draw();
+
+    void ftl();
+    void set_defaults();
+    void set_dt_for_views(unsigned int x);
+    void set_paused(bool x);
 };
 #endif // DRAW_H

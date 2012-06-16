@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     w.add_function(f1);
 
-    w.set_gravity(vect(0, 0, 0));
+    w.set_gravity(vect(0, -0.5, 0));
     w.set_use_gravity_n2(true);
     w.set_use_gravitomagnetism_force(false);
     w.set_use_gravitomagnetism_torque(false);
