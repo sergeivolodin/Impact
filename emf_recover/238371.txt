@@ -1,0 +1,86 @@
+.abs_2()) > 1)
+        acc1 = (t_position * (p2.mass / pow(fabs(t_position.abs()), 3))) * G;
+    return(acc1);
+}
+
+pair<vect, vect> Impact::physics_gravitomagnetism(point &p1, point &p2)
+{
+    pair<vect, vect> res;
+    res.first = vect(0, 0, 0);
+    res.second = vect(0, 0, 0);
+    if(p2.angular_velocity.abs() == 0) return(res);
+    vect r = p1.position - p2.position;
+    if(r.abs() == 0)
+        return(res);
+    vect r_norm = r / r.abs();
+    vect L = p2.angular_velocity * p2.moment_of_inertia;
+    vect Bg = (L - r_norm * (3 * (L * r_norm))) * G / (2 * pow(c, 2) * pow(r.abs(), 3));
+
+    if(use_gravitomagnetism_force) res.first = (p1.velocity ^ Bg);
+    if(use_gravitomagnetism_torque) res.second = (p1.angular_velocity ^ Bg) * 0.5;
+
+    return(res);
+}
+
+void Impact::emf_clear()
+{
+    number_t x, y, z;
+
+    emf_array.clear();
+
+    emf_cell t_cell;
+    t_cell.E = vect(0, 0, 0);
+    t_cell.D = vect(0, 0, 0);
+    t_cell.B = vect(0, 0, 0);
+    t_cell.H = vect(0, 0, 0);
+
+    for(x = -emf_M; x <= emf_M; x += emf_step)
+        for(y = -emf_M; y <= emf_M; y += emf_step)
+            for(z = -emf_M; z <= emf_M; z += emf_step)
+                emf_array[vect(x, y, z)] = t_cell;
+
+    emf_array[vect(0, 0, 0)].E = vect(0, 1, 0);
+    emf_array[vect(0, 1, 0)].E = vect(0, 10, 1);
+    emf_array[vect(0, 2, 0)].E = vect(10, 10, 1);
+    emf_array[vect(0, 3, 0)].E = vect(101, 10, 1);
+    emf_array[vect(0, 2, 0)].B = vect(0, 1.2, 34);
+    emf_array[vect(1, 2, 0)].B = vect(0.1, 1.5, 5);
+    emf_array[vect(0, 0, 1)].E = vect(0, 1, 0);
+    emf_array[vect(0, 1, 1)].E = vect(0, 10, 1);
+    emf_array[vect(0, 2, 1)].E = vect(10, 10, 1);
+    emf_array[vect(0, 3, 1)].E = vect(101, 10, 1);
+    emf_array[vect(0, 2, 1)].B = vect(0, 1.2, 34);
+    emf_array[vect(1, 2, 1)].B = vect(0.1, 1.5, 5);
+}
+
+void Impact::emf_calculate_all(number_t dtime)
+{
+    emf_cell current, xm, xp, ym, yp, zm, zp;
+    number_t x, y, z;
+
+    for(x = -emf_M; x <= emf_M; x += emf_step)
+        for(y = -emf_M; y <= emf_M; y += emf_step)
+            for(z = -emf_M; z <= emf_M; z += emf_step)
+            {
+                current = emf_array[vect(x, y, z)];
+
+                xm = (x == -emf_M) ? current : emf_array[vect(x - emf_step, y, z)];
+                ym = (y == -emf_M) ? current : emf_array[vect(x, y - emf_step, z)];
+                zm = (z == -emf_M) ? current : emf_array[vect(x, y, z - emf_step)];
+
+                xp = (x == emf_M) ? current : emf_array[vect(x + emf_step, y, z)];
+                yp = (y == emf_M) ? current : emf_array[vect(x, y + emf_step, z)];
+                zp = (z == emf_M) ? current : emf_array[vect(x, y, z + emf_step)];
+
+                emf_calculate(current, xm, xp, ym, yp, zm, zp, dtime);
+            }
+}
+
+void Impact::emf_calculate(emf_cell& current, emf_cell& xm, emf_cell& xp, emf_cell& ym, emf_cell& yp, emf_cell& zm, emf_cell& zp, number_t dtime)
+{
+    vect nabla_E = vect(zp.E.y - zm.E.y - (yp.E.z - ym.E.z), zp.E.x - zm.E.x - (xp.E.z - xm.E.z), yp.E.x - ym.E.x - (xp.E.y - xm.E.y));
+    vect nabla_B = vect(zp.B.y - zm.B.y - (yp.B.z - ym.B.z), zp.B.x - zm.B.x - (xp.B.z - xm.B.z), yp.B.x - ym.B.x - (xp.B.y - xm.B.y));
+
+    current.E += nabla_B * (dtime * c);
+    current.B -= nabla_E * dtime;
+}
