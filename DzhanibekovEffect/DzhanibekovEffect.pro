@@ -13,8 +13,8 @@ QT += core \
     opengl
 
 # Input
-HEADERS += ../impact.h ../vect.h draw.h
+HEADERS += ../impact.h ../vect.h ../draw.h
 SOURCES += ../impact.cpp main.cpp ../vect.cpp \
     ../impact_physics.cpp \
     ../impact_settings.cpp \
-    draw.cpp
+    ../draw.cpp
