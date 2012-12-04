@@ -1,0 +1,7 @@
+*.o
+Makefile
+*~
+gui/impact
+*.pro.user
+DzhanibekovEffect/DzhanibekovEffect
+stat/screenshots
