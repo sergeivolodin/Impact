@@ -180,9 +180,9 @@ void Draw::graph(function f, draw_type_ d_type)
             for(z = f.second.ymin; z <= f.second.ymax; z += f.second.ystep)
             {
                 graph_point(x, z, f);
-                graph_point(x + graph_step, z, f);
+                graph_point(x + f.second.xstep, z, f);
                 graph_point(x, z, f);
-                graph_point(x, z + graph_step, f);
+                graph_point(x, z + f.second.ystep, f);
             }
     }
     else if(d_type == DRAW_QUADS)
@@ -192,9 +192,9 @@ void Draw::graph(function f, draw_type_ d_type)
             for(z = f.second.ymin; z <= f.second.ymax; z += f.second.ystep)
             {
                 graph_point(x, z, f);
-                graph_point(x + graph_step, z, f);
-                graph_point(x + graph_step, z + graph_step, f);
-                graph_point(x, z + graph_step, f);
+                graph_point(x + f.second.xstep, z, f);
+                graph_point(x + f.second.xstep, z + f.second.ystep, f);
+                graph_point(x, z + f.second.ystep, f);
             }
     }
 
