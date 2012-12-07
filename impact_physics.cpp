@@ -21,8 +21,8 @@ void Impact::physics_impact(unsigned int f, point& p_old, point& p_new, number_t
 
     if(new_state != old_state && new_state != DIFFERENCE_NAN && old_state != DIFFERENCE_NAN)
     {
-        t1 = myfunctions[f](p_old.position.x, p_old.position.z).z;
-        t2 = myfunctions[f](p_new.position.x, p_new.position.z).z;
+        t1 = ((f_result (*)(number_t, number_t))(myfunctions[f].first))(p_old.position.x, p_old.position.z).coordinates.z;
+        t2 = ((f_result (*)(number_t, number_t))(myfunctions[f].first))(p_new.position.x, p_new.position.z).coordinates.z;
 
         if(t1 == t1 && t2 == t2)
         {
@@ -83,7 +83,8 @@ void Impact::physics(number_t dtime)
         physics_move(*it, dtime);
 
         for(f = 0; f < myfunctions.size(); f++)
-            if(fabs((*it).position.x) <= M && fabs((*it).position.z) < M)
+            if(myfunctions[f].second.type == function_info::T_COORDINATE
+             && fabs((*it).position.x) <= M && fabs((*it).position.z) < M)
                 physics_impact(f, p_old, *it, dtime);
             else (*it).states[f] = DIFFERENCE_NAN;
     }

@@ -32,7 +32,7 @@ number_t Impact::get_simulation_time()
     return(time);
 }
 
-void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia)
+void Impact::add_points(function f, number_t M, number_t step, vect velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia)
 {
     number_t x, z;
 
@@ -43,14 +43,14 @@ void Impact::add_points(f_result(*f)(number_t, number_t), number_t M, number_t s
     {
         for(z = -M; z <= M; z += step)
         {
-            t_res = f(x, z);
-            new_position = vect(x, t_res.z, z);
+            t_res = ((f_result (*)(number_t, number_t))(f.first))(x, z);
+            new_position = vect(x, t_res.coordinates.z, z);
             add_point(new_position, velocity, t_res.color, mass, angular_velocity, moment_of_inertia);
         }
     }
 }
 
-void Impact::add_function(f_result(*f)(number_t, number_t))
+void Impact::add_function(function f)
 {
     myfunctions.push_back(f);
     vector<point>::iterator it;
@@ -75,7 +75,7 @@ void Impact::add_point(vect position, vect velocity, vect color, number_t mass, 
     a.angular_velocity = angular_velocity;
     a.moment_of_inertia = moment_of_inertia;
 
-    vector<f_result (*)(number_t, number_t)>::iterator it;
+    vector<function>::iterator it;
     for(it = myfunctions.begin(); it != myfunctions.end(); it++)
     {
         a.states.push_back(difference(position, (*it)));
@@ -115,17 +115,17 @@ void Impact::set_use_gravitomagnetism_torque(bool x)
     use_gravitomagnetism_torque = x;
 }
 
-number_t Impact::derivative_x(f_result(*f)(number_t, number_t), number_t x, number_t y)
+number_t Impact::derivative_x(function f, number_t x, number_t y)
 {
-    return((f(x + derivative_eps, y).z - f(x, y).z) / derivative_eps);
+    return((((f_result (*)(number_t, number_t))(f.first))(x + derivative_eps, y).coordinates.z - ((f_result (*)(number_t, number_t))(f.first))(x, y).coordinates.z) / derivative_eps);
 }
 
-number_t Impact::derivative_y(f_result(*f)(number_t, number_t), number_t x, number_t y)
+number_t Impact::derivative_y(function f, number_t x, number_t y)
 {
-    return((f(x, y + derivative_eps).z - f(x, y).z) / derivative_eps);
+    return((((f_result (*)(number_t, number_t))(f.first))(x, y + derivative_eps).coordinates.z - ((f_result (*)(number_t, number_t))(f.first))(x, y).coordinates.z) / derivative_eps);
 }
 
-vect Impact::tangent(f_result(*f)(number_t, number_t), number_t x, number_t y)
+vect Impact::tangent(function f, number_t x, number_t y)
 {
     vect result;
     result.x = derivative_x(f, x, y);
@@ -134,9 +134,9 @@ vect Impact::tangent(f_result(*f)(number_t, number_t), number_t x, number_t y)
     return(result);
 }
 
-int Impact::difference(vect coords, f_result(*f)(number_t, number_t))
+int Impact::difference(vect coords, function f)
 {
-    number_t a = f(coords.x, coords.z).z;
+    number_t a = ((f_result (*)(number_t, number_t))(f.first))(coords.x, coords.z).coordinates.z;
 
     if(a != a) return(DIFFERENCE_NAN);
 

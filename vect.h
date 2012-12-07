@@ -6,6 +6,7 @@
 
 using std::vector;
 using std::string;
+using std::pair;
 typedef long double number_vect_t;
 
 class vect
@@ -37,9 +38,23 @@ public:
 
 struct f_result
 {
-    number_vect_t z;
+    vect coordinates;
     vect color;
 };
+
+struct function_info
+{
+    enum f_type {T_COORDINATE, T_PARAMETRIC};
+    f_type type;
+    number_vect_t xmin;
+    number_vect_t xmax;
+    number_vect_t xstep;
+    number_vect_t ymin;
+    number_vect_t ymax;
+    number_vect_t ystep;
+};
+
+typedef pair<void*, function_info> function;
 
 struct point
 {

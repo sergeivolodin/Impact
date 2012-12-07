@@ -44,15 +44,15 @@ private:
     //storage
     vector<point> mypoints;
     vector<point> mypoints_defaults;
-    vector<f_result (*)(number_t, number_t)> myfunctions;
+    vector<function> myfunctions;
     map< point*, vector<point> > paths;
 
     static const int DIFFERENCE_NAN = 2;
 
     void points_defaults();
 
-    int difference(vect coords, f_result(*f)(number_t, number_t));
-    vect tangent(f_result(*f)(number_t, number_t), number_t x, number_t y);
+    int difference(vect coords, function);
+    vect tangent(function, number_t x, number_t y);
 
     void physics_set_acceleration(point& pt);
     void physics_move(point& pt, number_t dtime);
@@ -66,9 +66,9 @@ private:
 public:
     Impact();
 
-    void add_function(f_result(*f)(number_t, number_t));
+    void add_function(function);
     void add_point(vect position, vect velocity, vect color, number_t mass, vect angular_velocity, number_t moment_of_inertia);
-    void add_points(f_result(*f)(number_t, number_t), number_t M, number_t step, vect velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia);
+    void add_points(function, number_t M, number_t step, vect velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia);
     void firework(vect position, number_t velocity, number_t mass, vect angular_velocity, number_t moment_of_inertia, unsigned int N);
 
     void set_gravity(vect x);
@@ -84,8 +84,8 @@ public:
     number_t get_simulation_time();
     void physics(number_t dtime);
 
-    number_t derivative_x(f_result(*f)(number_t, number_t), number_t x, number_t y);
-    number_t derivative_y(f_result(*f)(number_t, number_t), number_t x, number_t y);
+    number_t derivative_x(function, number_t x, number_t y);
+    number_t derivative_y(function, number_t x, number_t y);
 
     point get_difference_default(unsigned long long int pt);
     unsigned long long int get_points_N();

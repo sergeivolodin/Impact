@@ -45,8 +45,8 @@ private:
     void timerEvent(QTimerEvent *);
 
     void home();
-    void graph(f_result(*f)(number_t, number_t), draw_type_ d_type);
-    void graph_point(number_t, number_t, f_result(*f)(number_t, number_t));
+    void graph(function, draw_type_ d_type);
+    void graph_point(number_t, number_t, function);
     void draw_points_gl();
     void draw_functions_gl();
 

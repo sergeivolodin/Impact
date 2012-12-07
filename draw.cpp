@@ -17,7 +17,7 @@ GLint Draw::ftl_mode(draw_type_ d_type)
 
     glNewList(lid, GL_COMPILE);
 
-    vector<f_result (*)(number_t, number_t)>::iterator it;
+    vector<function>::iterator it;
     for(it = myfunctions.begin(); it != myfunctions.end(); it++) graph((*it), d_type);
 
     glEndList();
@@ -53,11 +53,14 @@ void Draw::resizeGL(int w, int h)
     glLoadIdentity();
 }
 
-void Draw::graph_point(number_t x, number_t z, f_result(*f)(number_t, number_t))
+void Draw::graph_point(number_t x, number_t z, function f)
 {
-    f_result t_res = f(x, z);
+    f_result t_res = ((f_result (*)(number_t, number_t))(f.first))(x, z);
     glColor3f(t_res.color.x, t_res.color.y, t_res.color.z);
-    glVertex3f(x, t_res.z, z);
+    if(f.second.type == function_info::T_COORDINATE)
+        glVertex3f(x, t_res.coordinates.z, z);
+    else if(f.second.type == function_info::T_PARAMETRIC)
+        glVertex3f(t_res.coordinates.x, t_res.coordinates.z, t_res.coordinates.y);
 }
 
 void Draw::draw_points_gl()
@@ -166,15 +169,15 @@ void Draw::draw_functions_gl()
     }
 }
 
-void Draw::graph(f_result(*f)(number_t, number_t), draw_type_ d_type)
+void Draw::graph(function f, draw_type_ d_type)
 {
     number_t x, z;
 
     if(d_type == DRAW_LINES)
     {
         glBegin(GL_LINES);
-        for(x = -M; x <= M; x += graph_step)
-            for(z = -M; z <= M; z += graph_step)
+        for(x = f.second.xmin; x <= f.second.xmax; x += f.second.xstep)
+            for(z = f.second.ymin; z <= f.second.ymax; z += f.second.ystep)
             {
                 graph_point(x, z, f);
                 graph_point(x + graph_step, z, f);
@@ -185,8 +188,8 @@ void Draw::graph(f_result(*f)(number_t, number_t), draw_type_ d_type)
     else if(d_type == DRAW_QUADS)
     {
         glBegin(GL_QUADS);
-        for(x = -M; x <= M; x += graph_step)
-            for(z = -M; z <= M; z += graph_step)
+        for(x = f.second.xmin; x <= f.second.xmax; x += f.second.xstep)
+            for(z = f.second.ymin; z <= f.second.ymax; z += f.second.ystep)
             {
                 graph_point(x, z, f);
                 graph_point(x + graph_step, z, f);
