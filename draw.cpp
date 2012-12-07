@@ -368,5 +368,4 @@ void Draw::keyPressEvent(QKeyEvent* a)
     else if(a->key() == Qt::Key_P) cout << print_points();
     else if(a->key() == Qt::Key_Q) cout << print_status();
     else if(a->key() == Qt::Key_9) track_path ^= 1;
-
 }
