@@ -7,7 +7,7 @@
 using std::cout;
 using std::endl;
 
-number_t a = 3, b = 5, c = 7, r = 4;
+number_t a = 7, b = 5, c = 3, r = 4;
 
 f_result ellipsoid(number_t x, number_t y)
 {
@@ -37,8 +37,34 @@ f_result curve1(number_t x, number_t y)
     //number_t t = (pow(r, 2) - pow(a * cos(x), 2) - pow(c * sin(x), 2)) / (pow(cos(x), 2) * (pow(b, 2) - pow(a, 2)));
     //y = asin(sqrt(t));
 
-    number_t t = (pow(r, 2) - pow(c, 2)) / (pow(a * cos(y), 2) + pow(b * sin(y), 2) - pow(c, 2));
+    number_t t = (pow(r, 2) - pow(c, 2)) / (pow(a * cos(y), 2) + pow(b * sin(y), 2) - pow(c, 2)), t1;
     x = acos(sqrt(t));
+
+    if(x != x)
+    {
+        t1 = fabs(acos(sqrt((pow(r, 2) - pow(b, 2)) / (pow(a, 2) - pow(b, 2)))));
+
+        if(y > 0 && y < M_PI / 2)
+        {
+            y = t1;
+            x = 0;
+        }
+        /*else if(y > M_PI / 2 && y < M_PI)
+        {
+            y = -t1;
+            x = M_PI;
+        }*/
+        else if(y > M_PI && y < 3 * M_PI / 2)
+        {
+            y = t1;
+            x = M_PI;
+        }
+        else if(y > 3 * M_PI / 2 && y < 2 * M_PI)
+        {
+//            y = -(M_PI + t1);
+//            x = 0;
+        }
+    }
 
     res.coordinates.x = a * cos(x) * cos(y);
     res.coordinates.y = b * cos(x) * sin(y);
@@ -103,7 +129,7 @@ int main(int argc, char *argv[])
 
     //w.add_function(p);
     w.add_function(e);
-    //w.add_function(s);
+    w.add_function(s);
     w.add_function(c1);
     w.add_function(c2);
 
