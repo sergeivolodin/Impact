@@ -5,7 +5,7 @@
 class DzhanibekovEffect: public Draw
 {
 private:
-    static const number_t a = 7, b = 5, c = 3, r = 5.9;
+    static const number_t a = 7, b = 5, c = 3, r = 6;
 
     static f_result ellipsoid(number_t x, number_t y);
     static f_result sphere(number_t x, number_t y);
