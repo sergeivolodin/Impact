@@ -8,3 +8,4 @@ stat/screenshots
 moc*.cpp
 ui*.h
 DEG
+*.out
