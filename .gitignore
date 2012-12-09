@@ -5,3 +5,4 @@ gui/impact
 *.pro.user
 DzhanibekovEffect/DzhanibekovEffect
 stat/screenshots
+*_moc*
