@@ -32,6 +32,7 @@ DEG::DEG(QWidget *parent) :
     C = ui->C->value();
 
     timer_auto_interval = ui->timer->value();
+    time = 0;
 }
 
 DEG::~DEG()
@@ -135,10 +136,19 @@ void DEG::timer_auto_update()
     if(!plot_mytime.is_set())
     {
         plot_mytime.set_time();
+        time = 0;
     }
     else if(dt)
     {
         step();
+
+        if(q > 0 && dq < 0 && (fabs(dq) / dt / ui->q->value() < epsCheck) && time > epsTime)
+        {
+            ui->result->setValue(time);
+            on_pushButton_pause_clicked();
+        }
+
+        time += dt;
         plot_update();
     }
 }
@@ -156,6 +166,8 @@ void DEG::on_pushButton_reset_clicked()
     A = ui->A->value();
     B = ui->B->value();
     C = ui->C->value();
+
+    time = 0;
 }
 
 void DEG::on_pushButton_pause_clicked()
@@ -164,9 +176,11 @@ void DEG::on_pushButton_pause_clicked()
     {
         timer_auto.stop();
         ui->pushButton_pause->setText("Start");
+        time = 0;
     }
     else
     {
+        time = 0;
         plot_reset_data();
         plot_mytime.reset();
         ui->pushButton_pause->setText("Pause");

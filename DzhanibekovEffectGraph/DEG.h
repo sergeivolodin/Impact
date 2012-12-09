@@ -40,7 +40,9 @@ private:
 
     void step();
 
-    double A, B, C, p, q, r, dp, dq, dr, dt;
+    double A, B, C, p, q, r, dp, dq, dr, dt, time;
+
+    static const double epsCheck = 0.0015, epsTime = 1;
 
 private slots:
     void timer_auto_update();
