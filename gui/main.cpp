@@ -34,9 +34,9 @@ number_t f2_a(number_t x, number_t y)
 f_result f2(number_t x, number_t y)
 {
     f_result res;
-    res.z = f2_a(x, y);
+    res.coordinate.z = f2_a(x, y);
     res.color = vect(0.5, 1, 0.1);
-    float d_x = (res.z - f1_a(x + eps, y)) / eps, d_y = (res.z - f1_a(x, y + eps)) / eps;
+    float d_x = (res.coordinate.z - f1_a(x + eps, y)) / eps, d_y = (res.coordinate.z - f1_a(x, y + eps)) / eps;
     res.color = Draw::get_color(vect(x - y, x + y, y - x));
     return(res);
 }
@@ -44,10 +44,10 @@ f_result f2(number_t x, number_t y)
 f_result f0(number_t x, number_t y)
 {
     f_result res;
-    res.z = 5;
+    res.coordinate.z = 5;
     res.color = vect(0.5, 1, 0.1);
-    float d_x = (res.z - f1_a(x + eps, y)) / eps, d_y = (res.z - f1_a(x, y + eps)) / eps;
-    /*res.color.z = sqrt(pow(d_x, 2) + pow(d_y, 2));
+    float d_x = (res.coordinate.z - f1_a(x + eps, y)) / eps, d_y = (res.coordinate.z - f1_a(x, y + eps)) / eps;
+    /*res.color.coordinate.z = sqrt(pow(d_x, 2) + pow(d_y, 2));
     res.color.y = fabs(d_x) / 100;
     res.color.x = fabs(d_y) / 100;*/
     //res.color = Draw::get_color(vect(x, x - y, y));
@@ -58,10 +58,10 @@ f_result f0(number_t x, number_t y)
 f_result f1(number_t x, number_t y)
 {
     f_result res;
-    res.z = 0;
+    res.coordinate.z = 0;
     res.color = vect(0.5, 1, 0.1);
-    float d_x = (res.z - f1_a(x + eps, y)) / eps, d_y = (res.z - f1_a(x, y + eps)) / eps;
-    /*res.color.z = sqrt(pow(d_x, 2) + pow(d_y, 2));
+    float d_x = (res.coordinate.z - f1_a(x + eps, y)) / eps, d_y = (res.coordinate.z - f1_a(x, y + eps)) / eps;
+    /*res.color.coordinate.z = sqrt(pow(d_x, 2) + pow(d_y, 2));
     res.color.y = fabs(d_x) / 100;
     res.color.x = fabs(d_y) / 100;*/
     //res.color = Draw::get_color(vect(x, x - y, y));
@@ -75,13 +75,13 @@ f_result hyp(number_t x, number_t y)
 
     number_t a = 1, b = 10;
 
-    //res.z = 0.5 * (pow(x / a, 2) - pow(y / b, 2));
-    //res.z = 0.5 * (pow(x / a, 2) + pow(y / b, 2));
-    //res.z = pow(pow(x, 2) - pow(y, 2), 0.5);
-    res.z = 0.5 * (pow(x, 2) - pow(y, 2));
+    //res.coordinate.z = 0.5 * (pow(x / a, 2) - pow(y / b, 2));
+    //res.coordinate.z = 0.5 * (pow(x / a, 2) + pow(y / b, 2));
+    //res.coordinate.z = pow(pow(x, 2) - pow(y, 2), 0.5);
+    res.coordinate.coordinate.z = 0.5 * (pow(x, 2) - pow(y, 2));
 
-    float d_x = (res.z - f1_a(x + eps, y)) / eps, d_y = (res.z - f1_a(x, y + eps)) / eps;
-    res.color = Draw::get_color(vect(d_x, res.z, d_y));
+    float d_x = (res.coordinate.z - f1_a(x + eps, y)) / eps, d_y = (res.coordinate.z - f1_a(x, y + eps)) / eps;
+    res.color = Draw::get_color(vect(d_x, res.coordinate.z, d_y));
 
     return(res);
 }
@@ -92,9 +92,24 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Draw w;
 
-    w.add_function(hyp);
-    w.add_function(f1);
-    w.add_function(f0);
+    function h, f11, f01;
+    h.second.xmin = -20;
+    h.second.xmax = -20;
+    h.second.xstep = -0.1;
+    h.second.ymin = -20;
+    h.second.ymax = -20;
+    h.second.ystep = -0.1;
+    h.second.type == function_info::T_COORDINATE;
+
+    f11.second = h.second;
+    f01.second = h.second;
+    h.first = hyp;
+    f11.first = f1;
+    f01.first = f0;
+
+    w.add_function(h);
+    w.add_function(f11);
+    w.add_function(f01);
 
 
 //    w.add_function(f1);
