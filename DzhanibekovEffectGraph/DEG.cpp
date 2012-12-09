@@ -148,6 +148,14 @@ void DEG::on_pushButton_reset_clicked()
     plot_mytime.reset();
     plot_reset_data();
     timer_auto_interval = ui->timer->value();
+
+    p = ui->p->value();
+    q = ui->q->value();
+    r = ui->r->value();
+
+    A = ui->A->value();
+    B = ui->B->value();
+    C = ui->C->value();
 }
 
 void DEG::on_pushButton_pause_clicked()
