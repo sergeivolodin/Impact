@@ -60,7 +60,12 @@ void Draw::graph_point(number_t x, number_t z, function f)
     if(f.second.type == function_info::T_COORDINATE)
         glVertex3f(x, t_res.coordinates.z, z);
     else if(f.second.type == function_info::T_PARAMETRIC)
-        glVertex3f(t_res.coordinates.x, t_res.coordinates.z, t_res.coordinates.y);
+        /*
+         * ( 1 0 0 )
+         * ( 0 0-1 )
+         * ( 0 1 0 )
+         */
+        glVertex3f(t_res.coordinates.x, -t_res.coordinates.z, t_res.coordinates.y);
 }
 
 void Draw::draw_points_gl()
