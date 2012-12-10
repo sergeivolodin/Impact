@@ -95,10 +95,10 @@ DzhanibekovEffect::DzhanibekovEffect()
     p.second.type = function_info::T_COORDINATE;
     p.second.xmin = -20;
     p.second.xmax = 20;
-    p.second.xstep = 0.1;
+    p.second.xstep = 0.05;
     p.second.ymin = -20;
     p.second.ymax = 20;
-    p.second.ystep = 0.1;
+    p.second.ystep = 0.05;
 
     e.second = p.second;
     e.second.type = function_info::T_PARAMETRIC;
@@ -114,12 +114,12 @@ DzhanibekovEffect::DzhanibekovEffect()
     c1.second.xstep = 1;
     c1.second.ymin = 0;
     c1.second.ymax = 10 * M_PI;
-    c1.second.ystep = 2 * M_PI / 1000;
+    c1.second.ystep = 2 * M_PI / 10000;
     c2.second = c1.second;
 
 
 
-    //w.add_function(p);
+    //add_function(p);
     add_function(e);
     add_function(s);
     add_function(c1);

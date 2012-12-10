@@ -264,7 +264,11 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="result"/>
+      <widget class="QDoubleSpinBox" name="result">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -289,10 +293,18 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="result_t"/>
+      <widget class="QDoubleSpinBox" name="result_t">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QDoubleSpinBox" name="T_2"/>
+      <widget class="QDoubleSpinBox" name="T_2">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_result_t">
