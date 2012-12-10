@@ -129,8 +129,26 @@ void DEG::step()
     r += dr;
 }
 
+void DEG::updateInfo()
+{
+    double alpha, epsilon;
+
+    X = A * p;
+    Y = B * q;
+    Z = C * r;
+
+    Tx2 = X * p + Y * q + Z * r;
+    alpha = sqrt(((A - B) * (B - C) * Tx2) / (A * B * C));
+    epsilon = pow(X, 2) + pow(Y, 2) + pow(Z, 2) - Tx2 * B;
+    periodTheoretical = 2 / alpha * log(16 * A * B * C * pow(alpha, 2) / (A - C) / epsilon) / log(M_E);
+
+    ui->T_2->setValue(Tx2);
+    ui->result_t->setValue(periodTheoretical);
+}
+
 void DEG::timer_auto_update()
 {
+    static double prev_dq;
     dt = plot_mytime.get_time_difference() / 1.E3;
 
     if(!plot_mytime.is_set())
@@ -142,13 +160,14 @@ void DEG::timer_auto_update()
     {
         step();
 
-        if(q > 0 && dq < 0 && (fabs(dq) / dt / ui->q->value() < epsCheck) && time > epsTime)
+        if(prev_dq > 0 && dq < 0 && time > epsTime)
         {
             ui->result->setValue(time);
             on_pushButton_pause_clicked();
         }
 
         time += dt;
+        prev_dq = dq;
         plot_update();
     }
 }
@@ -168,6 +187,8 @@ void DEG::on_pushButton_reset_clicked()
     C = ui->C->value();
 
     time = 0;
+
+    updateInfo();
 }
 
 void DEG::on_pushButton_pause_clicked()
@@ -184,6 +205,7 @@ void DEG::on_pushButton_pause_clicked()
         plot_reset_data();
         plot_mytime.reset();
         ui->pushButton_pause->setText("Pause");
+        updateInfo();
         timer_auto.start(timer_auto_interval);
     }
 }
