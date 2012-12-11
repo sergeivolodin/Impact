@@ -7,6 +7,8 @@ h = 4e-3
 d1 = 2e-3
 v0 = h * a * d1
 
+q = 7800
+
 Ix_q = Iy_q = pi * h / 4 * (R2 ** 4 - R1 ** 4 + h ** 2 / 3 * (R2 ** 2 - R1 ** 2))
 Iz_q = pi * h / 2 * (R2 ** 4 - R1 ** 4)
 
@@ -16,6 +18,8 @@ DIy_q = DIx_q + DIz_q
 
 def printInfo():
  print "(I0xI0yI0z)/q\t(" + str(Ix_q) + " " + str(Iy_q) + " " + str(Iz_q) + ")"
+ print "(I0xI0yI0z)\t(" + str(Ix_q * q) + " " + str(Iy_q * q) + " " + str(Iz_q * q) + ")"
+
 
 printInfo()
 
