@@ -11,30 +11,62 @@ using std::endl;
 
 using std::stack;
 
-GLint Draw::ftl_mode(draw_type_ d_type)
+void Draw::ftl_one(function f, draw_type_ d_type)
 {
     GLint lid = glGenLists(1);
 
     glNewList(lid, GL_COMPILE);
-
-    vector<function>::iterator it;
-    for(it = myfunctions.begin(); it != myfunctions.end(); it++) graph((*it), d_type);
-
+    graph(f, d_type);
     glEndList();
 
-    return(lid);
+    cout << "created" << lid << endl;
+
+    if(d_type == DRAW_LINES)
+        objects[0].push_back(lid);
+    if(d_type == DRAW_QUADS)
+        objects[1].push_back(lid);
 }
+
 void Draw::ftl()
 {
-    objects[0]=ftl_mode(DRAW_LINES);
-    objects[1]=ftl_mode(DRAW_QUADS);
+    ftl_saved(DRAW_LINES);
+    ftl_saved(DRAW_QUADS);
+}
+
+void Draw::ftl_saved(draw_type_ d_type)
+{
+    vector<function>::iterator it;
+    for(it = myfunctions.begin(); it != myfunctions.end(); it++)
+        ftl_one(*it, d_type);
+}
+
+void Draw::ftl_f(function f)
+{
+    ftl_one(f, DRAW_LINES);
+    ftl_one(f, DRAW_QUADS);
+}
+
+void Draw::ftl_clear()
+{
+    vector<GLuint>::iterator it;
+    for(it = objects[0].begin(); it != objects[0].end(); it++)
+    {
+        glDeleteLists((*it), 1);
+        glDeleteLists((*it), 1);
+    }
+
+    for(it = objects[1].begin(); it != objects[1].end(); it++)
+    {
+        glDeleteLists((*it), 1);
+        glDeleteLists((*it), 1);
+    }
 }
 
 void Draw::initializeGL()
 {
     Draw::maximumSize();
     glShadeModel(GL_SMOOTH);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -55,7 +87,7 @@ void Draw::resizeGL(int w, int h)
 
 void Draw::graph_point(number_t x, number_t z, function f)
 {
-    f_result t_res = ((f_result (*)(number_t, number_t))(f.first))(x, z);
+    f_result t_res = ((f_result (*)(number_t, number_t, void*))(f.first))(x, z, f.second.param);
     glColor3f(t_res.color.x, t_res.color.y, t_res.color.z);
     if(f.second.type == function_info::T_COORDINATE)
         glVertex3f(x, t_res.coordinates.z, z);
@@ -169,13 +201,26 @@ void Draw::draw_functions_gl()
 {
     if(draw_functions)
     {
-        if(draw_type == DRAW_LINES) glCallList(objects[0]);
-        if(draw_type == DRAW_QUADS) glCallList(objects[1]);
+        static vector<GLuint>::iterator it;
+        static int j;
+        if(draw_type == DRAW_LINES) j = 0;
+        if(draw_type == DRAW_QUADS) j = 1;
+
+        for(it = objects[j].begin(); it != objects[j].end(); it++)
+        {
+            glCallList(*it);
+        }
     }
 }
 
 void Draw::graph(function f, draw_type_ d_type)
 {
+    if(f.second.type == function_info::T_NONE)
+    {
+        ((void (*)())(f.first))();
+        return;
+    }
+
     number_t x, z;
 
     if(d_type == DRAW_LINES)
@@ -294,8 +339,6 @@ void Draw::set_defaults()
     c = 299792458;
     use_gravitomagnetism_force = false;
     use_gravitomagnetism_torque = false;
-
-    ftl();
 }
 
 void Draw::set_paused(bool x)

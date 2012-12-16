@@ -44,7 +44,7 @@ struct f_result
 
 struct function_info
 {
-    enum f_type {T_COORDINATE, T_PARAMETRIC};
+    enum f_type {T_COORDINATE, T_PARAMETRIC, T_NONE};
     f_type type;
     number_vect_t xmin;
     number_vect_t xmax;
@@ -52,6 +52,7 @@ struct function_info
     number_vect_t ymin;
     number_vect_t ymax;
     number_vect_t ystep;
+    void* param;
 };
 
 typedef pair<void*, function_info> function;

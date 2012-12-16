@@ -14,9 +14,11 @@ QT += core \
 
 # Input
 HEADERS += ../impact.h ../vect.h ../draw.h \
-    DzhanibekovEffect.h
+    DzhanibekovEffect.h \
+    Surfaces.h
 SOURCES += ../impact.cpp main.cpp ../vect.cpp \
     ../impact_physics.cpp \
     ../impact_settings.cpp \
     ../draw.cpp \
-    DzhanibekovEffect.cpp
+    DzhanibekovEffect.cpp \
+    Surfaces.cpp

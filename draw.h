@@ -39,8 +39,7 @@ private:
     number_t velocity;
     number_t graph_step;
 
-    GLuint objects[2];
-    GLuint texture[2];
+    vector<GLuint> objects[2];
 
     void keyPressEvent(QKeyEvent*);
     void initializeGL();
@@ -49,19 +48,23 @@ private:
     void timerEvent(QTimerEvent *);
 
     void home();
-    void graph(function, draw_type_ d_type);
     void graph_point(number_t, number_t, function);
     void draw_points_gl();
     void draw_functions_gl();
 
-    GLint ftl_mode(draw_type_ d_type);
+    void ftl_clear();
+    void ftl_one(function f, draw_type_ d_type);
 
 public:
     Draw();
 
+    void ftl_saved(draw_type_ d_type);
+
+    void ftl_f(function f);
     void ftl();
     void set_defaults();
     void set_dt_for_views(unsigned int x);
     void set_paused(bool x);
+    void graph(function, draw_type_ d_type);
 };
 #endif // DRAW_H
