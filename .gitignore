@@ -4,6 +4,7 @@ Makefile
 gui/impact
 *.pro.user
 DzhanibekovEffect/DzhanibekovEffect
+DzhanibekovEffectMomentOfInertia/DzhanibekovEffectMomentOfInertia
 stat/screenshots
 moc*.cpp
 ui*.h
