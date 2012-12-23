@@ -10,7 +10,8 @@ using std::endl;
 
 void axis()
 {
-    glColor3f(0.5, 0.5, 0.5);
+    glColor3f(0, 0, 0);
+    //glColor3f(0.5, 0.5, 0.5);
     glBegin(GL_LINES);
     glVertex3f(0, 0, 0);
     glVertex3f(1.5 * a, 0, 0);
@@ -20,7 +21,7 @@ void axis()
     glVertex3f(0, 0, 1.5 * b);
     glEnd();
 
-    glColor3f(0, 1, 0);
+    //glColor3f(0, 1, 0);
     glPointSize(10);
     glBegin(GL_POINTS);
     glVertex3f(a, 0, 0);
@@ -43,10 +44,12 @@ int main(int argc, char *argv[])
     p.second.type = function_info::T_COORDINATE;
     p.second.xmin = -20;
     p.second.xmax = 20;
-    p.second.xstep = 0.05;
+    p.second.xstep = 0.5;
     p.second.ymin = -20;
     p.second.ymax = 20;
-    p.second.ystep = 0.05;
+    p.second.ystep = 0.5;
+    p.second.lineWidth = 1;
+    p.second.useQuads = true;
 
     e.second = p.second;
     e.second.type = function_info::T_PARAMETRIC;
@@ -54,8 +57,12 @@ int main(int argc, char *argv[])
     e.second.xmax =  M_PI / 2;
     e.second.ymin = -M_PI;
     e.second.ymax =  M_PI;
+    e.second.lineWidth = 1;
+    p.second.useQuads = true;
 
     s.second = e.second;
+    s.second.lineWidth = 1;
+    s.second.useQuads = true;
     c1.second = e.second;
     c1.second.xmin = 0;
     c1.second.xmax = 0;
@@ -63,9 +70,13 @@ int main(int argc, char *argv[])
     c1.second.ymin = 0;
     c1.second.ymax = 10 * M_PI;
     c1.second.ystep = 2 * M_PI / 10000;
+    c1.second.useQuads = false;
     c2.second = c1.second;
+    c1.second.lineWidth = 1;
+    c2.second.lineWidth = 1;
 
     axis_.second.type = function_info::T_NONE;
+    axis_.second.lineWidth = 1;
 
     QApplication app(argc, argv);
     DzhanibekovEffect w;
@@ -83,9 +94,29 @@ int main(int argc, char *argv[])
         w.add_function(c2);
     }
 
+    c1.second.lineWidth = 5;
+    c2.second.lineWidth = 5;
     c1.second.param = new curve_param;
     ((curve_param *)(c1.second.param))->r = b;
-    ((curve_param *)(c1.second.param))->color = vect(1, 0, 0);
+    //((curve_param *)(c1.second.param))->color = vect(1, 0, 0);
+    c2.second.param = c1.second.param;
+    w.add_function(c1);
+    w.add_function(c2);
+
+    c1.second.lineWidth = 1;
+    c2.second.lineWidth = 1;
+    c1.second.param = new curve_param;
+    ((curve_param *)(c1.second.param))->r = b + 0.05;
+    //((curve_param *)(c1.second.param))->color = vect(1, 0, 0);
+    c2.second.param = c1.second.param;
+    w.add_function(c1);
+    w.add_function(c2);
+
+    c1.second.lineWidth = 1;
+    c2.second.lineWidth = 1;
+    c1.second.param = new curve_param;
+    ((curve_param *)(c1.second.param))->r = b - 0.05;
+    //((curve_param *)(c1.second.param))->color = vect(1, 0, 0);
     c2.second.param = c1.second.param;
     w.add_function(c1);
     w.add_function(c2);

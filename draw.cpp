@@ -215,6 +215,7 @@ void Draw::draw_functions_gl()
 
 void Draw::graph(function f, draw_type_ d_type)
 {
+    glLineWidth(f.second.lineWidth);
     if(f.second.type == function_info::T_NONE)
     {
         ((void (*)())(f.first))();
@@ -223,7 +224,7 @@ void Draw::graph(function f, draw_type_ d_type)
 
     number_t x, z;
 
-    if(d_type == DRAW_LINES)
+    if(d_type == DRAW_LINES || !f.second.useQuads)
     {
         glBegin(GL_LINES);
         for(x = f.second.xmin; x <= f.second.xmax; x += f.second.xstep)
@@ -248,6 +249,7 @@ void Draw::graph(function f, draw_type_ d_type)
             }
     }
 
+    glLineWidth(1);
     glEnd();
 }
 

@@ -49,8 +49,7 @@ DzhanibekovEffect::DzhanibekovEffect()
 ////    ftl_f(s);
 ////    ftl_f(c1);
 ////    ftl_f(c2);
-
-
+    draw_type = DRAW_QUADS;
 }
 
 void DzhanibekovEffect::debug()

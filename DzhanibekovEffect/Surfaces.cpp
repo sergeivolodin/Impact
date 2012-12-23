@@ -3,7 +3,7 @@
 f_result ellipsoid(number_t x, number_t y)
 {
     f_result res;
-    res.color = vect(0.8, 0.8, 0.8);
+    res.color = vect(1, 1, 1);
     res.coordinates.x = a * cos(x) * cos(y);
     res.coordinates.y = b * cos(x) * sin(y);
     res.coordinates.z = c * sin(x);

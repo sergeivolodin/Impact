@@ -52,6 +52,8 @@ struct function_info
     number_vect_t ymin;
     number_vect_t ymax;
     number_vect_t ystep;
+    number_vect_t lineWidth;
+    bool useQuads;
     void* param;
 };
 
