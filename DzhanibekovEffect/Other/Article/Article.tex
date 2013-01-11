@@ -1,0 +1,84 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{indentfirst}
+\newcommand{\degree}{^{\circ}}
+%Tennis racket theorem
+\title{Об эффекте Джанибекова (англ. Tennis racket theorem)}
+\date{\today}
+\author{А.~Г.~Петров, С.~Е.~Володин}
+\begin{document}
+\maketitle
+\section{Введение}
+Космонавт Джанибеков наблюдал неожиданное движение гайки в космосе при определенных условиях. Быстро вращаясь вокруг некоторой оси, гайка совершала <<кувырок>>~--- ось быстрого вращения <<скачком>> поворачивалась на \begin{math} 180\degree \end{math}. Этот эффект также можно получить и на Земле (например, подбрасывая в воздух теннисную ракетку).
+\section{Уравнения Эйлера}
+Пусть тело совершает вращение при отсутствии внешних моментов сил.
+\begin{math}
+\vec{e1}, \vec{e2}, \vec{e3}
+\end{math}~--- базис некоторой ИСО,
+\begin{math}
+\vec{i}, \vec{j}, \vec{k}
+\end{math}~--- базис СО, связанной с телом, причем ее оси совпадают с главными осями тела и
+\begin{equation}
+J=\left( \begin{array}{lcr} A & 0 & 0\\ 0 & B & 0\\ 0 & 0 & C \end{array} \right),\ A > B > C,
+\end{equation}
+где A, B, C~--- моменты инерции тела в главных осях, а \begin{math} J \end{math}~--- тензор инерции. Если \begin{math} \vec{\omega} \end{math}~--- вектор угловой скорости, то можно обозначить его компоненты в подвижных осях:
+\begin{equation}
+\vec{\omega}=
+\left( \begin{array}{lcr} \vec{i} & \vec{j} & \vec{k} \end{array} \right)
+\left( \begin{array}{lcr} p\\q\\r \end{array} \right)
+\end{equation}
+И если \begin{math} \vec{K} \end{math}~--- вектор момента импульса, то
+\begin{equation}
+\vec{K}=J\vec{\omega}=
+\left( \begin{array}{lcr} \vec{i} & \vec{j} & \vec{k} \end{array} \right)
+\left( \begin{array}{lcr} A p\\B q\\C r \end{array} \right)
+\end{equation}
+Но если \begin{math} \vec{M} \end{math}~--- момент внешних сил, то
+\begin{equation}
+\frac{d\vec{K}}{dt}=\vec{M}=0
+\end{equation}
+Тогда получаем
+\begin{equation}
+\frac{d\vec{K}}{dt}=
+\frac{d\left( \begin{array}{lcr} \vec{i} & \vec{j} & \vec{k} \end{array} \right)}{dt}\left( \begin{array}{lcr} A p\\B q\\C r \end{array} \right)+
+\left( \begin{array}{lcr} \vec{i} & \vec{j} & \vec{k} \end{array} \right)\frac{d\left( \begin{array}{lcr} A p\\B q\\C r \end{array} \right)}{dt}=
+[\vec{\omega}, \vec{K}] + \left( \begin{array}{lcr} \vec{i} & \vec{j} & \vec{k} \end{array} \right)\frac{d\left( \begin{array}{lcr} A p\\B q\\C r \end{array} \right)}{dt},
+\end{equation}
+что в проекциях на подвижные оси может быть записано как
+% ( i   j   k )
+% ( p  q   r )
+% (ApBqCr)
+% 
+% rq(C - B)
+% pr(A - C)
+% qp(B - A)
+\begin{equation}
+\left\{
+\begin{array}{c}
+A\frac{dp}{dt}+rq(C-B)=0\\
+B\frac{dq}{dt}+pr(A-C)=0\\
+C\frac{dr}{dt}+qp(B-A)=0
+\end{array}
+\right.
+.
+\end{equation}
+Эти уравнения и называются уравнениями Эйлера.
+\end{document}
+\section{Расчет моментов инерции гайки}
+%решение с эллипсом (численное)
+%решение с материальными точками, отстоящими на радиус инерции
+\section{Интегралы уравнений Эйлера}
+%получить выражения для q как интеграл по времени
+\section{Геометрическая интерпретация Мак-Кулага}
+%пересечение эллипсоида и сфера в пространстве моментов импульса.
+%добавить картинку
+\section{Решение задачи при движении по сепаратрисе}
+%бесконечное время, не очень полезные формулы
+\section{Решение задачи при движении вблизи сепаратрисы}
+%K^2-2TB=eps
+\subsection{Период движения}
+%приведение к виду, который решает Wolfram Mathematica
+%асимптотическое решение при eps->0
+\subsection{Время переворота}
+%тот же интеграл, что и в периоде, но другие пределы интегрирования.

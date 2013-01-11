@@ -1,0 +1,270 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      8511,        260]
+NotebookOptionsPosition[      8058,        241]
+NotebookOutlinePosition[      8401,        256]
+CellTagsIndexPosition[      8358,        253]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{"1", "/", 
+    RowBox[{"Sqrt", "[", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{"x", "^", "2"}]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{"1", "+", "\[Epsilon]", "-", 
+        RowBox[{"x", "^", "2"}]}], ")"}]}], "]"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5653967576256247`*^9, 3.5653968548912497`*^9}, {
+  3.5653970702818747`*^9, 3.5653970704381247`*^9}, {3.5653972031881247`*^9, 
+  3.5653972110474997`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{"EllipticK", "[", 
+     FractionBox["1", 
+      RowBox[{"1", "+", "\[Epsilon]"}]], "]"}], 
+    SqrtBox[
+     RowBox[{"1", "+", "\[Epsilon]"}]]], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Im", "[", 
+      SqrtBox[
+       RowBox[{"1", "+", "\[Epsilon]"}]], "]"}], "\[NotEqual]", "0"}], "||", 
+    RowBox[{
+     RowBox[{"Re", "[", 
+      SqrtBox[
+       RowBox[{"1", "+", "\[Epsilon]"}]], "]"}], ">", "1"}], "||", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"1", "+", 
+        RowBox[{"Re", "[", "\[Epsilon]", "]"}]}], "<", "0"}], "&&", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Im", "[", "\[Epsilon]", "]"}], "\[Equal]", "0"}], "||", 
+        RowBox[{
+         RowBox[{"Re", "[", 
+          SqrtBox[
+           RowBox[{"1", "+", "\[Epsilon]"}]], "]"}], "\[GreaterEqual]", 
+         "1"}]}], ")"}]}], ")"}], "||", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Im", "[", "\[Epsilon]", "]"}], "\[NotEqual]", "0"}], "&&", 
+      RowBox[{
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"Im", "[", "\[Epsilon]", "]"}], "2"], "+", 
+        RowBox[{"4", " ", 
+         RowBox[{"Re", "[", "\[Epsilon]", "]"}]}]}], "\[Equal]", "0"}]}], 
+     ")"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5653971249849997`*^9, 3.5653971255631247`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Series", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{"EllipticK", "[", 
+     FractionBox["1", 
+      RowBox[{"1", "+", "\[Epsilon]"}]], "]"}], 
+    SqrtBox[
+     RowBox[{"1", "+", "\[Epsilon]"}]]], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Epsilon]", ",", "0", ",", "2"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5653971285162497`*^9, 3.5653971360006247`*^9}, {
+  3.5653972227193747`*^9, 3.5653972228912497`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Floor", "[", 
+     FractionBox[
+      RowBox[{"\[Pi]", "-", 
+       RowBox[{"Arg", "[", "\[Epsilon]", "]"}], "-", 
+       RowBox[{"Arg", "[", 
+        FractionBox["1", 
+         RowBox[{"1", "+", "\[Epsilon]"}]], "]"}]}], 
+      RowBox[{"2", " ", "\[Pi]"}]], "]"}], " ", 
+    RowBox[{"(", 
+     InterpretationBox[
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"\[ImaginaryI]", " ", "\[Pi]"}]}], "+", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "\[Pi]", " ", "\[Epsilon]"}], "4"], "-", 
+       RowBox[{
+        FractionBox["9", "64"], " ", "\[ImaginaryI]", " ", "\[Pi]", " ", 
+        SuperscriptBox["\[Epsilon]", "2"]}], "+", 
+       InterpretationBox[
+        SuperscriptBox[
+         RowBox[{"O", "[", "\[Epsilon]", "]"}], "3"],
+        SeriesData[$CellContext`\[Epsilon], 0, {}, 0, 3, 1],
+        Editable->False]}],
+      SeriesData[$CellContext`\[Epsilon], 0, {Complex[0, -1] Pi, Complex[0, 
+          Rational[1, 4]] Pi, Complex[0, 
+          Rational[-9, 64]] Pi}, 0, 3, 1],
+      Editable->False], ")"}]}], "+", 
+   RowBox[{"(", 
+    InterpretationBox[
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", " ", 
+         RowBox[{"Log", "[", "2", "]"}]}], "-", 
+        FractionBox[
+         RowBox[{"Log", "[", "\[Epsilon]", "]"}], "2"]}], ")"}], "+", 
+      RowBox[{
+       FractionBox["1", "8"], " ", 
+       RowBox[{"(", 
+        RowBox[{"2", "-", 
+         RowBox[{"4", " ", 
+          RowBox[{"Log", "[", "2", "]"}]}], "+", 
+         RowBox[{"Log", "[", "\[Epsilon]", "]"}]}], ")"}], " ", 
+       "\[Epsilon]"}], "+", 
+      RowBox[{
+       FractionBox["3", "128"], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "7"}], "+", 
+         RowBox[{"12", " ", 
+          RowBox[{"Log", "[", "2", "]"}]}], "-", 
+         RowBox[{"3", " ", 
+          RowBox[{"Log", "[", "\[Epsilon]", "]"}]}]}], ")"}], " ", 
+       SuperscriptBox["\[Epsilon]", "2"]}], "+", 
+      InterpretationBox[
+       SuperscriptBox[
+        RowBox[{"O", "[", "\[Epsilon]", "]"}], "3"],
+       SeriesData[$CellContext`\[Epsilon], 0, {}, 0, 3, 1],
+       Editable->False]}],
+     SeriesData[$CellContext`\[Epsilon], 0, {
+      2 Log[2] + Rational[-1, 2] Log[$CellContext`\[Epsilon]], 
+       Rational[1, 8] (2 - 4 Log[2] + Log[$CellContext`\[Epsilon]]), 
+       Rational[3, 128] (-7 + 12 Log[2] - 3 Log[$CellContext`\[Epsilon]])}, 0,
+       3, 1],
+     Editable->False], ")"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5653972369849997`*^9, 3.5653972404224997`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Floor", "[", 
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"-", "\[Pi]"}], "+", 
+       RowBox[{"Arg", "[", "\[Epsilon]", "]"}], "+", 
+       RowBox[{"Arg", "[", 
+        FractionBox["1", 
+         RowBox[{"1", "+", "\[Epsilon]"}]], "]"}]}], 
+      RowBox[{"2", " ", "\[Pi]"}]]}], "]"}], " ", 
+   RowBox[{"(", 
+    InterpretationBox[
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"\[ImaginaryI]", " ", "\[Pi]"}]}], "+", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "\[Pi]", " ", "\[Epsilon]"}], "4"], "-", 
+      RowBox[{
+       FractionBox["9", "64"], " ", "\[ImaginaryI]", " ", "\[Pi]", " ", 
+       SuperscriptBox["\[Epsilon]", "2"]}], "+", 
+      InterpretationBox[
+       SuperscriptBox[
+        RowBox[{"O", "[", "\[Epsilon]", "]"}], "3"],
+       SeriesData[$CellContext`\[Epsilon], 0, {}, 0, 3, 1],
+       Editable->False]}],
+     SeriesData[$CellContext`\[Epsilon], 0, {Complex[0, -1] Pi, Complex[0, 
+         Rational[1, 4]] Pi, Complex[0, 
+         Rational[-9, 64]] Pi}, 0, 3, 1],
+     Editable->False], ")"}]}], "+", 
+  RowBox[{"(", 
+   InterpretationBox[
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Log", "[", "4", "]"}], "-", 
+       FractionBox[
+        RowBox[{"Log", "[", "\[Epsilon]", "]"}], "2"]}], ")"}], "+", 
+     RowBox[{
+      FractionBox["1", "8"], " ", 
+      RowBox[{"(", 
+       RowBox[{"2", "-", 
+        RowBox[{"4", " ", 
+         RowBox[{"Log", "[", "2", "]"}]}], "+", 
+        RowBox[{"Log", "[", "\[Epsilon]", "]"}]}], ")"}], " ", "\[Epsilon]"}],
+      "+", 
+     RowBox[{
+      FractionBox["3", "128"], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "7"}], "+", 
+        RowBox[{"Log", "[", "4096", "]"}], "-", 
+        RowBox[{"3", " ", 
+         RowBox[{"Log", "[", "\[Epsilon]", "]"}]}]}], ")"}], " ", 
+      SuperscriptBox["\[Epsilon]", "2"]}], "+", 
+     InterpretationBox[
+      SuperscriptBox[
+       RowBox[{"O", "[", "\[Epsilon]", "]"}], "3"],
+      SeriesData[$CellContext`\[Epsilon], 0, {}, 0, 3, 1],
+      Editable->False]}],
+    SeriesData[$CellContext`\[Epsilon], 0, {
+     Log[4] + Rational[-1, 2] Log[$CellContext`\[Epsilon]], 
+      Rational[1, 8] (2 - 4 Log[2] + Log[$CellContext`\[Epsilon]]), 
+      Rational[3, 128] (-7 + Log[4096] - 3 Log[$CellContext`\[Epsilon]])}, 0, 
+     3, 1],
+    Editable->False], ")"}]}]], "Output",
+ CellChangeTimes->{3.5653972414068747`*^9}]
+}, Open  ]]
+},
+WindowSize->{715, 508},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Microsoft Windows (32-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 585, 16, 31, "Input"],
+Cell[1145, 38, 1400, 43, 147, InheritFromParent],
+Cell[2548, 83, 442, 12, 60, "Input"],
+Cell[CellGroupData[{
+Cell[3015, 99, 2582, 69, 128, InheritFromParent],
+Cell[5600, 170, 2442, 68, 163, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
