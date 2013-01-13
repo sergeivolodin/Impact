@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
+\usepackage{graphicx}
 \usepackage{indentfirst}
 \newcommand{\degree}{^{\circ}}
 %Tennis racket theorem
@@ -35,7 +36,7 @@ J=\left( \begin{array}{lcr} A & 0 & 0\\ 0 & B & 0\\ 0 & 0 & C \end{array} \right
 \left( \begin{array}{lcr} \vec{i} & \vec{j} & \vec{k} \end{array} \right)
 \left( \begin{array}{lcr} A p\\B q\\C r \end{array} \right)
 \end{equation}
-Но если \begin{math} \vec{M} \end{math}~--- момент внешних сил, то
+Но если \begin{math} \vec{M} \end{math}~--- момент внешних сил, то в ИСО
 \begin{equation}
 \frac{d\vec{K}}{dt}=\vec{M}=0
 \end{equation}
@@ -70,21 +71,15 @@ C\frac{dr}{dt}+qp(B-A)=0
 %решение с эллипсом (численное)
 %решение с материальными точками, отстоящими на радиус инерции
 \section{Геометрическая интерпретация Мак-Кулага}
+%\begin{figure}
+\includegraphics[height=5cm]{ellipsoid}
+\newline
+%\caption{Подпись к рисунку} \label{fig:2}
+%\end{figure}
 %нужно написать _перед_ уравнениями Эйлера, потому что иначе непонятно, почему интересна именно средняя компонента q угловой скорости
 %пересечение эллипсоида и сфера в пространстве моментов импульса.
 %добавить картинку
-Рассмотрев систему из уравнений
-\begin{math}
-\left\{
-\begin{array}{l}
-\ref{angularMomentumInv}\\
-\ref{energyInv}
-\end{array}
-\right.
-\end{math}
-\section{Интегралы уравнений Эйлера}
-%получить выражения для q как интеграл по времени
-Поставим задачу получить уравнение для \begin{math} t, q \end{math}. Для начала запишем закон сохранения момента импульса \begin{math} \vec{K} \end{math} и энергии \begin{math} T \end{math}:
+Получим наглядное представление вращательного движения. Для начала запишем закон сохранения момента импульса \begin{math} \vec{K} \end{math} и энергии \begin{math} T \end{math}:
 \begin{equation}
 \label{angularMomentumInv}
 \vec{K}^2\equiv A^2p^2+B^2q^2+C^2r^2=const
@@ -93,6 +88,42 @@ C\frac{dr}{dt}+qp(B-A)=0
 \label{energyInv}
 2T\equiv\frac{1}{2}\left(\vec{K},\vec{\omega}\right)=A^2p+B^2q+C^2r=const
 \end{equation}
+Обозначив компоненты вектора \begin{math} \vec{K} \end{math} за
+\begin{equation}
+\vec{K}=
+\left(
+\begin{array}{lcr}
+\vec{i} & \vec{j} & \vec{k}
+\end{array}
+\right)
+\left(
+\begin{array}{lcr}
+X\\
+Y\\
+Z
+\end{array}
+\right),
+X=Ap,Y=Bq,Z=Cr,
+\end{equation}
+\begin{equation}
+\left\{
+\begin{array}{l}
+\ref{angularMomentumInv}\\
+\ref{energyInv}
+\end{array}
+\right.
+\Leftrightarrow
+\left\{
+\begin{array}{l}
+X^2+Y^2+Z^2=K^2\\
+X^2/A+Y^2/B+Z^2/C=2T
+\end{array}
+\right.
+\end{equation}
+Эти уравнения являются уравнениями сфера радиуса \begin{math} \vec{K}^2 \end{math} и эллипсоида с полуосями \begin{math} \sqrt{2TA}, \sqrt{2TB}, \sqrt{2TC} \end{math}, а система является их пересечением. Поскольку вектор \begin{math} \vec{K} \end{math} неподвижен в пространстве, а тело совершает вращение, кривая пересечения совпадает с кривой, которую описывает в пространстве некоторая точка тела (в ИСО).
+\section{Интегралы уравнений Эйлера}
+%получить выражения для q как интеграл по времени
+Поставим задачу получить уравнение для \begin{math} t, q \end{math}. 
 Выражение для компоненты угловой скорости \begin{math} q \end{math} можно получить, решив систему
 \begin{math}
 \left\{
