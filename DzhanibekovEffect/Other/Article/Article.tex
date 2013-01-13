@@ -14,6 +14,8 @@
 \maketitle
 \section{Введение}
 Космонавт Джанибеков наблюдал неожиданное движение гайки в космосе при определенных условиях. Быстро вращаясь вокруг некоторой оси, гайка совершала <<кувырок>>~--- ось быстрого вращения <<скачком>> поворачивалась на \begin{math} 180\degree \end{math}. Этот эффект также можно получить и на Земле (например, подбрасывая в воздух теннисную ракетку).
+
+
 \section{Уравнения Эйлера}
 Для описания вращательного движения тела удобно использовать уравнения Эйлера. Получим их.
 Пусть тело совершает вращение при отсутствии внешних моментов сил.
@@ -69,9 +71,13 @@ C\frac{dr}{dt}+qp(B-A)=0
 .
 \end{equation}
 Эти уравнения и называются уравнениями Эйлера.
+
+
 \section{Расчет моментов инерции гайки}
 %решение с эллипсом (численное)
 %решение с материальными точками, отстоящими на радиус инерции
+
+
 \section{Геометрическая интерпретация Мак-Кулага}
 \begin{figure}[h]
 \includegraphics[height=5cm]{ellipsoid}
@@ -124,6 +130,8 @@ X^2+Y^2+Z^2=K^2\\
 \end{equation}
 Эти уравнения являются уравнениями сфера радиуса \begin{math} \vec{K}^2 \end{math} и эллипсоида с полуосями \begin{math} \sqrt{2TA}, \sqrt{2TB}, \sqrt{2TC} \end{math}, а система является их пересечением. Поскольку вектор \begin{math} \vec{K} \end{math} неподвижен в пространстве, а тело совершает вращение, эта кривая пересечения совпадает с кривой, которую описывает в пространстве некоторая точка тела в ИСО.\newline
 На изображении показаны такие кривые при фиксированных полуосях эллипсоида и различных радиусах сферы. Жирной линией выделена {\em сепаратриса}~--- кривая, соответствующая \begin{math} \vec{K}^2=2TB \end{math}. Заметим, что случаем, отвечающим постановке задачи (<<кувырок>>) является случай, при котором вектор \begin{math} \vec{K} \end{math} близок к сеператрисе (в таком случае вектор \begin{math} \vec{K} \end{math}, а, значит, и ось вращения поворачиваются почти на \begin{math} 180\degree \end{math}).
+
+
 \section{Интегралы уравнений Эйлера}
 %получить выражения для q как интеграл по времени
 Поставим задачу получить уравнение для \begin{math} t, q \end{math}. 
@@ -159,6 +167,8 @@ B\frac{dq}{dt}\pm(A-C)\sqrt{(a-bq^2)(c-dq^2)}=0,
 \end{equation}
 Это уравнение позволяет получить время между теми состояниями, при которых вторая компонента угловой скорости \begin{math} q \end{math} равна \begin{math} q_2 \end{math} и \begin{math} q_1 \end{math} соответственно.
 %Знак \begin{math} \pm \end{math} проще всего определить, когда величины \begin{math} p, r \end{math} сами не меняют знака.
+
+
 \section{Решение задачи при движении по сепаратрисе}
 %бесконечное время, не очень полезные формулы
 Интересно рассмотреть движение по сепаратрисе~--- ведь в таком случае ось вращения меняет свое направление на \begin{math}180\degree\end{math}.
@@ -184,14 +194,64 @@ q_1=0, q_2=\sqrt{\frac{2T}{B}}
 \end{equation}
 \begin{figure}[h]
 \includegraphics[height=5cm]{ArcTanh}
-\caption{arctanhx}
+\caption{График arctanh}
 \end{figure}
 Но это время бесконечно, то есть, движение апериодическое.
 \section{Решение задачи при движении вблизи сепаратрисы}
 %K^2-2TB=eps
-\subsection{Период движения}
+Пусть совершается движение вблизи сеператрисы. Охарактеризуем его параметром \begin{math} \varepsilon \end{math}:
+\begin{equation}
+\varepsilon=\vec{K}^2-2TB
+\end{equation}
+Тогда выражения \ref{prEquations} для \begin{math} p, r \end{math} примут вид
+\begin{equation}
+\begin{array}{l}
+p^2=\frac{(2T-Bq^2)(B-C)+\varepsilon}{A(A-C)}\\
+r^2=\frac{(2T-Bq^2)(A-B)-\varepsilon}{C(A-C)}
+\end{array}.
+\end{equation}
 %приведение к виду, который решает Wolfram Mathematica
 %асимптотическое решение при eps->0
+Время будет равно
+\begin{equation}
+\label{periodEquation1}
+\Delta t=\pm B\sqrt{AC}{\int\limits_{q_1}^{q_2}\frac{dq}{\sqrt{m_1m_2}}},
+\end{equation}
+где
+\begin{equation}
+\begin{array}{clr}
+m_1=2T(B-C)+\varepsilon-B(B-C)q^2\\
+m_2=2T(A-B)-\varepsilon-B(A-B)q^2
+\end{array}
+\end{equation}
+Сделаем замену
+\begin{equation}
+\begin{array}{l}
+x=\sqrt{\frac{B(B-C)}{2T(B-C)+\varepsilon}}q=\sqrt{\frac{B}{2T}}q+o(1), \varepsilon\rightarrow 0\\
+\beta=\frac{A-C}{2T(A-B)(B-C)}\varepsilon.
+\end{array}
+\end{equation}
+Тогда \ref{periodEquation1} примет вид
+\begin{equation}
+\label{timeFinalEquation}
+\Delta t=\pm \sqrt{\frac{ABC}{2T(B-C)(A-B)}}{\int\limits_{x_1}^{x_2}\frac{dx}{\sqrt{(1-x^2)(1-\beta-x^2)}}}+o(1),\varepsilon\rightarrow 0
+\end{equation}
+
+\subsection{Период движения}
+%подставить 0 и максимальное
+Найдем четверть периода. В начальный момент \begin{math} x(q1)=x(0)=0 \end{math}, в конечный \begin{math} x(q2)=x(\sqrt{\frac{2T}{B}})=1+o(1),\varepsilon\rightarrow 0, \end{math} то есть
+\begin{equation}
+x_1=0, x_2=1.
+\end{equation}
+Подставим эти значения в \ref{timeFinalEquation} и найдем:
+\begin{equation}
+T_{Period}=\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\frac{EllipticK(\frac{1}{1 + b})}{\sqrt{1 + b}}
+\end{equation}
+Сделав разложение по \begin{math} \beta \end{math}, получаем значение для периода
+\begin{equation}
+T_{Period}=2\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\ln{\frac{32T(A-B)(B-C)}{\varepsilon(A-C)}}+o(1),\varepsilon\rightarrow 0
+\end{equation}
+
 \subsection{Время переворота}
 %тот же интеграл, что и в периоде, но другие пределы интегрирования.
 \end{document}
