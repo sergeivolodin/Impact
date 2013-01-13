@@ -3,6 +3,8 @@
 \usepackage[russian]{babel}
 \usepackage{graphicx}
 \usepackage{indentfirst}
+\usepackage{amsmath}
+\DeclareMathOperator\arctanh{arctanh}
 \newcommand{\degree}{^{\circ}}
 %Tennis racket theorem
 \title{Об эффекте Джанибекова (англ. Tennis racket theorem)}
@@ -71,11 +73,10 @@ C\frac{dr}{dt}+qp(B-A)=0
 %решение с эллипсом (численное)
 %решение с материальными точками, отстоящими на радиус инерции
 \section{Геометрическая интерпретация Мак-Кулага}
-%\begin{figure}
+\begin{figure}[h]
 \includegraphics[height=5cm]{ellipsoid}
-\newline
-%\caption{Подпись к рисунку} \label{fig:2}
-%\end{figure}
+\caption{Пересечение эллипсоида со сферой}
+\end{figure}
 %нужно написать _перед_ уравнениями Эйлера, потому что иначе непонятно, почему интересна именно средняя компонента q угловой скорости
 %пересечение эллипсоида и сфера в пространстве моментов импульса.
 %добавить картинку
@@ -103,8 +104,9 @@ Y\\
 Z
 \end{array}
 \right),
-X=Ap,Y=Bq,Z=Cr,
+X\equiv Ap,Y\equiv Bq,Z\equiv Cr,
 \end{equation}
+получим
 \begin{equation}
 \left\{
 \begin{array}{l}
@@ -116,11 +118,12 @@ X=Ap,Y=Bq,Z=Cr,
 \left\{
 \begin{array}{l}
 X^2+Y^2+Z^2=K^2\\
-X^2/A+Y^2/B+Z^2/C=2T
+\frac{X^2}{2TA}+\frac{Y^2}{2TB}+\frac{Z^2}{2TC}=1
 \end{array}
 \right.
 \end{equation}
-Эти уравнения являются уравнениями сфера радиуса \begin{math} \vec{K}^2 \end{math} и эллипсоида с полуосями \begin{math} \sqrt{2TA}, \sqrt{2TB}, \sqrt{2TC} \end{math}, а система является их пересечением. Поскольку вектор \begin{math} \vec{K} \end{math} неподвижен в пространстве, а тело совершает вращение, кривая пересечения совпадает с кривой, которую описывает в пространстве некоторая точка тела (в ИСО).
+Эти уравнения являются уравнениями сфера радиуса \begin{math} \vec{K}^2 \end{math} и эллипсоида с полуосями \begin{math} \sqrt{2TA}, \sqrt{2TB}, \sqrt{2TC} \end{math}, а система является их пересечением. Поскольку вектор \begin{math} \vec{K} \end{math} неподвижен в пространстве, а тело совершает вращение, эта кривая пересечения совпадает с кривой, которую описывает в пространстве некоторая точка тела в ИСО.\newline
+На изображении показаны такие кривые при фиксированных полуосях эллипсоида и различных радиусах сферы. Жирной линией выделена {\em сепаратриса}~--- кривая, соответствующая \begin{math} \vec{K}^2=2TB \end{math}. Заметим, что случаем, отвечающим постановке задачи (<<кувырок>>) является случай, при котором вектор \begin{math} \vec{K} \end{math} близок к сеператрисе (в таком случае вектор \begin{math} \vec{K} \end{math}, а, значит, и ось вращения поворачиваются почти на \begin{math} 180\degree \end{math}).
 \section{Интегралы уравнений Эйлера}
 %получить выражения для q как интеграл по времени
 Поставим задачу получить уравнение для \begin{math} t, q \end{math}. 
@@ -137,10 +140,11 @@ X^2/A+Y^2/B+Z^2/C=2T
 % ( A   C   )(p^2) = (2T-Bq^2   )
 % ( A^2 C^2 )(r^2)   (K^2-B^2q^2)
 \begin{equation}
+\label{prEquations}
 \begin{array}{l}
 \Delta=AC(C-A)<0\\
 p^2=\frac{C^2(2T-Bq^2)-C(K^2-B^2q^2)}{\Delta}=a-bq^2\\
-q^2=\frac{A(K^2-B^2q^2)-A^2(2T-Bq^2)}{\Delta}=c-dq^2
+r^2=\frac{A(K^2-B^2q^2)-A^2(2T-Bq^2)}{\Delta}=c-dq^2
 \end{array}.
 \end{equation}
 Тогда, подставив эти выражения во второе уравнение Эйлера \ref{EulerEquations}:
@@ -149,12 +153,40 @@ B\frac{dq}{dt}\pm(A-C)\sqrt{(a-bq^2)(c-dq^2)}=0,
 \end{equation}
 можно получить выражение для времени:
 \begin{equation}
-\Delta t=\pm\frac{B}{A-C}{\int\limits_{q1}^{q2}\frac{dq}{\sqrt{(a-bq^2)(c-dq^2)}}}.
+\label{timeEquation}
+\Delta t=\pm\frac{B}{A-C}{\int\limits_{q_1}^{q_2}\frac{dq}{pr}}=
+\pm\frac{B}{A-C}{\int\limits_{q_1}^{q_2}\frac{dq}{\sqrt{(a-bq^2)(c-dq^2)}}}.
 \end{equation}
-Это уравнение позволяет получить время между теми состояниями, при которых вторая компонента угловой скорости \begin{math} q \end{math} равна \begin{math} q2 \end{math} и \begin{math} q1 \end{math} соответственно.
+Это уравнение позволяет получить время между теми состояниями, при которых вторая компонента угловой скорости \begin{math} q \end{math} равна \begin{math} q_2 \end{math} и \begin{math} q_1 \end{math} соответственно.
 %Знак \begin{math} \pm \end{math} проще всего определить, когда величины \begin{math} p, r \end{math} сами не меняют знака.
 \section{Решение задачи при движении по сепаратрисе}
 %бесконечное время, не очень полезные формулы
+Интересно рассмотреть движение по сепаратрисе~--- ведь в таком случае ось вращения меняет свое направление на \begin{math}180\degree\end{math}.
+Пусть совершается движение по сепаратрисе, то есть
+\begin{equation}
+\vec{K}^2=2TB.
+\end{equation}
+Тогда выражения \ref{prEquations} для \begin{math} p, r \end{math} следующие:
+\begin{equation}
+\begin{array}{l}
+p^2=\frac{(2T-Bq^2)(B-C)}{A(A-C)}\\
+r^2=\frac{(2T-Bq^2)(A-B)}{C(A-C)}
+\end{array}.
+\end{equation}
+Тогда уравнение для времени \ref{timeEquation} может быть записано как
+\begin{equation}
+\Delta t=\pm B\sqrt{\frac{AC}{(B-C)(A-B)}}{\int\limits_{q_1}^{q_2}\frac{dq}{2T-Bq^2}}=
+\pm\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\arctanh(\sqrt{\frac{B}{2T}}q)\Bigl|_{q_1}^{q_2}
+\end{equation}
+Найдем \begin{math} \frac{1}{4} \end{math} периода, то есть время между состояниями, когда \begin{math} q \end{math} равна нулю и когда она максимальна:
+\begin{equation}
+q_1=0, q_2=\sqrt{\frac{2T}{B}}
+\end{equation}
+\begin{figure}[h]
+\includegraphics[height=5cm]{ArcTanh}
+\caption{arctanhx}
+\end{figure}
+Но это время бесконечно, то есть, движение апериодическое.
 \section{Решение задачи при движении вблизи сепаратрисы}
 %K^2-2TB=eps
 \subsection{Период движения}
