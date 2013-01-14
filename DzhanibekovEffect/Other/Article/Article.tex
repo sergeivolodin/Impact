@@ -168,6 +168,8 @@ B\frac{dq}{dt}\pm(A-C)\sqrt{(a-bq^2)(c-dq^2)}=0,
 Это уравнение позволяет получить время между теми состояниями, при которых вторая компонента угловой скорости \begin{math} q \end{math} равна \begin{math} q_2 \end{math} и \begin{math} q_1 \end{math} соответственно.
 %Знак \begin{math} \pm \end{math} проще всего определить, когда величины \begin{math} p, r \end{math} сами не меняют знака.
 
+\subsection{Угол}
+Введем угол, который будет характеризовать положение 
 
 \section{Решение задачи при движении по сепаратрисе}
 %бесконечное время, не очень полезные формулы
@@ -212,7 +214,7 @@ r^2=\frac{(2T-Bq^2)(A-B)-\varepsilon}{C(A-C)}
 \end{equation}
 %приведение к виду, который решает Wolfram Mathematica
 %асимптотическое решение при eps->0
-Время будет равно
+Время \ref{timeEquation} будет равно
 \begin{equation}
 \label{periodEquation1}
 \Delta t=\pm B\sqrt{AC}{\int\limits_{q_1}^{q_2}\frac{dq}{\sqrt{m_1m_2}}},
@@ -239,6 +241,7 @@ x=\sqrt{\frac{B(B-C)}{2T(B-C)+\varepsilon}}q=\sqrt{\frac{B}{2T}}q+o(1), \varepsi
 
 \subsection{Период движения}
 %подставить 0 и максимальное
+%правильное o()
 Найдем четверть периода. В начальный момент \begin{math} x(q1)=x(0)=0 \end{math}, в конечный \begin{math} x(q2)=x(\sqrt{\frac{2T}{B}})=1+o(1),\varepsilon\rightarrow 0, \end{math} то есть
 \begin{equation}
 x_1=0, x_2=1.
@@ -247,11 +250,18 @@ x_1=0, x_2=1.
 \begin{equation}
 \frac{T_{Period}}{4}=\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\frac{EllipticK(\frac{1}{1 + b})}{\sqrt{1 + b}}
 \end{equation}
-Сделав разложение по \begin{math} \beta \end{math}, получаем значение для периода
+Сделав разложение этого выражения по \begin{math} \beta \end{math}, получаем значение для периода
 \begin{equation}
 T_{Period}=2\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\ln{\frac{32T(A-B)(B-C)}{\varepsilon(A-C)}}+o(1),\varepsilon\rightarrow 0
 \end{equation}
 
 \subsection{Время переворота}
 %тот же интеграл, что и в периоде, но другие пределы интегрирования.
+Поставим теперь задачу найти время переворота. Для этого вычислим интеграл \ref{timeEquation} для
+\begin{equation}
+q_1=0,
+\end{equation}
+
+\subsection{Вид движения}
+%получить выражение для q(t) или добавить график из численного решения
 \end{document}
