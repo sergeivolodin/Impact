@@ -42,7 +42,7 @@ private:
 
     double A, B, C, p, q, r, dp, dq, dr, dt, time;
 
-    double X, Y, Z, Tx2, periodTheoretical;
+    double X, Y, Z, Tx2, periodTheoretical, rotationTimeTheoretical;
 
     static const double epsCheck = 0.0015, epsTime = 1;
 

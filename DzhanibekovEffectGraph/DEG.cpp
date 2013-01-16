@@ -131,7 +131,7 @@ void DEG::step()
 
 void DEG::updateInfo()
 {
-    double alpha, epsilon;
+    double alpha, beta, epsilon;
 
     X = A * p;
     Y = B * q;
@@ -140,13 +140,19 @@ void DEG::updateInfo()
     Tx2 = X * p + Y * q + Z * r;
     alpha = sqrt(((A - B) * (B - C) * Tx2) / (A * B * C));
     epsilon = pow(X, 2) + pow(Y, 2) + pow(Z, 2) - Tx2 * B;
+    beta = (A - C) * fabs(epsilon) / Tx2 / (A - B) / (B - C);
     //periodTheoretical = 2 / alpha * log(16 * A * B * C * pow(alpha, 2) / (A - C) / epsilon) / log(M_E);
 
-    periodTheoretical = 2 * sqrt(A * B * C) / sqrt(2 * Tx2 / 2 * (B - C) * (A - B));
+    periodTheoretical = 2 / alpha;
     periodTheoretical *= log(32 * Tx2 / 2 * (A - B) * (B - C) / fabs(epsilon) / (A - C)) / log(M_E);
+
+    rotationTimeTheoretical = 2 * (1.47222 - 1.55227 * beta) / alpha;
 
     ui->T_2->setValue(Tx2);
     ui->result_t->setValue(periodTheoretical);
+    ui->eps->setValue(epsilon);
+    cerr << epsilon << endl;
+    ui->result1_t->setValue(rotationTimeTheoretical);
 }
 
 void DEG::timer_auto_update()
