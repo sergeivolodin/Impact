@@ -81,7 +81,7 @@ C\frac{dr}{dt}+qp(B-A)=0
 \section{Геометрическая интерпретация Мак-Кулага}
 \begin{figure}[h]
 \includegraphics[height=5cm]{ellipsoid}
-\caption{Пересечение эллипсоида со сферой}
+\caption{Кривые пересечения эллипсоида со сферами различных радиусов}
 \end{figure}
 %нужно написать _перед_ уравнениями Эйлера, потому что иначе непонятно, почему интересна именно средняя компонента q угловой скорости
 %пересечение эллипсоида и сфера в пространстве моментов импульса.
@@ -128,7 +128,7 @@ X^2+Y^2+Z^2=K^2\\
 \end{array}
 \right.
 \end{equation}
-Эти уравнения являются уравнениями сфера радиуса \begin{math} \vec{K}^2 \end{math} и эллипсоида с полуосями \begin{math} \sqrt{2TA}, \sqrt{2TB}, \sqrt{2TC} \end{math}, а система является их пересечением. Поскольку вектор \begin{math} \vec{K} \end{math} неподвижен в пространстве, а тело совершает вращение, эта кривая пересечения совпадает с кривой, которую описывает в пространстве некоторая точка тела в ИСО.\newline
+Эти уравнения являются уравнениями сферы радиуса \begin{math} \vec{K}^2 \end{math} и эллипсоида с полуосями \begin{math} \sqrt{2TA}, \sqrt{2TB}, \sqrt{2TC} \end{math}, а система является их пересечением. Поскольку вектор \begin{math} \vec{K} \end{math} неподвижен в пространстве, а тело совершает вращение, эта кривая пересечения совпадает с кривой, которую описывает в пространстве некоторая точка тела в ИСО.\newline
 На изображении показаны такие кривые при фиксированных полуосях эллипсоида и различных радиусах сферы. Жирной линией выделена {\em сепаратриса}~--- кривая, соответствующая \begin{math} \vec{K}^2=2TB \end{math}. Заметим, что случаем, отвечающим постановке задачи (<<кувырок>>) является случай, при котором вектор \begin{math} \vec{K} \end{math} близок к сеператрисе (в таком случае вектор \begin{math} \vec{K} \end{math}, а, значит, и ось вращения поворачиваются почти на \begin{math} 180\degree \end{math}).
 
 
@@ -169,7 +169,42 @@ B\frac{dq}{dt}\pm(A-C)\sqrt{(a-bq^2)(c-dq^2)}=0,
 %Знак \begin{math} \pm \end{math} проще всего определить, когда величины \begin{math} p, r \end{math} сами не меняют знака.
 
 \subsection{Угол}
-Введем угол, который будет характеризовать положение 
+Введем угол между вектором \begin{math} \vec{K} \end{math} и базисным вектором \begin{math} \vec{j} \end{math}, который будет арактеризовать положение тела:
+\begin{equation}
+cos\theta=\frac{(\vec{K},\vec{j})}{|\vec{K}||\vec{j}|}\equiv\frac{Bq}{K}
+\end{equation}
+Заметим, что при <<кувырке>> эта величина меняется от \begin{math} -1 \end{math} до \begin{math} 1 \end{math} в предельном случае, о котором пойдет речь в следующем разделе, но в остальных случаях значения \begin{math} -1 \end{math} и \begin{math} 1 \end{math} не достинаются.
+
+Удобнее ввести другой угол, который будет принимать {\em все} значения от \begin{math} 0 \end{math} до \begin{math} 2\pi \end{math} за один период.
+
+При \begin{math} \varepsilon<0 \end{math} можно ввести угол \begin{math} \gamma_1 \end{math} между проекцией \begin{math} \vec{K} \end{math} на плоскость \begin{math} \vec{i}\vec{j} \end{math} и вектором \begin{math} \vec{j} \end{math}
+\begin{equation}
+\label{gamma1}
+cos\gamma_1=
+\frac{
+\left(
+\begin{array}{lcr}
+0 & 1 & 0
+\end{array}
+\right)
+\left(
+\begin{array}{lcr}
+Ap\\ Bq\\ 0
+\end{array}
+\right)
+}
+{\sqrt{A^2p^2+B^2q^2}}=
+\frac{Bq}{\sqrt{A^2p^2+B^2q^2}}
+\end{equation}
+А при \begin{math} \varepsilon>0 \end{math} \begin{math} \gamma_2 \end{math}~--- угол между проекцией \begin{math} \vec{K} \end{math} на плоскость \begin{math} \vec{j}\vec{k} \end{math} и \begin{math} \vec{j} \end{math}
+\begin{equation}
+\label{gamma2}
+cos\gamma_2=
+\frac{Bq}{\sqrt{B^2q^2+C^2r^2}}
+\end{equation}
+%проблема с тем, что cos\theta не принимает значения -1 и 1, что неудобно.
+%Введем угол между вектором \begin{math} K \end{math}
+
 
 \section{Решение задачи при движении по сепаратрисе}
 %бесконечное время, не очень полезные формулы
@@ -185,10 +220,18 @@ p^2=\frac{(2T-Bq^2)(B-C)}{A(A-C)}\\
 r^2=\frac{(2T-Bq^2)(A-B)}{C(A-C)}
 \end{array}.
 \end{equation}
-Тогда уравнение для времени \ref{timeEquation} может быть записано как
+И уравнение для времени \ref{timeEquation} может быть записано как
 \begin{equation}
 \Delta t=\pm B\sqrt{\frac{AC}{(B-C)(A-B)}}{\int\limits_{q_1}^{q_2}\frac{dq}{2T-Bq^2}}=
 \pm\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\arctanh(\sqrt{\frac{B}{2T}}q)\Bigl|_{q_1}^{q_2}
+\end{equation}
+Или, введя обозначение
+\begin{equation}
+\label{alphaEquation}
+\alpha=\sqrt{\frac{2T(A-B)(B-C)}{ABC}},
+\end{equation}
+\begin{equation}
+\Delta t=\pm\alpha^{-1}\arctanh(\sqrt{\frac{B}{2T}}q)\Bigl|_{q_1}^{q_2}
 \end{equation}
 Найдем \begin{math} \frac{1}{4} \end{math} периода, то есть время между состояниями, когда \begin{math} q \end{math} равна нулю и когда она максимальна:
 \begin{equation}
@@ -238,30 +281,39 @@ x=\sqrt{\frac{B(B-C)}{2T(B-C)+\varepsilon}}q=\sqrt{\frac{B}{2T}}q+o(1), \varepsi
 \label{timeFinalEquation}
 \Delta t=\pm \sqrt{\frac{ABC}{2T(B-C)(A-B)}}{\int\limits_{x_1}^{x_2}\frac{dx}{\sqrt{(1-x^2)(1-\beta-x^2)}}}+o(1),\varepsilon\rightarrow 0
 \end{equation}
+Или, с учетом обозначения \ref{alphaEquation},
+\begin{equation}
+\Delta t=\pm \alpha^{-1}{\int\limits_{x_1}^{x_2}\frac{dx}{\sqrt{(1-x^2)(1-\beta-x^2)}}}+o(1),\varepsilon\rightarrow 0
+\end{equation}
 
 \subsection{Период движения}
 %подставить 0 и максимальное
 %правильное o()
-%здесь фигня со знаком \varepsilon, т.е. разобран один из случаев. Разобрать второй!
+%здесь проблема со знаком \varepsilon, т.е. разобран один из случаев. Разобрать второй!
 Найдем четверть периода. В начальный момент \begin{math} x(q1)=x(0)=0 \end{math}, в конечный \begin{math} x(q2)=x(\sqrt{\frac{2T}{B}})=1+o(1),\varepsilon\rightarrow 0, \end{math} то есть
 \begin{equation}
 x_1=0, x_2=1.
 \end{equation}
 Подставим эти значения в \ref{timeFinalEquation} и найдем:
 \begin{equation}
-\frac{T_{Period}}{4}=\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\frac{EllipticK(\frac{1}{1 + b})}{\sqrt{1 + b}}
+\frac{T_{Period}}{4}=\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\frac{EllipticK(\frac{1}{1 + \beta})}{\sqrt{1 + \beta}}
 \end{equation}
 Сделав разложение этого выражения по \begin{math} \beta \end{math}, получаем значение для периода
 \begin{equation}
-T_{Period}=2\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\ln{\frac{32T(A-B)(B-C)}{\varepsilon(A-C)}}+o(1),\varepsilon\rightarrow 0
+T_{Period}=2\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\ln{\frac{32T(A-B)(B-C)}{\varepsilon(A-C)}}+o(1),\varepsilon\rightarrow 0,
+\end{equation}
+что, с учетом \ref{alphaEquation} удобнее записать как
+\begin{equation}
+T_{Period}=2\alpha^{-1}\ln{\frac{16\alpha^2ABC}{\varepsilon(A-C)}}+o(1),\varepsilon\rightarrow 0,
 \end{equation}
 
 \subsection{Время переворота}
 %тот же интеграл, что и в периоде, но другие пределы интегрирования.
-Поставим теперь задачу найти время переворота. Для этого вычислим интеграл \ref{timeEquation} для
-\begin{equation}
-q_1=0,
-\end{equation}
+Заметим, что в экспериментах, а также в предельном случае довольно долгое время ось вращения гайки практически не меняется. В связи с этим поставим теперь задачу найти время переворота. Считаем, что <<кувырок>> закончился, когда \begin{math} cos\gamma=0.9 \end{math}, где \begin{math} \gamma \end{math}~--- соответствующий угол \ref{gamma1} или \ref{gamma2}.
+%Вычислим интеграл \ref{timeFinalEquation} для
+%\begin{equation}
+%x_1=0,x_2=x(q_2)=
+%\end{equation}
 
 \subsection{Вид движения}
 %получить выражение для q(t) или добавить график из численного решения
