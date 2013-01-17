@@ -172,7 +172,8 @@ void DEG::timer_auto_update()
         if(prev_dq > 0 && dq < 0 && time > epsTime)
         {
             ui->result->setValue(time);
-            on_pushButton_pause_clicked();
+            if(ui->PeriodStop->isChecked())
+                on_pushButton_pause_clicked();
         }
 
         time += dt;
