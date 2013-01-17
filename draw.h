@@ -41,6 +41,8 @@ private:
 
     vector<GLuint> objects[2];
 
+    vect clearColor;
+
     void keyPressEvent(QKeyEvent*);
     void initializeGL();
     void resizeGL(int w, int h);
@@ -66,5 +68,7 @@ public:
     void set_dt_for_views(unsigned int x);
     void set_paused(bool x);
     void graph(function, draw_type_ d_type);
+
+    void setClearColor(vect);
 };
 #endif // DRAW_H

@@ -64,9 +64,11 @@ void Draw::ftl_clear()
 
 void Draw::initializeGL()
 {
+
+
     Draw::maximumSize();
     glShadeModel(GL_SMOOTH);
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    glClearColor(clearColor.x, clearColor.y, clearColor.z, 0.0f);
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -253,6 +255,12 @@ void Draw::graph(function f, draw_type_ d_type)
     glEnd();
 }
 
+void Draw::setClearColor(vect nC)
+{
+    clearColor = nC;
+    initializeGL();
+}
+
 void Draw::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -297,6 +305,7 @@ Draw::Draw()
     startTimer(0.1);
     set_defaults();
     setWindowTitle("Impact");
+    clearColor.x = clearColor.y = clearColor.z = 1;
 }
 
 void Draw::home()
