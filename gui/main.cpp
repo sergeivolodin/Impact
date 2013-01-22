@@ -118,16 +118,16 @@ int main(int argc, char *argv[])
 
     //w.set_gravity(vect(0, -0.5, 0));
     //w.firework(vect(30, 20, 0), 5, 1, vect(0, 0, 0), 1, 100);
-    w.set_use_gravity_n2(true);
-    w.set_use_gravitomagnetism_force(false);
-    w.set_use_gravitomagnetism_torque(false);
+//    w.set_use_gravity_n2(true);
+//    w.set_use_gravitomagnetism_force(false);
+//    w.set_use_gravitomagnetism_torque(false);
 
-    w.add_point(vect(0, 10, 0), vect(0, 0, 0), vect(1, 1, 1), 1E13, vect(0, 0, 0), 0);
-    w.add_point(vect(30, 5, 0), vect(0, 0, 4.6843837106667205), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
-    w.add_point(vect(50, 10, 0), vect(0, 0, 3.6534476867747814), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
-    w.add_point(vect(80, 10, 0), vect(0, 0, 3.6534476867747814), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
-    w.add_point(vect(70, 20, 0), vect(0, 0, 3.0721710631258894), vect(1, 0, 1), 1E10, vect(0, 0, 0), 0);
-    w.add_point(vect(71, 20, 0), vect(0, 0, 3.0721710631258894 - 0.816935737986777), vect(1, 0, 1), 1, vect(0, 0, 0), 0);
+//    w.add_point(vect(0, 10, 0), vect(0, 0, 0), vect(1, 1, 1), 1E13, vect(0, 0, 0), 0);
+//    w.add_point(vect(30, 5, 0), vect(0, 0, 4.6843837106667205), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
+//    w.add_point(vect(50, 10, 0), vect(0, 0, 3.6534476867747814), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
+//    w.add_point(vect(80, 10, 0), vect(0, 0, 3.6534476867747814), vect(1, 0, 1), 1E7, vect(0, 0, 0), 0);
+//    w.add_point(vect(70, 20, 0), vect(0, 0, 3.0721710631258894), vect(1, 0, 1), 1E10, vect(0, 0, 0), 0);
+//    w.add_point(vect(71, 20, 0), vect(0, 0, 3.0721710631258894 - 0.816935737986777), vect(1, 0, 1), 1, vect(0, 0, 0), 0);
 
     //w.add_point(vect(-50, 3, -5), vect(1, 0, 0), vect(1, 1, 1), 1E12, vect(0, 0, 0), 1);
     //w.add_point(vect(50, 3, 5), vect(-1, 0, 0), vect(1, 1, 1), 1E12, vect(0, 0, 0), 1);

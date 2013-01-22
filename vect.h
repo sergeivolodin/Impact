@@ -54,6 +54,8 @@ struct function_info
     number_vect_t ystep;
     number_vect_t lineWidth;
     bool useQuads;
+    bool sendCoord;
+    bool drawNow;
     void* param;
 };
 

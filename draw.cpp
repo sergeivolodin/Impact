@@ -64,8 +64,6 @@ void Draw::ftl_clear()
 
 void Draw::initializeGL()
 {
-
-
     Draw::maximumSize();
     glShadeModel(GL_SMOOTH);
     glClearColor(clearColor.x, clearColor.y, clearColor.z, 0.0f);
@@ -89,7 +87,12 @@ void Draw::resizeGL(int w, int h)
 
 void Draw::graph_point(number_t x, number_t z, function f)
 {
+    if(f.second.sendCoord)
+        f.second.param = &visiblePosition;
+        //f.second.param = &position;
+
     f_result t_res = ((f_result (*)(number_t, number_t, void*))(f.first))(x, z, f.second.param);
+
     glColor3f(t_res.color.x, t_res.color.y, t_res.color.z);
     if(f.second.type == function_info::T_COORDINATE)
         glVertex3f(x, t_res.coordinates.z, z);
@@ -100,6 +103,7 @@ void Draw::graph_point(number_t x, number_t z, function f)
          * ( 0 1 0 )
          */
         glVertex3f(t_res.coordinates.x, -t_res.coordinates.z, t_res.coordinates.y);
+        //glVertex3f(t_res.coordinates.x, t_res.coordinates.y, t_res.coordinates.z);
 }
 
 void Draw::draw_points_gl()
@@ -212,6 +216,15 @@ void Draw::draw_functions_gl()
         {
             glCallList(*it);
         }
+
+        static vector<function>::iterator it1;
+
+        visiblePosition.x =  position.x;
+        visiblePosition.y =  position.z;
+        visiblePosition.z = -position.y;
+
+        for(it1 = myfunctions.begin(); it1 != myfunctions.end(); it1++)
+            if((*it1).second.drawNow) graph((*it1), draw_type);
     }
 }
 

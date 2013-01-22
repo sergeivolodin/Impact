@@ -21,7 +21,7 @@ friend class DzhanibekovEffect;
 private:
     //camera, view
     vect angle;
-    vect position;
+    vect position, visiblePosition;
     draw_type_ draw_type;
     bool pause;
     unsigned int pause_manual;

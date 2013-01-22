@@ -10,6 +10,7 @@ f_result sphere(number_t x, number_t y, void* r);
 f_result curve1(number_t x, number_t y, void *g);
 f_result curve2(number_t x, number_t y, void *g);
 f_result plane(number_t x, number_t y);
+f_result ellipsoidVisible(number_t x, number_t y, void* r0);
 
 struct curve_param
 {
