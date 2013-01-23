@@ -62,7 +62,7 @@ f_result ellipsoidVisible(number_t x, number_t y, void* r0)
     R.z = R1.z * c;
 
     f_result res;
-    res.color = vect(1, 0, 0);
+    res.color = vect(0, 0, 0);
     res.coordinates = R;
     return(res);
 }

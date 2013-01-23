@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
     eVisible.second.ymin = 0;
     eVisible.second.ymax = 1;
     eVisible.second.ystep = 1;
-    eVisible.second.lineWidth = 1;
+    eVisible.second.lineWidth = 2;
     eVisible.second.useQuads = false;
     eVisible.second.sendCoord = true;
     eVisible.second.drawNow = true;
