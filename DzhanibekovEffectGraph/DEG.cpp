@@ -88,7 +88,7 @@ void DEG::plot_update()
 {
     int plot_current = plot_size - 1;
 
-    long double dt_seconds = plot_mytime.get_time_difference() / 1E3;
+    long double dt_seconds = plot_mytime.getTimeDifference() / 1E3;
 
     //shifting values
     for(int i = 0; i < plot_size - 1; i++)
@@ -114,7 +114,7 @@ void DEG::plot_update()
     ui->plot->replot();
 
     //for dt_seconds
-    plot_mytime.set_time();
+    plot_mytime.setTime();
 }
 
 void DEG::step()
@@ -158,11 +158,11 @@ void DEG::updateInfo()
 void DEG::timer_auto_update()
 {
     static double prev_dq;
-    dt = plot_mytime.get_time_difference() / 1.E3;
+    dt = plot_mytime.getTimeDifference() / 1.E3;
 
-    if(!plot_mytime.is_set())
+    if(!plot_mytime.isSet())
     {
-        plot_mytime.set_time();
+        plot_mytime.setTime();
         time = 0;
     }
     else if(dt)
