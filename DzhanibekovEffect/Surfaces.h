@@ -3,6 +3,7 @@
 #ifndef SURFACES_H
 #define SURFACES_H
 
+//const number_t a = 2.12, b = 1.74, c = 0.624, r = 4.5;
 const number_t a = 7, b = 5, c = 3, r = 4.5;
 
 f_result ellipsoid(number_t x, number_t y);
