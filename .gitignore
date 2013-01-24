@@ -10,7 +10,6 @@ moc*.cpp
 ui*.h
 DEG
 *.out
-DzhanibekovEffect/text
 *.aux
 *.bbl
 *.blg
