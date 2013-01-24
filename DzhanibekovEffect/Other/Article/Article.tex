@@ -171,6 +171,7 @@ B\frac{dq}{dt}\pm(A-C)\sqrt{(a-bq^2)(c-dq^2)}=0,
 \subsection{Угол}
 Введем угол между вектором \begin{math} \vec{K} \end{math} и базисным вектором \begin{math} \vec{j} \end{math}, который будет арактеризовать положение тела:
 \begin{equation}
+\label{thetaEquation}
 cos\theta=\frac{(\vec{K},\vec{j})}{|\vec{K}||\vec{j}|}\equiv\frac{Bq}{K}
 \end{equation}
 Заметим, что при <<кувырке>> эта величина меняется от \begin{math} -1 \end{math} до \begin{math} 1 \end{math} в предельном случае, о котором пойдет речь в следующем разделе, но в остальных случаях значения \begin{math} -1 \end{math} и \begin{math} 1 \end{math} не достинаются.
@@ -231,6 +232,7 @@ r^2=\frac{(2T-Bq^2)(A-B)}{C(A-C)}
 \alpha=\sqrt{\frac{2T(A-B)(B-C)}{ABC}},
 \end{equation}
 \begin{equation}
+\label{thEquation}
 \Delta t=\pm\alpha^{-1}\arctanh(\sqrt{\frac{B}{2T}}q)\Bigl|_{q_1}^{q_2}
 \end{equation}
 Найдем \begin{math} \frac{1}{4} \end{math} периода, то есть время между состояниями, когда \begin{math} q \end{math} равна нулю и когда она максимальна:
@@ -300,16 +302,23 @@ x_1=0, x_2=1.
 \end{equation}
 Сделав разложение этого выражения по \begin{math} \beta \end{math}, получаем значение для периода
 \begin{equation}
-T_{Period}=2\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\ln{\frac{32T(A-B)(B-C)}{\varepsilon(A-C)}}+o(1),\varepsilon\rightarrow 0,
+T_{Period}=2\sqrt{\frac{ABC}{2T(B-C)(A-B)}}\ln{\frac{32T(A-B)(B-C)}{\varepsilon(A-C)}}+O(\varepsilon\ln\varepsilon),\varepsilon\rightarrow 0,
 \end{equation}
 что, с учетом \ref{alphaEquation} удобнее записать как
 \begin{equation}
-T_{Period}=2\alpha^{-1}\ln{\frac{16\alpha^2ABC}{\varepsilon(A-C)}}+o(1),\varepsilon\rightarrow 0,
+T_{Period}=2\alpha^{-1}\ln{\frac{16\alpha^2ABC}{\varepsilon(A-C)}}+O(\varepsilon\ln\varepsilon),\varepsilon\rightarrow 0,
 \end{equation}
 
 \subsection{Время переворота}
 %тот же интеграл, что и в периоде, но другие пределы интегрирования.
-Заметим, что в экспериментах, а также в предельном случае довольно долгое время ось вращения гайки практически не меняется. В связи с этим поставим теперь задачу найти время переворота. Считаем, что <<кувырок>> закончился, когда \begin{math} cos\gamma=0.9 \end{math}, где \begin{math} \gamma \end{math}~--- соответствующий угол \ref{gamma1} или \ref{gamma2}.
+Заметим, что в экспериментах, а также в предельном случае довольно долгое время ось вращения гайки практически не меняется. В связи с этим поставим теперь задачу найти время переворота \begin{math} \tau \end{math}. Будем рассматривать движение по сепаратрисе (при таком движении только период бесконечно велик, время переворота же, как будет показано, конечно). Считаем, что <<кувырок>> закончился, когда \begin{math} cos\theta=0.9 \end{math}. Тогда из \ref{thEquation} и определения угла \ref{thetaEquation} можно получить:
+\begin{equation}
+\tau=2\alpha^{-1}\arctanh(0.9)\approx 3\alpha^{-1}.
+\end{equation}
+Сравнивая с периодом, получаем
+\begin{equation}
+\frac{\tau}{T_{Period}}\approx\frac{3}{2\ln{\frac{16\alpha^2ABC}{\varepsilon(A-C)}}}
+\end{equation}
 %Вычислим интеграл \ref{timeFinalEquation} для
 %\begin{equation}
 %x_1=0,x_2=x(q_2)=
