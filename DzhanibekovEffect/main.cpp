@@ -14,7 +14,7 @@ void axis()
     //glColor3f(0.5, 0.5, 0.5);
     glBegin(GL_LINES);
     glVertex3f(0, 0, 0);
-    glVertex3f(1.5 * a, 0, 0);
+    glVertex3f(-1.5 * a, 0, 0);
     glVertex3f(0, 0, 0);
     glVertex3f(0, 1.5 * c, 0);
     glVertex3f(0, 0, 0);
@@ -24,7 +24,7 @@ void axis()
     //glColor3f(0, 1, 0);
     glPointSize(10);
     glBegin(GL_POINTS);
-    glVertex3f(a, 0, 0);
+    glVertex3f(-a, 0, 0);
     glVertex3f(0, c, 0);
     glVertex3f(0, 0, b);
     glEnd();
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
     c1.second.lineWidth = 1;
     c2.second.lineWidth = 1;
     c1.second.param = new curve_param;
-    ((curve_param *)(c1.second.param))->r = b + 0.05;
+    ((curve_param *)(c1.second.param))->r = b + 0.03;
     ((curve_param *)(c1.second.param))->color = vect(0, 0, 0);
     c2.second.param = c1.second.param;
     w.add_function(c1);
@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
     c1.second.lineWidth = 1;
     c2.second.lineWidth = 1;
     c1.second.param = new curve_param;
-    ((curve_param *)(c1.second.param))->r = b - 0.05;
+    ((curve_param *)(c1.second.param))->r = b - 0.03;
     ((curve_param *)(c1.second.param))->color = vect(0, 0, 0);
     c2.second.param = c1.second.param;
     w.add_function(c1);
