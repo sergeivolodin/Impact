@@ -20,3 +20,4 @@ DEG
 *.gz
 *.ps
 *.pdf
+.~lock*
