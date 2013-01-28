@@ -1,0 +1,202 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      5890,        193]
+NotebookOptionsPosition[      5480,        175]
+NotebookOutlinePosition[      5818,        190]
+CellTagsIndexPosition[      5775,        187]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{"1", "/", 
+    RowBox[{"Sqrt", "[", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{"x", "^", "2"}]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{"1", "+", "\[Mu]", "-", 
+        RowBox[{"x", "^", "2"}]}], ")"}]}], "]"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.568375453725733*^9, 3.56837550418655*^9}}],
+
+Cell[BoxData[
+ RowBox[{"If", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"1", "+", "\[Mu]"}], "\[NotEqual]", 
+       RowBox[{"Abs", "[", 
+        RowBox[{"1", "+", "\[Mu]"}], "]"}]}], "&&", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Mu]", "\[NotElement]", "Reals"}], "||", 
+        RowBox[{
+         SqrtBox[
+          RowBox[{"1", "+", "\[Mu]"}]], "\[NotElement]", "Reals"}], "||", 
+        RowBox[{
+         RowBox[{"1", "+", 
+          RowBox[{"Re", "[", "\[Mu]", "]"}]}], "\[LessEqual]", "0"}]}], 
+       ")"}]}], ")"}], "||", 
+    RowBox[{
+     RowBox[{"Re", "[", 
+      SqrtBox[
+       RowBox[{"1", "+", "\[Mu]"}]], "]"}], "\[GreaterEqual]", "1"}]}], ",", 
+   FractionBox[
+    RowBox[{"EllipticK", "[", 
+     FractionBox["1", 
+      RowBox[{"1", "+", "\[Mu]"}]], "]"}], 
+    SqrtBox[
+     RowBox[{"1", "+", "\[Mu]"}]]], ",", 
+   RowBox[{"Integrate", "[", 
+    RowBox[{
+     FractionBox["1", 
+      RowBox[{
+       SqrtBox[
+        RowBox[{"1", "-", 
+         SuperscriptBox["x", "2"]}]], " ", 
+       SqrtBox[
+        RowBox[{"1", "-", 
+         SuperscriptBox["x", "2"], "+", "\[Mu]"}]]}]], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"Assumptions", "\[Rule]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "1"}], "\[LessEqual]", "\[Mu]", "<", "0"}], "||", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"\[Mu]", "\[Element]", "Reals"}], "&&", 
+         RowBox[{
+          RowBox[{"-", "1"}], "<", 
+          RowBox[{"Re", "[", "\[Mu]", "]"}], "<", "0"}]}], ")"}]}]}]}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.568375544539423*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Series", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{"EllipticK", "[", 
+     FractionBox["1", 
+      RowBox[{"1", "+", "\[Mu]"}]], "]"}], 
+    SqrtBox[
+     RowBox[{"1", "+", "\[Mu]"}]]], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Mu]", ",", "0", ",", "2"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5683755604846087`*^9, 3.568375589227803*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Floor", "[", 
+    FractionBox[
+     RowBox[{"\[Pi]", "-", 
+      RowBox[{"Arg", "[", "\[Mu]", "]"}], "-", 
+      RowBox[{"Arg", "[", 
+       FractionBox["1", 
+        RowBox[{"1", "+", "\[Mu]"}]], "]"}]}], 
+     RowBox[{"2", " ", "\[Pi]"}]], "]"}], " ", 
+   RowBox[{"(", 
+    InterpretationBox[
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"\[ImaginaryI]", " ", "\[Pi]"}]}], "+", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "\[Pi]", " ", "\[Mu]"}], "4"], "-", 
+      RowBox[{
+       FractionBox["9", "64"], " ", "\[ImaginaryI]", " ", "\[Pi]", " ", 
+       SuperscriptBox["\[Mu]", "2"]}], "+", 
+      InterpretationBox[
+       SuperscriptBox[
+        RowBox[{"O", "[", "\[Mu]", "]"}], "3"],
+       SeriesData[$CellContext`\[Mu], 0, {}, 0, 3, 1],
+       Editable->False]}],
+     SeriesData[$CellContext`\[Mu], 0, {Complex[0, -1] Pi, Complex[0, 
+         Rational[1, 4]] Pi, Complex[0, 
+         Rational[-9, 64]] Pi}, 0, 3, 1],
+     Editable->False], ")"}]}], "+", 
+  RowBox[{"(", 
+   InterpretationBox[
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", 
+        RowBox[{"Log", "[", "2", "]"}]}], "-", 
+       FractionBox[
+        RowBox[{"Log", "[", "\[Mu]", "]"}], "2"]}], ")"}], "+", 
+     RowBox[{
+      FractionBox["1", "8"], " ", 
+      RowBox[{"(", 
+       RowBox[{"2", "-", 
+        RowBox[{"4", " ", 
+         RowBox[{"Log", "[", "2", "]"}]}], "+", 
+        RowBox[{"Log", "[", "\[Mu]", "]"}]}], ")"}], " ", "\[Mu]"}], "+", 
+     RowBox[{
+      FractionBox["3", "128"], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "7"}], "+", 
+        RowBox[{"12", " ", 
+         RowBox[{"Log", "[", "2", "]"}]}], "-", 
+        RowBox[{"3", " ", 
+         RowBox[{"Log", "[", "\[Mu]", "]"}]}]}], ")"}], " ", 
+      SuperscriptBox["\[Mu]", "2"]}], "+", 
+     InterpretationBox[
+      SuperscriptBox[
+       RowBox[{"O", "[", "\[Mu]", "]"}], "3"],
+      SeriesData[$CellContext`\[Mu], 0, {}, 0, 3, 1],
+      Editable->False]}],
+    SeriesData[$CellContext`\[Mu], 0, {
+     2 Log[2] + Rational[-1, 2] Log[$CellContext`\[Mu]], 
+      Rational[1, 8] (2 - 4 Log[2] + Log[$CellContext`\[Mu]]), 
+      Rational[3, 128] (-7 + 12 Log[2] - 3 Log[$CellContext`\[Mu]])}, 0, 3, 1],
+    Editable->False], ")"}]}]], "Input",
+ CellChangeTimes->{{3.568375654174869*^9, 3.5683756546680527`*^9}}]
+},
+WindowSize->{640, 623},
+WindowMargins->{{319, Automatic}, {-24, Automatic}},
+FrontEndVersion->"7.0 for Linux x86 (64-bit) (October 28, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 469, 14, 32, "Input"],
+Cell[1039, 38, 1675, 53, 140, "Output"]
+}, Open  ]],
+Cell[2729, 94, 372, 11, 78, "Input"],
+Cell[3104, 107, 2372, 66, 166, InheritFromParent]
+}
+]
+*)
+
+(* End of internal cache information *)
