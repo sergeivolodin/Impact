@@ -8,21 +8,33 @@ using std::cout;
 using std::endl;
 
 const number_t R = 5, r = 3;
-const number_t YBottom = -3;
+const number_t YBottom = -10;
 const number_t YTop = -YBottom;
-const number_t a = 6, b = 2;
+const number_t a = 6, b = 7;
 number_t b1;
 
 f_result Circle(number_t t, number_t y, void* param)
 {
+    number_t R0 = (((number_t * ) param)[0]);
     f_result res;
-    res.coordinates.x = (((number_t * ) param)[0]) * cos(t);
-    res.coordinates.y = (((number_t * ) param)[0]) * sin(t);
+    res.coordinates.x = R0 * cos(t);
+    res.coordinates.y = R0 * sin(t);
     res.coordinates.z = (((number_t * ) param)[1]);
 
-    if(t >=0 && t <= M_PI && res.coordinates.z > 0)
-        res.color = vect(0.9, 0.9, 0.9);
-    else res.color = vect(0, 0, 0);
+    res.color = vect(0, 0, 0);
+
+    if(res.coordinates.z > 0)
+    {
+        if(R0 == R)
+        {
+            //big one
+            if(t > M_PI)
+                res.color = vect(0.9, 0.9, 0.9);
+        }
+        else
+            //small one
+            res.color = vect(0.9, 0.9, 0.9);
+    }
     return(res);
 }
 
@@ -42,11 +54,15 @@ void Lines()
 
     glVertex3f(r, YBottom, 0);
     glVertex3f(r, YTop, 0);
+
+    glVertex3f(0, YBottom, 0);
+    glVertex3f(0, YTop, 0);
     glEnd();
 }
 
 void Points()
 {
+    glColor3f(0, 0, 0);
     glPointSize(10.0f);
     glBegin(GL_POINTS);
     glVertex3f(-a, b, 0);
@@ -59,13 +75,17 @@ void Points()
 
 void Axis()
 {
-    glColor3f(0, 0, 0);
-    //glColor3f(0.5, 0.5, 0.5);
     glBegin(GL_LINES);
+
+    glColor3f(1, 0, 0);
     glVertex3f(0, 0, 0);
     glVertex3f(-1, 0, 0);
+
+    glColor3f(0, 1, 0);
     glVertex3f(0, 0, 0);
     glVertex3f(0, 1, 0);
+
+    glColor3f(0, 0, 1);
     glVertex3f(0, 0, 0);
     glVertex3f(0, 0, 1);
     glEnd();
@@ -81,7 +101,7 @@ void Axis()
 
 void Other()
 {
-    Axis();
+    //Axis();
     Points();
     Lines();
 }

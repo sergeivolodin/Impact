@@ -13,10 +13,12 @@ typedef enum { DRAW_POINTS, DRAW_OTHER } draw_point_type_;
 typedef long double number_t;
 
 class DEImg2;
+class DzhanibekovEffect;
 
 class Draw : public Impact, public QGLWidget
 {
-friend class DEImg2, DzhanibekovEffect;
+friend class DEImg2;
+friend class DzhanibekovEffect;
 
 private:
     //camera, view
