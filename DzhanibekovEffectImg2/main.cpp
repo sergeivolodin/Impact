@@ -8,9 +8,9 @@ using std::cout;
 using std::endl;
 
 const number_t R = 5, r = 3;
-const number_t YBottom = -10;
+const number_t YBottom = -3;
 const number_t YTop = -YBottom;
-const number_t a = 6, b = 7;
+const number_t a = 10, b = 7;
 number_t b1;
 
 f_result Circle(number_t t, number_t y, void* param)
@@ -56,7 +56,7 @@ void Lines()
     glVertex3f(r, YTop, 0);
 
     glVertex3f(0, YBottom, 0);
-    glVertex3f(0, YTop, 0);
+    glVertex3f(0, b * 1.1, 0);
     glEnd();
 }
 
@@ -65,10 +65,21 @@ void Points()
     glColor3f(0, 0, 0);
     glPointSize(10.0f);
     glBegin(GL_POINTS);
+
+    //mass
     glVertex3f(-a, b, 0);
     glVertex3f(a, b, 0);
+
+    glEnd();
+
+    glPointSize(5.0f);
+
+    glBegin(GL_POINTS);
+    //mass center
     glVertex3f(0, b, 0);
+    //C
     glVertex3f(0, b1, 0);
+    //O
     glVertex3f(0, 0, 0);
     glEnd();
 }
@@ -108,7 +119,7 @@ void Other()
 
 int main(int argc, char *argv[])
 {
-    b1 = b / 2;
+    b1 = 2 * b / 3;
 
     function circle1, circle2, circle3, circle4, other;
 
