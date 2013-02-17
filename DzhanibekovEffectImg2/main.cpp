@@ -7,6 +7,7 @@
 using std::cout;
 using std::endl;
 
+const number_t lineWidth = 1.5;
 const number_t R = 5, r = 3;
 const number_t YBottom = -3;
 const number_t YTop = -YBottom;
@@ -40,6 +41,7 @@ f_result Circle(number_t t, number_t y, void* param)
 
 void Lines()
 {
+    glLineWidth(lineWidth);
     glBegin(GL_LINES);
     glColor3f(0, 0, 0);
     glVertex3f(-R, YBottom, 0);
@@ -136,7 +138,7 @@ int main(int argc, char *argv[])
     circle1.second.ymin = 0;
     circle1.second.ymax = 0;
     circle1.second.ystep = 1;
-    circle1.second.lineWidth = 1;
+    circle1.second.lineWidth = lineWidth;
     circle1.second.useQuads = false;
     circle1.second.sendCoord = false;
     circle1.second.drawNow = false;
@@ -161,7 +163,7 @@ int main(int argc, char *argv[])
     ((number_t*) circle4.second.param)[1] = YTop;
 
     other.second.type = function_info::T_NONE;
-    other.second.lineWidth = 1;
+    other.second.lineWidth = lineWidth;
     other.second.drawNow = false;
 
     QApplication app(argc, argv);
@@ -172,6 +174,8 @@ int main(int argc, char *argv[])
     w.add_function(circle2);
     w.add_function(circle3);
     w.add_function(circle4);
+
+    w.setCamera(vect(0, -9.95935, -44.9053), vect(0.188496, 0, 0));
 
     w.show();
     return app.exec();
