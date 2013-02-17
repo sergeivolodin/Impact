@@ -5,6 +5,7 @@ gui/impact
 *.pro.user
 DzhanibekovEffect/DzhanibekovEffect
 DzhanibekovEffectMomentOfInertia/DzhanibekovEffectMomentOfInertia
+DzhanibekovEffectImg2/DEImg2
 stat/screenshots
 moc*.cpp
 ui*.h

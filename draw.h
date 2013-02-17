@@ -71,6 +71,9 @@ public:
     void set_paused(bool x);
     void graph(function, draw_type_ d_type);
 
+    void setCamera(vect position, vect angle);
+    string print_coordinates();
+
     void setClearColor(vect);
 };
 #endif // DRAW_H

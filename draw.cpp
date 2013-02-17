@@ -2,12 +2,16 @@
 #include "vect.h"
 #include <math.h>
 #include <iostream>
+#include <sstream>
 #include <stack>
 #include <stdlib.h>
 #include <GL/glut.h>
 
 using std::cout;
+using std::cerr;
 using std::endl;
+
+using std::stringstream;
 
 using std::stack;
 
@@ -268,6 +272,20 @@ void Draw::graph(function f, draw_type_ d_type)
     glEnd();
 }
 
+void Draw::setCamera(vect n_position, vect n_angle)
+{
+    angle = n_angle;
+    position = n_position;
+}
+
+string Draw::print_coordinates()
+{
+    stringstream ss;
+    ss << "p\t" << position.print() << "\t";
+    ss << "a\t" << angle.print() << endl;
+    return(ss.str());
+}
+
 void Draw::setClearColor(vect nC)
 {
     clearColor = nC;
@@ -440,4 +458,5 @@ void Draw::keyPressEvent(QKeyEvent* a)
     else if(a->key() == Qt::Key_P) cout << print_points();
     else if(a->key() == Qt::Key_Q) cout << print_status();
     else if(a->key() == Qt::Key_9) track_path ^= 1;
+    else if(a->key() == Qt::Key_N) cerr << print_coordinates();
 }
