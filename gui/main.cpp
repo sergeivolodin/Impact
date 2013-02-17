@@ -26,7 +26,8 @@ number_t f2_a(number_t x, number_t y)
 {
     number_t res;
 
-    number_t r = (x * x + y * y) / 3;
+    //number_t r = (x * x + y * y) / 3;
+    number_t r = pow(x, 2) * pow(M_E, y - pow(x, 2));
 
     return(r);
 }
@@ -107,10 +108,10 @@ int main(int argc, char *argv[])
     f01.second = h.second;
     h.first = (void*) hyp;
     f11.first = (void*) f1;
-    f01.first = (void*) f0;
+    f01.first = (void*) f2;
 
 //    w.add_function(h);
-    w.add_function(f11);
+    w.add_function(f01);
 //    w.add_function(f01);
 
 
@@ -150,4 +151,5 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
+
 
