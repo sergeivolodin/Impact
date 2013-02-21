@@ -24,10 +24,14 @@ number_t f1_a(number_t x, number_t y)
 
 number_t f2_a(number_t x, number_t y)
 {
-    number_t res;
+    number_t r;
 
-    //number_t r = (x * x + y * y) / 3;
-    number_t r = pow(x, 2) * pow(M_E, y - pow(x, 2));
+    //r = (x * x + y * y) / 3;
+    //r = pow(x, 2) * pow(M_E, y - pow(x, 2));
+
+    if(fabs(x + y) > 10)
+        r = atan(pow(x, 2) - pow(y, 2)) / (x + y);
+    else r = x - y;
 
     return(r);
 }
@@ -95,13 +99,16 @@ int main(int argc, char *argv[])
 
     w.setClearColor(vect(0, 0, 0));
 
+    double sq = 0.5;
+    double st = 0.005;
+
     function h, f11, f01;
-    h.second.xmin = -20;
-    h.second.xmax = 20;
-    h.second.xstep = 0.1;
-    h.second.ymin = -20;
-    h.second.ymax = 20;
-    h.second.ystep = 0.1;
+    h.second.xmin = -sq;
+    h.second.xmax = sq;
+    h.second.xstep = st;
+    h.second.ymin = -sq;
+    h.second.ymax = sq;
+    h.second.ystep = st;
     h.second.type == function_info::T_COORDINATE;
 
     f11.second = h.second;
