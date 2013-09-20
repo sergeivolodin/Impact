@@ -205,6 +205,28 @@ void Draw::draw_points_gl()
 
         glEnd();
     }
+
+    if(draw_acceleration)
+    {
+        glBegin(GL_LINES);
+
+        for(it = mypoints.begin(); it != mypoints.end(); it++)
+        {
+            if(point_color == COLOR_PREDEFINED)
+                glColor3f((*it).color.x, (*it).color.y, (*it).color.z);
+            else if(point_color == COLOR_VELOCITY)
+            {
+                t_vect = get_color((*it).velocity);
+                glColor3f(t_vect.x, t_vect.y, t_vect.z);
+            }
+            glVertex3f((*it).position.x, (*it).position.y, (*it).position.z);
+            glVertex3f((*it).position.x + (*it).acceleration.x * dt * speed_view,
+                       (*it).position.y + (*it).acceleration.y * dt * speed_view,
+                       (*it).position.z + (*it).acceleration.z * dt * speed_view);
+        }
+
+        glEnd();
+    }
 }
 
 void Draw::draw_functions_gl()
@@ -434,6 +456,7 @@ void Draw::keyPressEvent(QKeyEvent* a)
     }
     else if(a->key() == Qt::Key_F) draw_functions ^= 1;
     else if(a->key() == Qt::Key_V) draw_velocity ^= 1;
+    else if(a->key() == Qt::Key_M) draw_acceleration ^= 1;
     else if(a->key() == Qt::Key_L) draw_angular_velocity ^= 1;
     else if(a->key() == Qt::Key_0) draw_path ^= 1;
 

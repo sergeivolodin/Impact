@@ -41,6 +41,8 @@ private:
     point_color_ point_color;
     unsigned int impact_max_iterations;
 
+    static const double omega = 1;
+
     //storage
     vector<point> mypoints;
     vector<point> mypoints_defaults;
@@ -55,7 +57,7 @@ private:
     vect tangent(function, number_t x, number_t y);
 
     void physics_set_acceleration(point& pt);
-    void physics_move(point& pt, number_t dtime);
+    void physics_move(int i, number_t dtime);
     void physics_impact(unsigned int f, point& p_old, point& p_new, number_t dtime);
     vect physics_gravity(point& p1, point& p2);
     pair<vect, vect> physics_gravitomagnetism(point& p1, point& p2);

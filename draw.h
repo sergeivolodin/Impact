@@ -30,6 +30,7 @@ private:
     number_t speed_view;
     bool draw_angular_velocity;
     bool draw_velocity;
+    bool draw_acceleration;
     bool draw_path;
     bool draw_functions;
     draw_point_type_ draw_point_type;

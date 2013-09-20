@@ -9,94 +9,47 @@ using std::cout;
 using std::pair;
 using std::endl;
 
-void Impact::physics_impact(unsigned int f, point& p_old, point& p_new, number_t dtime)
-{
-    static number_vect_t time_l, time_m, time_r;
-    static number_t t1, t2;
-    static unsigned int t_count;
-    static vect n;
-
-    int old_state = p_old.states[f],
-        new_state = difference(p_new.position, myfunctions[f]);
-
-    if(new_state != old_state && new_state != DIFFERENCE_NAN && old_state != DIFFERENCE_NAN)
-    {
-        t1 = ((f_result (*)(number_t, number_t))(myfunctions[f].first))(p_old.position.x, p_old.position.z).coordinates.z;
-        t2 = ((f_result (*)(number_t, number_t))(myfunctions[f].first))(p_new.position.x, p_new.position.z).coordinates.z;
-
-        if(t1 == t1 && t2 == t2)
-        {
-            if(precise_impact)
-            {
-                time_l = fmin(0, dtime);
-                time_r = fmax(0, dtime);
-                time_m = (time_l + time_r) / 2;
-                t_count = 0;
-                while((time_m - time_l > 0) && (time_r - time_m > 0)
-                      && (impact_max_iterations == 0 || t_count < impact_max_iterations))
-                {
-                    t_count++;
-                    p_new.position = p_old.position;
-                    p_new.velocity = p_old.velocity;
-                    physics_move(p_new, time_m);
-
-                    if((difference(p_new.position, myfunctions[f]) == old_state) ^ (dtime < 0))
-                        time_l = time_m;
-                    else time_r = time_m;
-
-                    time_m = (time_l + time_r) / 2;
-                }
-
-                p_new.position = p_old.position;
-                p_new.velocity = p_old.velocity;
-                physics_move(p_new, time_m);
-            }
-
-            n = tangent(myfunctions[f], p_new.position.x, p_new.position.z);
-            p_new.velocity = impact(n, p_new.velocity);
-
-            if(precise_impact)
-            {
-                if(dtime > 0 && dtime > time_m) physics_move(p_new, dtime - time_m);
-                else if(dtime < 0 && dtime < time_m) physics_move(p_new, -fabs(dtime - time_m));
-            }
-        }
-    }
-    else if(old_state == DIFFERENCE_NAN && new_state != DIFFERENCE_NAN) p_new.states[f] = new_state;
-    else if(new_state == DIFFERENCE_NAN) p_new.states[f] = DIFFERENCE_NAN;
-}
-
 void Impact::physics(number_t dtime)
 {
     if(track_path) save_points();
 
-    vector<point>::iterator it;
-    unsigned int f;
-    static point p_old;
-
-    for(it = mypoints.begin(); it != mypoints.end(); it++)
-        physics_set_acceleration(*it);
-
-    for(it = mypoints.begin(); it != mypoints.end(); it++)
+    for(int i = 0; i < mypoints.size(); i++)
     {
-        p_old = *it;
-        physics_move(*it, dtime);
-
-        for(f = 0; f < myfunctions.size(); f++)
-            if(myfunctions[f].second.type == function_info::T_COORDINATE
-             && fabs((*it).position.x) <= M && fabs((*it).position.z) < M)
-                physics_impact(f, p_old, *it, dtime);
-            else (*it).states[f] = DIFFERENCE_NAN;
+        physics_move(i, dtime);
     }
     time += dtime;
 }
 
-void Impact::physics_move(point& pt, number_t dtime)
+void Impact::physics_move(int i, number_t dtime)
 {
-    pt.position += (pt.velocity * dtime) + (pt.acceleration * (dtime * dtime / 2.));
-    pt.velocity += pt.acceleration * dtime;
+    point& pt = mypoints[i];
+    if(i > 0)
+    {
+        pt.position.x     = cos(omega * time);
+        pt.position.y     = sin(omega * time);
+        pt.velocity.x     = -omega * sin(omega * time);
+        pt.velocity.y     =  omega * cos(omega * time);
+        pt.acceleration.x = -omega * omega * cos(omega * time);
+        pt.acceleration.y = -omega * omega * sin(omega * time);
 
-    pt.angular_velocity += pt.angular_acceleration * dtime;
+        pt.position.z = 1;
+
+        double Theta, Omega = -omega;
+
+
+        if(i >= 2);
+            Theta = M_PI / 10 * (i - 2);
+
+        if(i >= 2)
+        {
+            pt.position.x     += cos(Omega * time + Theta);
+            pt.position.y     += sin(Omega * time + Theta);
+            pt.velocity.x     += -Omega * sin(Omega * time + Theta);
+            pt.velocity.y     +=  Omega * cos(Omega * time + Theta);
+            pt.acceleration.x += -Omega * Omega * cos(Omega * time + Theta);
+            pt.acceleration.y += -Omega * Omega * sin(Omega * time + Theta);
+        }
+    }
 }
 
 void Impact::physics_set_acceleration(point& pt)
