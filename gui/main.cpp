@@ -29,30 +29,28 @@ using std::endl;
 //    return(res);
 //}
 
-//number_t f2_a(number_t x, number_t y)
-//{
-//    number_t r;
+number_t f2_a(number_t x, number_t y)
+{
+    number_t r;
 
-//    //r = (x * x + y * y) / 3;
-//    //r = pow(x, 2) * pow(M_E, y - pow(x, 2));
+    //r = (x * x + y * y) / 3;
+    //r = pow(x, 2) * pow(M_E, y - pow(x, 2));
 
-////    if(fabs(x + y) > 10)
-////        r = atan(pow(x, 2) - pow(y, 2)) / (x + y);
-////    else r = x - y;
-//    r = tan(x*y*y*y/(x*x+y*y*y*y));
+//    if(fabs(x + y) > 10)
+//        r = atan(pow(x, 2) - pow(y, 2)) / (x + y);
+//    else r = x - y;
+    r = x*y;
 
-//    return(r);
-//}
+    return(r);
+}
 
-//f_result f2(number_t x, number_t y)
-//{
-//    f_result res;
-//    res.coordinates.z = f2_a(x, y);
-//    res.color = vect(0.5, 1, 0.1);
-//    //float d_x = (res.coordinates.z - f1_a(x + eps, y)) / eps, d_y = (res.coordinates.z - f1_a(x, y + eps)) / eps;
-//    res.color = Draw::get_color(vect(x - y, x + y, y - x));
-//    return(res);
-//}
+f_result f2(number_t x, number_t y)
+{
+    f_result res;
+    res.coordinates.z = f2_a(x, y);
+    res.color = Draw::get_color(vect(x - y, x + y, y - x));
+    return(res);
+}
 
 //f_result f0(number_t x, number_t y)
 //{
@@ -104,21 +102,32 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Draw w;
 
-    ifstream file("/home/seriy/Documents/p/git/Quadrocopter/debug/compass_calibrator/raw.csv");
-
-    int N = 6854;
-
-    int n1, n2, n3;
-    char c;
-
-    for(int i = 0; i < N; i++)
-    {
-        file >> n1 >> c >> n2 >> c >> n3;
-        cout << n1 << "\t" << n2 << "\t" << n3 << endl;
-        w.add_point(vect(n1, n2, n3) / 100, vect(0, 0, 0), vect(1, 0, 0), 0, vect(0, 0, 0), 0);
-    }
-
-    w.setClearColor(vect(0, 0, 0));
+    function f;
+    f.first = (void*) f2;
+//    enum f_type {T_COORDINATE, T_PARAMETRIC, T_NONE};
+//    f_type type;
+//    number_vect_t xmin;
+//    number_vect_t xmax;
+//    number_vect_t xstep;
+//    number_vect_t ymin;
+//    number_vect_t ymax;
+//    number_vect_t ystep;
+//    number_vect_t lineWidth;
+//    bool useQuads;
+//    bool sendCoord;
+//    bool drawNow;
+//    void* param;
+    f.second.type = function_info::T_COORDINATE;
+    f.second.xmin = -3;
+    f.second.xmax = 3;
+    f.second.ymin = -3;
+    f.second.ymax = 3;
+    f.second.xstep = 0.1;
+    f.second.ystep = 0.1;
+    f.second.lineWidth = 1;
+    f.second.useQuads = 1;
+    f.second.drawNow = true;
+    w.add_function(f);
 
     w.ftl();
     w.show();
