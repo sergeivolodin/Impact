@@ -57,9 +57,10 @@ f_result f2(number_t x, number_t y)
     //y = z
     vect a1(1, 0, -1);
     vect a2(0,1,-1);
-    res.coordinates.x = b + b * cos(x);
-    res.coordinates.y = b * sin(x);
-    res.coordinates.z = y;
+    //res.coordinates.x = b + b * cos(x);
+    //res.coordinates.y = b * sin(x);
+    //res.coordinates.z = y;
+    res.coordinates = a1 * x + a2 * y + vect(0, 0, 1);
     res.color = Draw::get_color(res.coordinates ^ res.coordinates);
     return(res);
 }
@@ -87,9 +88,9 @@ f_result f1(number_t x, number_t y)
 
     //x = phi
     //y = theta
-    res.coordinates.x = a + a * cos(y) * cos(x);
-    res.coordinates.y = a * cos(y) * sin(x);
-    res.coordinates.z = a * sin(y);
+    res.coordinates.x = y;
+    res.coordinates.y = cos(x);
+    res.coordinates.z = sin(x);
     res.color = Draw::get_color(res.coordinates);
     return(res);
 }
@@ -165,8 +166,8 @@ int main(int argc, char *argv[])
     f.second.type = function_info::T_PARAMETRIC;
     f.second.xmin = 0;
     f.second.xmax = 2 * M_PI;
-    f.second.ymin = -M_PI/2;
-    f.second.ymax = M_PI/2;
+    f.second.ymin = -5;
+    f.second.ymax = 5;
     f.second.xstep = 0.1;
     f.second.ystep = 0.1;
     f.second.lineWidth = 1;
@@ -176,6 +177,9 @@ int main(int argc, char *argv[])
     g.second = f.second;
     g.second.ymin=-5;
     g.second.ymax=5;
+    g.second.useQuads = 0;
+    g.second.xmin=-5;
+    g.second.xmax=5;
     w.add_function(f);
     w.add_function(g);
 
