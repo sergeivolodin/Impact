@@ -10,6 +10,9 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+const double a = 2;
+const double b = 1;
+
 //const number_t eps = 1E-2;
 
 //number_t f1_a(number_t x, number_t y)
@@ -39,7 +42,9 @@ number_t f2_a(number_t x, number_t y)
 //    if(fabs(x + y) > 10)
 //        r = atan(pow(x, 2) - pow(y, 2)) / (x + y);
 //    else r = x - y;
-    r = x*y;
+    //r = x*y;
+
+    r = sqrt(4 - pow(x-2,2)-pow(y,2));
 
     return(r);
 }
@@ -47,8 +52,45 @@ number_t f2_a(number_t x, number_t y)
 f_result f2(number_t x, number_t y)
 {
     f_result res;
-    res.coordinates.z = f2_a(x, y);
-    res.color = Draw::get_color(vect(x - y, x + y, y - x));
+
+    //x = phi
+    //y = z
+    vect a1(1, 0, -1);
+    vect a2(0,1,-1);
+    res.coordinates.x = b + b * cos(x);
+    res.coordinates.y = b * sin(x);
+    res.coordinates.z = y;
+    res.color = Draw::get_color(res.coordinates ^ res.coordinates);
+    return(res);
+}
+
+number_t f1_a(number_t x, number_t y)
+{
+    number_t r;
+
+    //r = (x * x + y * y) / 3;
+    //r = pow(x, 2) * pow(M_E, y - pow(x, 2));
+
+//    if(fabs(x + y) > 10)
+//        r = atan(pow(x, 2) - pow(y, 2)) / (x + y);
+//    else r = x - y;
+    //r = x*y;
+
+    r = sqrt(1 - pow(x-1,2));
+
+    return(r);
+}
+
+f_result f1(number_t x, number_t y)
+{
+    f_result res;
+
+    //x = phi
+    //y = theta
+    res.coordinates.x = a + a * cos(y) * cos(x);
+    res.coordinates.y = a * cos(y) * sin(x);
+    res.coordinates.z = a * sin(y);
+    res.color = Draw::get_color(res.coordinates);
     return(res);
 }
 
@@ -103,7 +145,10 @@ int main(int argc, char *argv[])
     Draw w;
 
     function f;
-    f.first = (void*) f2;
+    f.first = (void*) f1;
+
+    function g;
+    g.first = (void*) f2;
 //    enum f_type {T_COORDINATE, T_PARAMETRIC, T_NONE};
 //    f_type type;
 //    number_vect_t xmin;
@@ -117,17 +162,22 @@ int main(int argc, char *argv[])
 //    bool sendCoord;
 //    bool drawNow;
 //    void* param;
-    f.second.type = function_info::T_COORDINATE;
-    f.second.xmin = -3;
-    f.second.xmax = 3;
-    f.second.ymin = -3;
-    f.second.ymax = 3;
+    f.second.type = function_info::T_PARAMETRIC;
+    f.second.xmin = 0;
+    f.second.xmax = 2 * M_PI;
+    f.second.ymin = -M_PI/2;
+    f.second.ymax = M_PI/2;
     f.second.xstep = 0.1;
     f.second.ystep = 0.1;
     f.second.lineWidth = 1;
     f.second.useQuads = 1;
     f.second.drawNow = true;
+
+    g.second = f.second;
+    g.second.ymin=-5;
+    g.second.ymax=5;
     w.add_function(f);
+    w.add_function(g);
 
     w.ftl();
     w.show();
